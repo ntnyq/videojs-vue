@@ -1,0 +1,13 @@
+{
+  "extends": "@ntnyq/tsconfig/strict.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "target": "ESNext",
+    "lib": ["DOM", "ES2023"],
+    "module": "ESNext",
+    "types": ["node"],
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}

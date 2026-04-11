@@ -1,0 +1,96 @@
+{
+  "name": "videojs-vue",
+  "version": "0.0.0",
+  "description": "Vue components and composables for Video.js v10 players.",
+  "keywords": [
+    "audio-player",
+    "video-player",
+    "videojs",
+    "vue",
+    "vue-plugin"
+  ],
+  "homepage": "https://github.com/ntnyq/videojs-vue#readme",
+  "bugs": {
+    "url": "https://github.com/ntnyq/videojs-vue/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "ntnyq",
+    "email": "ntnyq13@gmail.com"
+  },
+  "repository": "ntnyq/videojs-vue",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./audio": {
+      "types": "./dist/audio.d.ts",
+      "default": "./dist/audio.js"
+    },
+    "./background": {
+      "types": "./dist/background.d.ts",
+      "default": "./dist/background.js"
+    },
+    "./video": {
+      "types": "./dist/video.d.ts",
+      "default": "./dist/video.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint",
+    "play:build": "pnpm -C playground run build",
+    "play:dev": "pnpm -C playground run dev",
+    "prepare": "husky",
+    "prepublishOnly": "pnpm run build",
+    "release": "run-s release:check release:version",
+    "release:check": "run-s format:check lint typecheck test",
+    "release:version": "bumpp",
+    "test": "vitest",
+    "typecheck": "tsgo --noEmit"
+  },
+  "dependencies": {
+    "@videojs/core": "10.0.0-beta.16",
+    "@videojs/spf": "10.0.0-beta.16",
+    "@videojs/store": "10.0.0-beta.16",
+    "@videojs/utils": "10.0.0-beta.16"
+  },
+  "devDependencies": {
+    "@ntnyq/tsconfig": "^3.1.0",
+    "@types/node": "^25.6.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260419.1",
+    "bumpp": "^11.0.1",
+    "husky": "^9.1.7",
+    "jsdom": "^29.0.2",
+    "nano-staged": "^1.0.2",
+    "npm-run-all2": "^8.0.4",
+    "oxfmt": "^0.47.0",
+    "oxlint": "^1.62.0",
+    "tsdown": "^0.21.10",
+    "vitest": "^4.1.5",
+    "vue": "^3.5.33"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "nano-staged": {
+    "*.{js,ts,mjs,tsx}": "oxlint --fix",
+    "*": "oxfmt --no-error-on-unmatched-pattern"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
