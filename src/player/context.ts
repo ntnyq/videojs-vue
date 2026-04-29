@@ -25,9 +25,11 @@ import type {
   VNode,
 } from 'vue'
 
+export type PlayerMediaElement = Media & HTMLMediaElement
+
 export interface PlayerContextValue<
   Store = AnyPlayerStore,
-  CurrentMedia extends Media = Media,
+  CurrentMedia extends PlayerMediaElement = PlayerMediaElement,
 > {
   store: Store
   media: ShallowRef<CurrentMedia | null>
@@ -128,8 +130,10 @@ export function useOptionalPlayer<Result>(
   )
 }
 
-export function useMedia(): Readonly<ShallowRef<Media | null>> {
-  return usePlayerContext().media as Readonly<ShallowRef<Media | null>>
+export function useMedia(): Readonly<ShallowRef<PlayerMediaElement | null>> {
+  return usePlayerContext().media as Readonly<
+    ShallowRef<PlayerMediaElement | null>
+  >
 }
 
 export function useContainer(): Readonly<ShallowRef<MediaContainer | null>> {

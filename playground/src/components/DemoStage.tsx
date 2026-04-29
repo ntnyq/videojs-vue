@@ -3,7 +3,7 @@ import { Audio, audioFeatures } from 'videojs-vue/audio'
 import { BackgroundVideo, backgroundFeatures } from 'videojs-vue/background'
 import { Video, videoFeatures } from 'videojs-vue/video'
 import { computed, defineComponent } from 'vue'
-import type { PropType } from 'vue'
+import type { PropType, ShallowRef } from 'vue'
 import type { DemoSettings } from '../data'
 
 function formatTime(value: number) {
@@ -65,7 +65,7 @@ const VideoTransportPanel = defineComponent({
     const duration = VideoPlayer.usePlayer(state => Number(state.duration ?? 0))
     const muted = VideoPlayer.usePlayer(state => String(state.muted))
     const volume = VideoPlayer.usePlayer(state => Number(state.volume ?? 1))
-    const media = useMedia()
+    const media = useMedia() as Readonly<ShallowRef<HTMLMediaElement | null>>
     const themeClass = 'from-amber-100/90 via-white to-rose-100/70'
 
     const pausedText = computed<string>(() => paused['value'])
@@ -183,7 +183,7 @@ const AudioTransportPanel = defineComponent({
     const duration = AudioPlayer.usePlayer(state => Number(state.duration ?? 0))
     const muted = AudioPlayer.usePlayer(state => String(state.muted))
     const volume = AudioPlayer.usePlayer(state => Number(state.volume ?? 1))
-    const media = useMedia()
+    const media = useMedia() as Readonly<ShallowRef<HTMLMediaElement | null>>
     const themeClass = 'from-sky-100/90 via-white to-emerald-100/70'
 
     const pausedText = computed<string>(() => paused['value'])
@@ -294,7 +294,7 @@ const AudioTransportPanel = defineComponent({
 const BackgroundPanel = defineComponent({
   name: 'BackgroundPanel',
   setup() {
-    const media = useMedia()
+    const media = useMedia() as Readonly<ShallowRef<HTMLMediaElement | null>>
     const readyState = computed(() => String(media.value?.readyState ?? 0))
     const muted = computed(() => String(media.value?.muted ?? false))
     const presentation = computed(

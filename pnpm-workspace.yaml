@@ -1,5 +1,4 @@
 packages:
   - playground
 
-onlyBuiltDependencies:
-  - esbuild
+minimumReleaseAge: 0

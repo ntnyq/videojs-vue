@@ -92,6 +92,95 @@ export default defineComponent({
 - `videojs-vue/background`
   - `BackgroundVideo`
   - `backgroundFeatures`
+- `videojs-vue/live-video`
+  - `Video`
+  - `liveVideoFeatures`
+- `videojs-vue/live-audio`
+  - `Audio`
+  - `liveAudioFeatures`
+
+### UI entry points
+
+- `videojs-vue/full-screen-button` (or `videojs-vue/fullscreen-button`)
+  - `FullscreenButton`
+- `videojs-vue/playback-rate-button`
+  - `PlaybackRateButton`
+- `videojs-vue/poster`
+  - `Poster`
+- `videojs-vue/time`
+  - `Time.Group`
+  - `Time.Separator`
+  - `Time.Value`
+- `videojs-vue/play-button`
+  - `PlayButton`
+- `videojs-vue/mute-button`
+  - `MuteButton`
+- `videojs-vue/pip-button`
+  - `PiPButton`
+- `videojs-vue/seek-button`
+  - `SeekButton`
+- `videojs-vue/volume-slider`
+  - `VolumeSlider.Root`
+  - `VolumeSlider.Track`
+  - `VolumeSlider.Fill`
+  - `VolumeSlider.Thumb`
+  - `VolumeSlider.Value`
+  - `VolumeSlider.Preview`
+- `videojs-vue/time-slider`
+  - `TimeSlider.Root`
+  - `TimeSlider.Track`
+  - `TimeSlider.Buffer`
+  - `TimeSlider.Fill`
+  - `TimeSlider.Thumb`
+  - `TimeSlider.Value`
+  - `TimeSlider.Preview`
+- `videojs-vue/controls`
+  - `Controls.Root`
+  - `Controls.Group`
+- `videojs-vue/tooltip`
+  - `Tooltip.Provider`
+  - `Tooltip.Root`
+  - `Tooltip.Trigger`
+  - `Tooltip.Popup`
+  - `Tooltip.Arrow`
+- `videojs-vue/popover`
+  - `Popover.Root`
+  - `Popover.Trigger`
+  - `Popover.Popup`
+  - `Popover.Arrow`
+- `videojs-vue/captions-button`
+  - `CaptionsButton`
+- `videojs-vue/cast-button`
+  - `CastButton`
+- `videojs-vue/buffering-indicator`
+  - `BufferingIndicator`
+- `videojs-vue/alert-dialog`
+  - `AlertDialog.Root`
+  - `AlertDialog.Popup`
+  - `AlertDialog.Title`
+  - `AlertDialog.Description`
+  - `AlertDialog.Close`
+- `videojs-vue/error-dialog`
+  - `ErrorDialog.Root`
+  - `ErrorDialog.Popup`
+  - `ErrorDialog.Title`
+  - `ErrorDialog.Description`
+  - `ErrorDialog.Close`
+- `videojs-vue/hotkey`
+  - `Hotkey`
+- `videojs-vue/gesture`
+  - `Gesture`
+- `videojs-vue/thumbnail`
+  - `Thumbnail`
+- `videojs-vue/slider`
+  - `Slider.Root`
+  - `Slider.Track`
+  - `Slider.Buffer`
+  - `Slider.Fill`
+  - `Slider.Thumb`
+  - `Slider.Value`
+  - `Slider.Preview`
+  - `Slider.Thumbnail`
 
 ## Notes
 

@@ -3,7 +3,6 @@ import type {
   AnyPlayerStore,
   AudioFeatures,
   AudioPlayerStore,
-  Media,
   PlayerStore,
   PlayerTarget,
   VideoFeatures,
@@ -25,6 +24,7 @@ import {
   useMedia,
   usePlayer as useContextPlayer,
 } from './context'
+import type { PlayerMediaElement } from './context'
 
 export interface CreatePlayerConfig<Features extends AnyPlayerFeature[]> {
   features: Features
@@ -40,7 +40,7 @@ export interface CreatePlayerResult<
   Provider: ReturnType<typeof defineComponent>
   Container: typeof Container
   usePlayer: UsePlayerHook<Store>
-  useMedia: () => Readonly<ShallowRef<Media | null>>
+  useMedia: () => Readonly<ShallowRef<PlayerMediaElement | null>>
 }
 
 export interface UsePlayerHook<Store extends PlayerStore> {
@@ -71,14 +71,14 @@ export function createPlayer(
       : 'VideoJsProvider',
     setup(props, { slots }) {
       const store = createStore<PlayerTarget>()(slice)
-      const media = shallowRef<Media | null>(null)
+      const media = shallowRef<PlayerMediaElement | null>(null)
       const container = shallowRef<HTMLElement | null>(null)
 
       provide(PLAYER_CONTEXT_KEY, {
         store,
         media,
         container,
-        setMedia: (value: Media | null) => {
+        setMedia: (value: PlayerMediaElement | null) => {
           media.value = value
         },
         setContainer: (value: HTMLElement | null) => {
@@ -111,6 +111,7 @@ export function createPlayer(
     },
   })
 
+  // oxlint-disable-next-line unicorn/consistent-function-scoping
   function usePlayer<Result>(
     selector?: Selector<object, Result>,
     isEqual?: Comparator<Result>,
