@@ -8,6 +8,11 @@
     "module": "ESNext",
     "types": ["node"],
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "videojs-vue": ["./src/index.ts"],
+      "videojs-vue/media/hls": ["./src/media/hls.ts"],
+      "videojs-vue/ui": ["./src/ui/index.ts"]
+    }
   }
 }

@@ -1,51 +1,19 @@
-import { defineComponent, h, onBeforeUnmount, shallowRef, watch } from 'vue'
-import type {
-  ComponentPublicInstance,
-  VNode,
-  VNodeRef,
-  VideoHTMLAttributes,
-} from 'vue'
-import { useMediaAttach } from '../player/context'
-import { useSyncMediaProps } from './useSyncMediaProps'
+import { defineComponent } from 'vue'
+import { mediaEmits } from './events'
+import { mediaProps } from './props'
+import { useMediaElement } from './useMediaElement'
 
-// oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type
-export interface VideoProps extends VideoHTMLAttributes {}
-
-export const Video = defineComponent<VideoProps>({
-  name: 'VideoJsVideo',
+export const Video = defineComponent({
+  name: 'Video',
   inheritAttrs: false,
-  setup(_, { attrs, expose, slots }) {
-    const setMedia = useMediaAttach()
-    const element = shallowRef<HTMLVideoElement | null>(null)
-
-    watch(
-      element,
-      value => {
-        setMedia?.(value)
-      },
-      { immediate: true },
-    )
-    useSyncMediaProps(element, attrs)
-
-    onBeforeUnmount(() => {
-      const current = element.value
-      setMedia?.(previous => (previous === current ? null : previous))
+  props: mediaProps,
+  emits: mediaEmits,
+  setup(props, context) {
+    return useMediaElement({
+      tag: 'video',
+      props,
+      context,
+      emit: context.emit,
     })
-
-    expose({
-      el: element,
-    })
-
-    return () =>
-      h(
-        'video',
-        {
-          ...attrs,
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLVideoElement | null
-          }) as VNodeRef,
-        },
-        slots['default']?.() as VNode[] | undefined,
-      )
   },
 })

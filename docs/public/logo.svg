@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Video.js Vue</title>
+  <desc id="desc">A Video.js-inspired striped player and large play symbol, with Vue's green and slate V in the lower-right corner.</desc>
+  <defs>
+    <clipPath id="player">
+      <rect x="12" y="12" width="212" height="212" rx="28" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#player)">
+    <path fill="#fcb116" d="M12 12h212v53H12Z" />
+    <path fill="#f26222" d="M12 65h212v53H12Z" />
+    <path fill="#ea3837" d="M12 118h212v53H12Z" />
+    <path fill="#a83b71" d="M12 171h212v53H12Z" />
+  </g>
+  <path fill="#ebe4c1" d="m60 40 104 62-104 62Z" />
+  <path fill="#42b883" stroke="#ebe4c1" stroke-width="12" stroke-linejoin="round" paint-order="stroke fill" d="M120 140h37.2l22.8 39.2 22.8-39.2H240l-60 104Z" />
+  <path fill="#35495e" d="M144 140h13.2l22.8 39.2 22.8-39.2H216l-36 62.4Z" />
+</svg>

@@ -2,19 +2,18 @@
   "name": "playground",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "vite build",
     "dev": "vite"
   },
   "dependencies": {
-    "@unocss/reset": "^66.7.0",
+    "@videojs/hlsjs-video": "10.0.1",
     "videojs-vue": "workspace:*",
-    "vue": "^3.5.35"
+    "vue": "^3.5.43"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.7",
-    "@vitejs/plugin-vue-jsx": "^5.1.5",
-    "unocss": "^66.7.0",
-    "vite": "^8.0.16"
+    "@vitejs/plugin-vue-jsx": "^5.1.6",
+    "vite": "^8.3.4"
   }
 }

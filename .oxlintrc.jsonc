@@ -18,7 +18,12 @@
     "style": "warn",
     "restriction": "warn",
   },
-  "ignorePatterns": ["**/dist/**", "**/node_modules/**", "**/fixtures/**"],
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/fixtures/**",
+    ".github/skills/**",
+  ],
   "rules": {
     "no-ternary": "off",
     "no-undefined": "off",
@@ -34,6 +39,7 @@
     "import/no-named-export": "off",
     "import/no-default-export": "off",
     "import/prefer-default-export": "off",
+    "import/max-dependencies": "off",
     "import/no-relative-parent-imports": "off",
     "oxc/no-async-await": "off",
     "oxc/no-barrel-file": "off",
@@ -63,14 +69,7 @@
         "skipBlankLines": true,
       },
     ],
-    "max-statements": [
-      "warn",
-      {
-        "max": 300,
-        "skipComments": true,
-        "skipBlankLines": true,
-      },
-    ],
+    "max-statements": ["warn", 300],
     "max-lines-per-function": [
       "warn",
       {
@@ -93,6 +92,7 @@
         "detectObjects": false,
       },
     ],
+    "one-var": ["warn", "never"],
   },
   "overrides": [
     {

@@ -1,0 +1,30 @@
+export const MEDIA_EVENTS = [
+  'abort',
+  'canplay',
+  'canplaythrough',
+  'durationchange',
+  'emptied',
+  'ended',
+  'error',
+  'loadeddata',
+  'loadedmetadata',
+  'loadstart',
+  'pause',
+  'play',
+  'playing',
+  'progress',
+  'ratechange',
+  'seeked',
+  'seeking',
+  'stalled',
+  'suspend',
+  'timeupdate',
+  'volumechange',
+  'waiting',
+  'enterpictureinpicture',
+  'leavepictureinpicture',
+] as const
+export type MediaEventName = (typeof MEDIA_EVENTS)[number]
+export const mediaEmits = Object.fromEntries(
+  MEDIA_EVENTS.map(name => [name, (_event: Event) => true]),
+) as Record<MediaEventName, (event: Event) => boolean>

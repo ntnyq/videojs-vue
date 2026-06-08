@@ -1,208 +1,59 @@
 # videojs-vue
 
-[![CI](https://github.com/ntnyq/videojs-vue/workflows/CI/badge.svg)](https://github.com/ntnyq/videojs-vue/actions)
-[![NPM VERSION](https://img.shields.io/npm/v/videojs-vue.svg)](https://www.npmjs.com/package/videojs-vue)
-[![NPM DOWNLOADS](https://img.shields.io/npm/dy/videojs-vue.svg)](https://www.npmjs.com/package/videojs-vue)
-[![LICENSE](https://img.shields.io/github/license/ntnyq/videojs-vue.svg)](https://github.com/ntnyq/videojs-vue/blob/main/LICENSE)
+Vue 3 components and composables for Video.js 10. Start with a complete player, then compose your own interface using the same upstream store and media capabilities.
 
-A Vue-first wrapper around the Video.js v10 player primitives.
-
-> [!NOTE]
-> Status: **Beta**
-
-## Install
-
-```shell
-pnpm add videojs-vue
+```sh
+pnpm add videojs-vue vue
 ```
 
-```shell
-npm install videojs-vue
+```vue
+<script setup lang="ts">
+import { VideoPlayer } from 'videojs-vue'
+</script>
+
+<template>
+  <VideoPlayer
+    src="/demo.mp4"
+    poster="/poster.webp"
+    title="Demo"
+  />
+</template>
 ```
 
-```shell
-yarn add videojs-vue
+No `isCustomElement` configuration is needed when using the Vue components. Registration and packaged skin styles are included. Vue 3.5+ is required.
+
+## Entry points
+
+| Import                  | Purpose                                                        |
+| ----------------------- | -------------------------------------------------------------- |
+| `videojs-vue`           | `VideoPlayer`, `PlayerRoot`, `Video`, skins, state and actions |
+| `videojs-vue/media/hls` | Optional `HlsVideo` adapter and HLS source types               |
+| `videojs-vue/ui`        | Composable upstream controls and layout components             |
+
+For HLS, install `@videojs/hlsjs-video@10.0.1` and pass `HlsVideo` to the `media` prop. The basic entry does not import hls.js.
+
+See [getting started](docs/guide/getting-started.md), [API contracts](docs/api/overview.md), [composition](docs/guide/composition.md), and [lifecycle / SSR](docs/guide/lifecycle.md).
+
+## Workspace
+
+The root is the publishable package. Both `playground` and `docs` are private pnpm workspace packages consuming `videojs-vue` through `workspace:*`. Docs use VitePress **2.0.0-alpha.20** (the current v2 prerelease).
+
+```sh
+pnpm install
+pnpm build
+pnpm play:dev        # localhost:5174
+pnpm docs:dev        # localhost:5173
+pnpm release:check   # format, lint, types, tests, package and both sites
 ```
 
-## Usage
+Run `pnpm dev` in another terminal while changing library source. Both sites consume the built package. See [playground scenarios](docs/playground.md).
 
-The API follows the upstream `@videojs/react` player factory:
+## Scope
 
-```ts
-import { createPlayer } from 'videojs-vue'
-import { Video, videoFeatures } from 'videojs-vue/video'
+This version focuses on on-demand native video and HLS. Packaged default/neutral skins and a small set of upstream control bindings share one player store. It does not recreate Video.js internals, maintain a second playback state machine, or introduce a plugin framework. Audio, dedicated live presets, YouTube/Mux adapters and persistence remain future work.
 
-const Player = createPlayer({
-  features: videoFeatures,
-  displayName: 'VideoPlayer',
-})
-```
-
-Render it with Vue's `h()` API or JSX:
-
-```ts
-import { defineComponent, h } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const paused = Player.usePlayer(state => state.paused)
-    const store = Player.usePlayer()
-
-    return () =>
-      h(Player.Provider, () =>
-        h(Player.Container, { class: 'player-shell' }, () => [
-          h(Video, {
-            src: 'https://stream.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/highest.mp4',
-            playsInline: true,
-          }),
-          h(
-            'button',
-            {
-              type: 'button',
-              onClick: () => (paused.value ? store.play() : store.pause()),
-            },
-            paused.value ? 'Play' : 'Pause',
-          ),
-        ]),
-      )
-  },
-})
-```
-
-## API
-
-### Root exports
-
-- `createPlayer(config)` returns:
-  - `Provider`
-  - `Container`
-  - `usePlayer()`
-  - `useMedia()`
-- `createPlayer({ plugins })` supports runtime extension hooks:
-  - `onProviderSetup(context)`
-  - `onAttach(context)`
-  - `onDetach(context)`
-  - `onProviderDestroy(context)`
-- `usePlayer(selector)` returns a readonly `ref`, which is the Vue equivalent of the React hook's reactive selected value.
-- `useOptionalPlayer()`, `useContainer()`, `useMediaAttach()` and `useContainerAttach()` are also exported for lower-level integrations.
-- Utility exports:
-  - `mergeProps(...props)`
-  - `renderElement(tag, componentProps, params)`
-
-### Preset entry points
-
-- `videojs-vue/video`
-  - `Video`
-  - `videoFeatures`
-- `videojs-vue/audio`
-  - `Audio`
-  - `audioFeatures`
-- `videojs-vue/background`
-  - `BackgroundVideo`
-  - `backgroundFeatures`
-- `videojs-vue/live-video`
-  - `Video`
-  - `liveVideoFeatures`
-- `videojs-vue/live-audio`
-  - `Audio`
-  - `liveAudioFeatures`
-
-### UI entry points
-
-- `videojs-vue/full-screen-button` (or `videojs-vue/fullscreen-button`)
-  - `FullscreenButton`
-- `videojs-vue/playback-rate-button`
-  - `PlaybackRateButton`
-- `videojs-vue/poster`
-  - `Poster`
-- `videojs-vue/time`
-  - `Time.Group`
-  - `Time.Separator`
-  - `Time.Value`
-- `videojs-vue/play-button`
-  - `PlayButton`
-- `videojs-vue/mute-button`
-  - `MuteButton`
-- `videojs-vue/pip-button`
-  - `PiPButton`
-- `videojs-vue/seek-button`
-  - `SeekButton`
-- `videojs-vue/volume-slider`
-  - `VolumeSlider.Root`
-  - `VolumeSlider.Track`
-  - `VolumeSlider.Fill`
-  - `VolumeSlider.Thumb`
-  - `VolumeSlider.Value`
-  - `VolumeSlider.Preview`
-- `videojs-vue/time-slider`
-  - `TimeSlider.Root`
-  - `TimeSlider.Track`
-  - `TimeSlider.Buffer`
-  - `TimeSlider.Fill`
-  - `TimeSlider.Thumb`
-  - `TimeSlider.Value`
-  - `TimeSlider.Preview`
-- `videojs-vue/controls`
-  - `Controls.Root`
-  - `Controls.Group`
-- `videojs-vue/tooltip`
-  - `Tooltip.Provider`
-  - `Tooltip.Root`
-  - `Tooltip.Trigger`
-  - `Tooltip.Popup`
-  - `Tooltip.Arrow`
-- `videojs-vue/popover`
-  - `Popover.Root`
-  - `Popover.Trigger`
-  - `Popover.Popup`
-  - `Popover.Arrow`
-- `videojs-vue/captions-button`
-  - `CaptionsButton`
-- `videojs-vue/cast-button`
-  - `CastButton`
-- `videojs-vue/buffering-indicator`
-  - `BufferingIndicator`
-- `videojs-vue/alert-dialog`
-  - `AlertDialog.Root`
-  - `AlertDialog.Popup`
-  - `AlertDialog.Title`
-  - `AlertDialog.Description`
-  - `AlertDialog.Close`
-- `videojs-vue/error-dialog`
-  - `ErrorDialog.Root`
-  - `ErrorDialog.Popup`
-  - `ErrorDialog.Title`
-  - `ErrorDialog.Description`
-  - `ErrorDialog.Close`
-- `videojs-vue/hotkey`
-  - `Hotkey`
-- `videojs-vue/gesture`
-  - `Gesture`
-- `videojs-vue/thumbnail`
-  - `Thumbnail`
-- `videojs-vue/slider`
-  - `Slider.Root`
-  - `Slider.Track`
-  - `Slider.Buffer`
-  - `Slider.Fill`
-  - `Slider.Thumb`
-  - `Slider.Value`
-  - `Slider.Preview`
-  - `Slider.Thumbnail`
-
-## Notes
-
-- `Provider` owns the Video.js store instance and reattaches it whenever the media element or container changes.
-- `Container` keeps the same focus behavior as the React implementation: on pointer release it focuses itself when nothing inside already has focus, so keyboard shortcuts can work reliably.
-- Media components use native `<video>` / `<audio>` elements, register themselves automatically through provide/inject, and reactively sync key media props (`src`, `poster`, `autoplay`, `controls`, `loop`, `muted`, `playsInline`, `preload`, `crossOrigin`, `volume`, `playbackRate`).
-- Captions button now uses reactive track state and auto-disables when no caption/subtitle tracks are available.
-
-## Migration (Current Beta)
-
-- UI button primitives now use unified internal prop-merging behavior (`mergeProps`) instead of per-component manual click chaining.
-- External event handlers still run before internal handlers and can cancel internal behavior via `event.preventDefault()`.
-- Prefer `playsInline` over lowercase `playsinline` in JSX/templates.
+The previous provider/controller API and experimental component entrypoints have been removed. Migrate to `VideoPlayer` or `PlayerRoot` and the two composables described in the docs.
 
 ## License
 
-[MIT](./LICENSE) License © 2026-PRESENT [ntnyq](https://github.com/ntnyq)
+[MIT](LICENSE)

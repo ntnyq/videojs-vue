@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Vue components and composables for Video.js v10 players.",
   "keywords": [
-    "audio-player",
     "video-player",
     "videojs",
     "vue",
@@ -23,7 +22,9 @@
     "dist"
   ],
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/**/*.js"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -32,117 +33,13 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./audio": {
-      "types": "./dist/audio.d.ts",
-      "default": "./dist/audio.js"
+    "./media/hls": {
+      "types": "./dist/media/hls.d.ts",
+      "default": "./dist/media/hls.js"
     },
-    "./background": {
-      "types": "./dist/background.d.ts",
-      "default": "./dist/background.js"
-    },
-    "./live-audio": {
-      "types": "./dist/live-audio.d.ts",
-      "default": "./dist/live-audio.js"
-    },
-    "./live-video": {
-      "types": "./dist/live-video.d.ts",
-      "default": "./dist/live-video.js"
-    },
-    "./full-screen-button": {
-      "types": "./dist/full-screen-button.d.ts",
-      "default": "./dist/full-screen-button.js"
-    },
-    "./fullscreen-button": {
-      "types": "./dist/full-screen-button.d.ts",
-      "default": "./dist/full-screen-button.js"
-    },
-    "./playback-rate-button": {
-      "types": "./dist/playback-rate-button.d.ts",
-      "default": "./dist/playback-rate-button.js"
-    },
-    "./play-button": {
-      "types": "./dist/play-button.d.ts",
-      "default": "./dist/play-button.js"
-    },
-    "./mute-button": {
-      "types": "./dist/mute-button.d.ts",
-      "default": "./dist/mute-button.js"
-    },
-    "./pip-button": {
-      "types": "./dist/pip-button.d.ts",
-      "default": "./dist/pip-button.js"
-    },
-    "./seek-button": {
-      "types": "./dist/seek-button.d.ts",
-      "default": "./dist/seek-button.js"
-    },
-    "./volume-slider": {
-      "types": "./dist/volume-slider.d.ts",
-      "default": "./dist/volume-slider.js"
-    },
-    "./time-slider": {
-      "types": "./dist/time-slider.d.ts",
-      "default": "./dist/time-slider.js"
-    },
-    "./controls": {
-      "types": "./dist/controls.d.ts",
-      "default": "./dist/controls.js"
-    },
-    "./tooltip": {
-      "types": "./dist/tooltip.d.ts",
-      "default": "./dist/tooltip.js"
-    },
-    "./popover": {
-      "types": "./dist/popover.d.ts",
-      "default": "./dist/popover.js"
-    },
-    "./captions-button": {
-      "types": "./dist/captions-button.d.ts",
-      "default": "./dist/captions-button.js"
-    },
-    "./cast-button": {
-      "types": "./dist/cast-button.d.ts",
-      "default": "./dist/cast-button.js"
-    },
-    "./buffering-indicator": {
-      "types": "./dist/buffering-indicator.d.ts",
-      "default": "./dist/buffering-indicator.js"
-    },
-    "./alert-dialog": {
-      "types": "./dist/alert-dialog.d.ts",
-      "default": "./dist/alert-dialog.js"
-    },
-    "./error-dialog": {
-      "types": "./dist/error-dialog.d.ts",
-      "default": "./dist/error-dialog.js"
-    },
-    "./hotkey": {
-      "types": "./dist/hotkey.d.ts",
-      "default": "./dist/hotkey.js"
-    },
-    "./gesture": {
-      "types": "./dist/gesture.d.ts",
-      "default": "./dist/gesture.js"
-    },
-    "./thumbnail": {
-      "types": "./dist/thumbnail.d.ts",
-      "default": "./dist/thumbnail.js"
-    },
-    "./slider": {
-      "types": "./dist/slider.d.ts",
-      "default": "./dist/slider.js"
-    },
-    "./poster": {
-      "types": "./dist/poster.d.ts",
-      "default": "./dist/poster.js"
-    },
-    "./time": {
-      "types": "./dist/time.d.ts",
-      "default": "./dist/time.js"
-    },
-    "./video": {
-      "types": "./dist/video.d.ts",
-      "default": "./dist/video.js"
+    "./ui": {
+      "types": "./dist/ui/index.d.ts",
+      "default": "./dist/ui/index.js"
     }
   },
   "publishConfig": {
@@ -151,6 +48,8 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
+    "docs:build": "pnpm -C docs run build",
+    "docs:dev": "pnpm -C docs run dev",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint",
@@ -159,38 +58,42 @@
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
     "release": "run-s release:check release:version",
-    "release:check": "run-s format:check lint typecheck test",
+    "release:check": "run-s format:check lint typecheck test build play:build docs:build",
     "release:version": "bumpp",
     "test": "vitest",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@videojs/core": "^10.0.0-beta.24",
-    "@videojs/spf": "^10.0.0-beta.24",
-    "@videojs/store": "^10.0.0-beta.24",
-    "@videojs/utils": "^10.0.0-beta.24"
+    "@videojs/html": "10.0.1"
   },
   "devDependencies": {
     "@ntnyq/tsconfig": "^3.1.0",
-    "@types/node": "^25.9.2",
-    "@typescript/native-preview": "^7.0.0-dev.20260607.1",
-    "bumpp": "^11.1.0",
+    "@types/node": "^26.6.5",
+    "@videojs/hlsjs-video": "10.0.1",
+    "bumpp": "^12.3.0",
     "husky": "^9.1.7",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.1.2",
     "nano-staged": "^1.0.2",
-    "npm-run-all2": "^9.0.1",
-    "oxfmt": "^0.53.0",
-    "oxlint": "^1.68.0",
-    "tsdown": "^0.22.2",
-    "vitest": "^4.1.8",
-    "vue": "^3.5.35"
+    "npm-run-all2": "^9.0.3",
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0",
+    "tsdown": "^0.23.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3",
+    "vue": "^3.5.43"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "@videojs/hlsjs-video": "10.0.1",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@videojs/hlsjs-video": {
+      "optional": true
+    }
   },
   "nano-staged": {
     "*.{js,ts,mjs,tsx}": "oxlint --fix",
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "packageManager": "pnpm@11.5.2"
+  "packageManager": "pnpm@12.10.1"
 }
