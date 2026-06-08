@@ -6,6 +6,7 @@ import type {
   VideoHTMLAttributes,
 } from 'vue'
 import { useMediaAttach } from '../player/context'
+import { useSyncMediaProps } from './useSyncMediaProps'
 
 // oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type
 export interface VideoProps extends VideoHTMLAttributes {}
@@ -24,9 +25,11 @@ export const Video = defineComponent<VideoProps>({
       },
       { immediate: true },
     )
+    useSyncMediaProps(element, attrs)
 
     onBeforeUnmount(() => {
-      setMedia?.(null)
+      const current = element.value
+      setMedia?.(previous => (previous === current ? null : previous))
     })
 
     expose({

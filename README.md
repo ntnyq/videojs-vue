@@ -78,8 +78,16 @@ export default defineComponent({
   - `Container`
   - `usePlayer()`
   - `useMedia()`
+- `createPlayer({ plugins })` supports runtime extension hooks:
+  - `onProviderSetup(context)`
+  - `onAttach(context)`
+  - `onDetach(context)`
+  - `onProviderDestroy(context)`
 - `usePlayer(selector)` returns a readonly `ref`, which is the Vue equivalent of the React hook's reactive selected value.
 - `useOptionalPlayer()`, `useContainer()`, `useMediaAttach()` and `useContainerAttach()` are also exported for lower-level integrations.
+- Utility exports:
+  - `mergeProps(...props)`
+  - `renderElement(tag, componentProps, params)`
 
 ### Preset entry points
 
@@ -186,7 +194,14 @@ export default defineComponent({
 
 - `Provider` owns the Video.js store instance and reattaches it whenever the media element or container changes.
 - `Container` keeps the same focus behavior as the React implementation: on pointer release it focuses itself when nothing inside already has focus, so keyboard shortcuts can work reliably.
-- Media components use native `<video>` / `<audio>` elements and register themselves automatically through provide/inject.
+- Media components use native `<video>` / `<audio>` elements, register themselves automatically through provide/inject, and reactively sync key media props (`src`, `poster`, `autoplay`, `controls`, `loop`, `muted`, `playsInline`, `preload`, `crossOrigin`, `volume`, `playbackRate`).
+- Captions button now uses reactive track state and auto-disables when no caption/subtitle tracks are available.
+
+## Migration (Current Beta)
+
+- UI button primitives now use unified internal prop-merging behavior (`mergeProps`) instead of per-component manual click chaining.
+- External event handlers still run before internal handlers and can cancel internal behavior via `event.preventDefault()`.
+- Prefer `playsInline` over lowercase `playsinline` in JSX/templates.
 
 ## License
 

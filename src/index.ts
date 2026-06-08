@@ -21,7 +21,11 @@ export {
   type CreatePlayerConfig,
   type CreatePlayerResult,
   createPlayer,
+  type PlayerRuntimePlugin,
   type ProviderProps,
+  type RuntimeAttachContext,
+  type RuntimePluginTarget,
+  type RuntimeProviderContext,
   type UsePlayerHook,
 } from './player/createPlayer'
 
@@ -149,3 +153,7 @@ export {
   type SliderTrackProps,
   type SliderValueProps,
 } from './ui/slider'
+
+// Utilities
+export { mergeProps } from './ui/factories/mergeProps'
+export { renderElement } from './ui/factories/renderElement'

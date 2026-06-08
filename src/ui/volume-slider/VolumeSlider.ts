@@ -1,12 +1,4 @@
-import {
-  computed,
-  defineComponent,
-  h,
-  inject,
-  provide,
-  shallowRef,
-  watch,
-} from 'vue'
+import { computed, defineComponent, h, inject, provide, shallowRef } from 'vue'
 import type {
   ComponentPublicInstance,
   HTMLAttributes,
@@ -17,6 +9,7 @@ import type {
   VNodeRef,
 } from 'vue'
 import { useMedia } from '../../player/context'
+import { useMediaEvents } from '../factories/useMediaEvents'
 import { createSliderParts } from '../slider/createParts'
 import type {
   SliderFillProps,
@@ -107,27 +100,28 @@ const Root = defineComponent({
     const min = computed(() => props.min)
     const max = computed(() => props.max)
 
-    watch(
-      media,
-      (node, _, onCleanup) => {
-        if (!node) {
-          current.value = 1
-          pointer.value = 1
-          return
-        }
+    const reset = () => {
+      current.value = 1
+      pointer.value = 1
+    }
 
-        const sync = () => {
-          const next = clamp(Number(node.volume ?? 1), min.value, max.value)
-          current.value = next
-          pointer.value = next
-        }
+    const sync = () => {
+      const node = media.value
+      if (!node) {
+        reset()
+        return
+      }
 
-        sync()
-        node.addEventListener('volumechange', sync)
-        onCleanup(() => node.removeEventListener('volumechange', sync))
-      },
-      { immediate: true },
-    )
+      const next = clamp(Number(node.volume ?? 1), min.value, max.value)
+      current.value = next
+      pointer.value = next
+    }
+
+    useMediaEvents(media, {
+      onAttach: sync,
+      onDetach: reset,
+      bindings: () => [{ type: 'volumechange', listener: sync }],
+    })
 
     function applyValue(next: number) {
       const rounded = safeStep(

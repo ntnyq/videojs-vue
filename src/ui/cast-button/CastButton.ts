@@ -1,10 +1,7 @@
-import { defineComponent, h, shallowRef } from 'vue'
-import type {
-  ButtonHTMLAttributes,
-  ComponentPublicInstance,
-  VNodeRef,
-} from 'vue'
+import { defineComponent, shallowRef } from 'vue'
+import type { ButtonHTMLAttributes, ComponentPublicInstance } from 'vue'
 import { useMedia } from '../../player/context'
+import { renderElement } from '../factories/renderElement'
 
 export interface CastButtonProps extends ButtonHTMLAttributes {}
 
@@ -17,28 +14,37 @@ export const CastButton = defineComponent<CastButtonProps>({
 
     expose({ el: element })
 
-    return () =>
-      h(
+    return () => {
+      const content = slots['default']?.() ?? 'Cast'
+
+      return renderElement(
         'button',
+        {},
         {
-          ...attrs,
-          type: attrs['type'] ?? 'button',
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLButtonElement | null
-          }) as VNodeRef,
-          onClick: async (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
-
-            if (event.defaultPrevented) {
-              return
-            }
-
-            await (media.value as HTMLVideoElement | null)?.remote?.prompt?.()
+          state: {
+            hasMedia: Boolean(media.value),
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLButtonElement | null
+          },
+          props: [
+            {
+              type: 'button',
+              children: content,
+              onClick: async (event: MouseEvent) => {
+                if (event.defaultPrevented) {
+                  return
+                }
+
+                await (
+                  media.value as HTMLVideoElement | null
+                )?.remote?.prompt?.()
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() ?? 'Cast',
       )
+    }
   },
 })

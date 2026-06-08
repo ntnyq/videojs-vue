@@ -1,11 +1,11 @@
-import { computed, defineComponent, h, shallowRef } from 'vue'
+import { computed, defineComponent, shallowRef } from 'vue'
 import type {
   ButtonHTMLAttributes,
   ComponentPublicInstance,
   PropType,
-  VNodeRef,
 } from 'vue'
 import { useMedia, useOptionalPlayer } from '../../player/context'
+import { renderElement } from '../factories/renderElement'
 
 // oxlint-disable-next-line no-magic-numbers
 const DEFAULT_PLAYBACK_RATES = [0.5, 1, 1.25, 1.5, 2] as const
@@ -57,29 +57,35 @@ export const PlaybackRateButton = defineComponent({
     return () => {
       const label = props.formatRate(currentRate.value)
 
-      return h(
+      const content = slots['default']?.() ?? label
+
+      return renderElement(
         'button',
+        {},
         {
-          ...attrs,
-          type: attrs['type'] ?? 'button',
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLButtonElement | null
-          }) as VNodeRef,
-          onClick: (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
-
-            if (event.defaultPrevented || !media.value) {
-              return
-            }
-
-            const nextRate = getNextRate(currentRate.value, props.rates)
-            media.value.defaultPlaybackRate = nextRate
-            media.value.playbackRate = nextRate
+          state: {
+            playbackRate: currentRate.value,
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLButtonElement | null
+          },
+          props: [
+            {
+              type: 'button',
+              children: content,
+              onClick: (event: MouseEvent) => {
+                if (event.defaultPrevented || !media.value) {
+                  return
+                }
+
+                const nextRate = getNextRate(currentRate.value, props.rates)
+                media.value.defaultPlaybackRate = nextRate
+                media.value.playbackRate = nextRate
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() ?? label,
       )
     }
   },

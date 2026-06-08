@@ -1,12 +1,4 @@
-import {
-  computed,
-  defineComponent,
-  h,
-  inject,
-  provide,
-  shallowRef,
-  watch,
-} from 'vue'
+import { computed, defineComponent, h, inject, provide, shallowRef } from 'vue'
 import type {
   ComponentPublicInstance,
   HTMLAttributes,
@@ -18,6 +10,7 @@ import type {
 } from 'vue'
 import { useMedia } from '../../player/context'
 import { formatClock } from '../factories/formatClock'
+import { useMediaEvents } from '../factories/useMediaEvents'
 import { createSliderParts } from '../slider/createParts'
 import type {
   SliderBufferProps,
@@ -91,49 +84,46 @@ const Root = defineComponent({
     const duration = shallowRef(0)
     const buffer = shallowRef(0)
 
-    watch(
-      media,
-      (node, _, onCleanup) => {
-        if (!node) {
-          current.value = 0
-          pointer.value = 0
-          duration.value = 0
-          buffer.value = 0
-          return
-        }
+    const reset = () => {
+      current.value = 0
+      pointer.value = 0
+      duration.value = 0
+      buffer.value = 0
+    }
 
-        const sync = () => {
-          const total = Number(node.duration)
-          duration.value = Number.isFinite(total) && total > 0 ? total : 0
-          current.value = clamp(
-            Number(node.currentTime ?? 0),
-            0,
-            duration.value || 0,
-          )
-          pointer.value = current.value
-          if (node.buffered.length > 0) {
-            const bufferedEnd = node.buffered.end(node.buffered.length - 1)
-            buffer.value = clamp(bufferedEnd, 0, duration.value || 0)
-          } else {
-            buffer.value = 0
-          }
-        }
+    const sync = () => {
+      const node = media.value
+      if (!node) {
+        reset()
+        return
+      }
 
-        sync()
-        node.addEventListener('timeupdate', sync)
-        node.addEventListener('durationchange', sync)
-        node.addEventListener('progress', sync)
-        node.addEventListener('loadedmetadata', sync)
+      const total = Number(node.duration)
+      duration.value = Number.isFinite(total) && total > 0 ? total : 0
+      current.value = clamp(
+        Number(node.currentTime ?? 0),
+        0,
+        duration.value || 0,
+      )
+      pointer.value = current.value
+      if (node.buffered.length > 0) {
+        const bufferedEnd = node.buffered.end(node.buffered.length - 1)
+        buffer.value = clamp(bufferedEnd, 0, duration.value || 0)
+      } else {
+        buffer.value = 0
+      }
+    }
 
-        onCleanup(() => {
-          node.removeEventListener('timeupdate', sync)
-          node.removeEventListener('durationchange', sync)
-          node.removeEventListener('progress', sync)
-          node.removeEventListener('loadedmetadata', sync)
-        })
-      },
-      { immediate: true },
-    )
+    useMediaEvents(media, {
+      onAttach: sync,
+      onDetach: reset,
+      bindings: () => [
+        { type: 'timeupdate', listener: sync },
+        { type: 'durationchange', listener: sync },
+        { type: 'progress', listener: sync },
+        { type: 'loadedmetadata', listener: sync },
+      ],
+    })
 
     function applyValue(next: number) {
       const total = duration.value

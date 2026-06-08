@@ -1,11 +1,11 @@
-import { computed, defineComponent, h, shallowRef } from 'vue'
+import { computed, defineComponent, shallowRef } from 'vue'
 import type {
   ButtonHTMLAttributes,
   ComponentPublicInstance,
   PropType,
-  VNodeRef,
 } from 'vue'
 import { useMedia } from '../../player/context'
+import { renderElement } from '../factories/renderElement'
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
@@ -41,39 +41,47 @@ export const SeekButton = defineComponent({
       el: element,
     })
 
-    return () =>
-      h(
+    return () => {
+      const content = slots['default']?.() ?? label.value
+
+      return renderElement(
         'button',
+        {},
         {
-          ...attrs,
-          type: attrs['type'] ?? 'button',
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLButtonElement | null
-          }) as VNodeRef,
-          'aria-label': attrs['aria-label'] ?? label.value,
-          onClick: (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
-
-            if (event.defaultPrevented || !media.value) {
-              return
-            }
-
-            const current = Number(media.value.currentTime ?? 0)
-            const duration = Number(media.value.duration)
-            const upperBound =
-              Number.isFinite(duration) && duration > 0
-                ? duration
-                : Number.MAX_SAFE_INTEGER
-            media.value.currentTime = clamp(
-              current + props.seconds,
-              0,
-              upperBound,
-            )
+          state: {
+            seconds: props.seconds,
+            direction: direction.value,
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLButtonElement | null
+          },
+          props: [
+            {
+              type: 'button',
+              'aria-label': label.value,
+              children: content,
+              onClick: (event: MouseEvent) => {
+                if (event.defaultPrevented || !media.value) {
+                  return
+                }
+
+                const current = Number(media.value.currentTime ?? 0)
+                const duration = Number(media.value.duration)
+                const upperBound =
+                  Number.isFinite(duration) && duration > 0
+                    ? duration
+                    : Number.MAX_SAFE_INTEGER
+                media.value.currentTime = clamp(
+                  current + props.seconds,
+                  0,
+                  upperBound,
+                )
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() ?? label.value,
       )
+    }
   },
 })

@@ -2,7 +2,8 @@ import type { PlayerTarget } from '@videojs/core/dom'
 import { defineSlice } from '@videojs/store'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { App } from 'vue'
-import { createApp, defineComponent, h, nextTick } from 'vue'
+import { createApp, defineComponent, h, nextTick, ref } from 'vue'
+import type { PlayerRuntimePlugin } from '../src'
 import {
   AlertDialog,
   BufferingIndicator,
@@ -181,6 +182,51 @@ describe(`${createPlayer}`, () => {
     expect(onPointerup).toHaveBeenCalledTimes(1)
     expect(document.activeElement).toBe(container)
   })
+
+  it('runs runtime plugin hooks on provider and attach lifecycle', async () => {
+    expect.hasAssertions()
+    const onProviderSetup = vi.fn(() => vi.fn())
+    const onProviderDestroy = vi.fn()
+    const onAttach = vi.fn(() => vi.fn())
+    const onDetach = vi.fn()
+
+    const plugins: PlayerRuntimePlugin[] = [
+      {
+        onProviderSetup,
+        onProviderDestroy,
+        onAttach,
+        onDetach,
+      },
+    ]
+
+    const PluginPlayer = createPlayer({
+      displayName: 'PluginPlayer',
+      features: [testFeature] as const,
+      plugins,
+    })
+
+    const app = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(PluginPlayer.Provider, () =>
+              h(PluginPlayer.Container, () => [h(Video)]),
+            )
+        },
+      }),
+    )
+
+    mountedApps.push(app)
+    await nextTick()
+
+    expect(onProviderSetup).toHaveBeenCalledTimes(1)
+    expect(onAttach).toHaveBeenCalledTimes(1)
+
+    app.unmount()
+
+    expect(onDetach).toHaveBeenCalledTimes(1)
+    expect(onProviderDestroy).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('context helpers', () => {
@@ -203,6 +249,56 @@ describe('context helpers', () => {
 })
 
 describe('media components', () => {
+  it('keeps media attached when swapping from video to audio', async () => {
+    expect.hasAssertions()
+    const activeTag = ref<'video' | 'audio'>('video')
+    let mediaRef: { value: HTMLMediaElement | null } | undefined
+
+    const Probe = defineComponent({
+      setup() {
+        mediaRef = Player.useMedia() as { value: HTMLMediaElement | null }
+        return () => null
+      },
+    })
+
+    const app = mount(
+      defineComponent({
+        setup() {
+          const registry = {
+            audio: Audio,
+            video: Video,
+          } as const
+
+          return () =>
+            h(Player.Provider, () =>
+              h(Player.Container, () => [
+                h(registry[activeTag.value], {
+                  id: `swap-${activeTag.value}`,
+                }),
+                h(Probe),
+              ]),
+            )
+        },
+      }),
+    )
+
+    mountedApps.push(app)
+    await nextTick()
+
+    expect(mediaRef?.value).toBeInstanceOf(HTMLVideoElement)
+    expect(app.root.querySelector('#swap-video')).toBeInstanceOf(
+      HTMLVideoElement,
+    )
+
+    activeTag.value = 'audio'
+    await nextTick()
+
+    expect(mediaRef?.value).toBeInstanceOf(HTMLAudioElement)
+    expect(app.root.querySelector('#swap-audio')).toBeInstanceOf(
+      HTMLAudioElement,
+    )
+  })
+
   it('renders audio and background video elements with expected defaults', async () => {
     expect.hasAssertions()
     const app = mount(
@@ -231,6 +327,59 @@ describe('media components', () => {
     expect(background.loop).toBe(true)
     expect(background.muted).toBe(true)
     expect(background.playsInline).toBe(true)
+  })
+
+  it('syncs reactive media props to the mounted video element', async () => {
+    expect.hasAssertions()
+    const src = ref('https://example.com/first.mp4')
+    const muted = ref(false)
+    const autoplay = ref(false)
+    const playsInline = ref(false)
+    const poster = ref('https://example.com/a.jpg')
+    const playbackRate = ref(1)
+
+    const app = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(Video, {
+              id: 'synced-video',
+              src: src.value,
+              muted: muted.value,
+              autoplay: autoplay.value,
+              playsInline: playsInline.value,
+              poster: poster.value,
+              playbackRate: playbackRate.value,
+            })
+        },
+      }),
+    )
+
+    mountedApps.push(app)
+    await nextTick()
+
+    const video = app.root.querySelector('#synced-video') as HTMLVideoElement
+    expect(video.getAttribute('src')).toBe('https://example.com/first.mp4')
+    expect(video.muted).toBe(false)
+    expect(video.autoplay).toBe(false)
+    expect(video.playsInline).toBe(false)
+    expect(video.poster).toContain('example.com/a.jpg')
+    expect(video.playbackRate).toBe(1)
+
+    src.value = 'https://example.com/next.mp4'
+    muted.value = true
+    autoplay.value = true
+    playsInline.value = true
+    poster.value = 'https://example.com/b.jpg'
+    playbackRate.value = 1.5
+    await nextTick()
+
+    expect(video.getAttribute('src')).toBe('https://example.com/next.mp4')
+    expect(video.muted).toBe(true)
+    expect(video.autoplay).toBe(true)
+    expect(video.playsInline).toBe(true)
+    expect(video.poster).toContain('example.com/b.jpg')
+    expect(video.playbackRate).toBe(1.5)
   })
 
   it('cycles playback rate and toggles fullscreen through UI buttons', async () => {
@@ -361,9 +510,9 @@ describe('media components', () => {
       '#seek-button',
     ) as HTMLButtonElement
 
-    const play = vi.fn().mockResolvedValue()
+    const play = vi.fn().mockResolvedValue(null)
     const pause = vi.fn()
-    const requestPictureInPicture = vi.fn().mockResolvedValue()
+    const requestPictureInPicture = vi.fn().mockResolvedValue(null)
 
     Object.assign(media, {
       play,
@@ -534,7 +683,7 @@ describe('media components', () => {
       value: [track],
     })
 
-    const prompt = vi.fn().mockResolvedValue()
+    const prompt = vi.fn().mockResolvedValue(null)
     Object.defineProperty(media, 'remote', {
       configurable: true,
       value: {
@@ -560,6 +709,33 @@ describe('media components', () => {
     media.dispatchEvent(new Event('playing'))
     await nextTick()
     expect(buffering.hidden).toBe(true)
+  })
+
+  it('keeps captions button inert when no caption tracks exist', async () => {
+    expect.hasAssertions()
+    const app = mount(
+      defineComponent({
+        setup() {
+          return () =>
+            h(Player.Provider, () =>
+              h(Player.Container, () => [
+                h(Video),
+                h(CaptionsButton, { id: 'captions-empty' }),
+              ]),
+            )
+        },
+      }),
+    )
+
+    mountedApps.push(app)
+    await nextTick()
+
+    const captionsButton = app.root.querySelector(
+      '#captions-empty',
+    ) as HTMLButtonElement
+
+    captionsButton.click()
+    expect(captionsButton.getAttribute('aria-pressed')).toBe('false')
   })
 
   it('renders controls and toggles tooltip/popover primitives', async () => {
@@ -752,7 +928,7 @@ describe('media components', () => {
     const container = app.root.querySelector(
       '#hotkey-gesture-container',
     ) as HTMLDivElement
-    const play = vi.fn().mockResolvedValue()
+    const play = vi.fn().mockResolvedValue(null)
 
     Object.assign(media, { play })
     Object.defineProperty(media, 'paused', {

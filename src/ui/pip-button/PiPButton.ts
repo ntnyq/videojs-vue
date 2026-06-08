@@ -1,11 +1,11 @@
-import { computed, defineComponent, h, shallowRef } from 'vue'
+import { computed, defineComponent, shallowRef } from 'vue'
 import type {
   ButtonHTMLAttributes,
   ComponentPublicInstance,
   PropType,
-  VNodeRef,
 } from 'vue'
 import { useMedia } from '../../player/context'
+import { renderElement } from '../factories/renderElement'
 
 export interface PiPButtonProps extends ButtonHTMLAttributes {
   enterLabel?: string
@@ -47,36 +47,50 @@ export const PiPButton = defineComponent({
       el: element,
     })
 
-    return () =>
-      h(
+    return () => {
+      const content = slots['default']?.() ?? label.value
+
+      return renderElement(
         'button',
+        {},
         {
-          ...attrs,
-          type: attrs['type'] ?? 'button',
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLButtonElement | null
-          }) as VNodeRef,
-          disabled: attrs['disabled'] || !supported.value,
-          'aria-label': attrs['aria-label'] ?? label.value,
-          'aria-pressed': active.value,
-          onClick: async (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
-
-            if (event.defaultPrevented || !media.value || !supported.value) {
-              return
-            }
-
-            if (document.pictureInPictureElement === media.value) {
-              await document.exitPictureInPicture?.()
-              return
-            }
-
-            await (media.value as HTMLVideoElement).requestPictureInPicture?.()
+          state: {
+            active: active.value,
+            supported: supported.value,
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLButtonElement | null
+          },
+          props: [
+            {
+              type: 'button',
+              disabled: !supported.value,
+              'aria-label': label.value,
+              'aria-pressed': active.value,
+              children: content,
+              onClick: async (event: MouseEvent) => {
+                if (
+                  event.defaultPrevented ||
+                  !media.value ||
+                  !supported.value
+                ) {
+                  return
+                }
+
+                if (document.pictureInPictureElement === media.value) {
+                  await document.exitPictureInPicture?.()
+                  return
+                }
+
+                await (
+                  media.value as HTMLVideoElement
+                ).requestPictureInPicture?.()
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() ?? label.value,
       )
+    }
   },
 })

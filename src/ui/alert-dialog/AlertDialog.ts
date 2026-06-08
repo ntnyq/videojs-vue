@@ -16,6 +16,7 @@ import type {
   VNode,
   VNodeRef,
 } from 'vue'
+import { renderElement } from '../factories/renderElement'
 
 export interface AlertDialogContextValue {
   open: Ref<boolean>
@@ -164,27 +165,34 @@ const Close = defineComponent<AlertDialogCloseProps>({
 
     expose({ el: element })
 
-    return () =>
-      h(
-        'button',
-        {
-          ...attrs,
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLButtonElement | null
-          }) as VNodeRef,
-          type: attrs['type'] ?? 'button',
-          onClick: (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
+    return () => {
+      const content = slots['default']?.() ?? 'Close'
 
-            if (!event.defaultPrevented) {
-              dialog.setOpen(false)
-            }
+      return renderElement(
+        'button',
+        {},
+        {
+          state: {
+            open: dialog.open.value,
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLButtonElement | null
+          },
+          props: [
+            {
+              type: 'button',
+              children: content,
+              onClick: (event: MouseEvent) => {
+                if (!event.defaultPrevented) {
+                  dialog.setOpen(false)
+                }
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() ?? 'Close',
       )
+    }
   },
 })
 

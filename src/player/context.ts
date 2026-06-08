@@ -26,6 +26,10 @@ import type {
 } from 'vue'
 
 export type PlayerMediaElement = Media & HTMLMediaElement
+export type MediaUpdate<CurrentMedia extends PlayerMediaElement> =
+  | CurrentMedia
+  | null
+  | ((current: CurrentMedia | null) => CurrentMedia | null)
 
 export interface PlayerContextValue<
   Store = AnyPlayerStore,
@@ -33,7 +37,7 @@ export interface PlayerContextValue<
 > {
   store: Store
   media: ShallowRef<CurrentMedia | null>
-  setMedia: (media: CurrentMedia | null) => void
+  setMedia: (media: MediaUpdate<CurrentMedia>) => void
   container: ShallowRef<MediaContainer | null>
   setContainer: (container: MediaContainer | null) => void
 }

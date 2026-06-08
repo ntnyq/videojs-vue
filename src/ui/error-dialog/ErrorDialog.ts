@@ -1,15 +1,8 @@
-import {
-  computed,
-  defineComponent,
-  h,
-  inject,
-  provide,
-  shallowRef,
-  watch,
-} from 'vue'
+import { computed, defineComponent, h, inject, provide, shallowRef } from 'vue'
 import type { HTMLAttributes, InjectionKey, Ref } from 'vue'
 import { useMedia } from '../../player/context'
 import { AlertDialog } from '../alert-dialog'
+import { useMediaEvents } from '../factories/useMediaEvents'
 
 export interface ErrorDialogContextValue {
   lastError: Ref<MediaError | null>
@@ -37,33 +30,25 @@ const Root = defineComponent<ErrorDialogRootProps>({
     const media = useMedia()
     const lastError = shallowRef<MediaError | null>(null)
 
-    watch(
-      media,
-      (node, _previousNode, onCleanup) => {
-        if (!node) {
-          lastError.value = null
-          return
-        }
+    const sync = () => {
+      const node = media.value
+      lastError.value = node
+        ? ((node.error as MediaError | null) ?? null)
+        : null
+    }
 
-        const sync = () => {
-          lastError.value = (node.error as MediaError | null) ?? null
-        }
+    const clear = () => {
+      lastError.value = null
+    }
 
-        const clear = () => {
-          lastError.value = null
-        }
-
-        sync()
-        node.addEventListener('error', sync)
-        node.addEventListener('loadeddata', clear)
-
-        onCleanup(() => {
-          node.removeEventListener('error', sync)
-          node.removeEventListener('loadeddata', clear)
-        })
-      },
-      { immediate: true },
-    )
+    useMediaEvents(media, {
+      onAttach: sync,
+      onDetach: clear,
+      bindings: () => [
+        { type: 'error', listener: sync },
+        { type: 'loadeddata', listener: clear },
+      ],
+    })
 
     const open = computed(() => Boolean(lastError.value))
 

@@ -1,11 +1,11 @@
-import { computed, defineComponent, h, shallowRef } from 'vue'
+import { computed, defineComponent, shallowRef } from 'vue'
 import type {
   ButtonHTMLAttributes,
   ComponentPublicInstance,
   PropType,
-  VNodeRef,
 } from 'vue'
 import { useContainer, useMedia, useOptionalPlayer } from '../../player/context'
+import { renderElement } from '../factories/renderElement'
 
 export interface FullscreenButtonProps extends ButtonHTMLAttributes {
   enterLabel?: string
@@ -60,30 +60,35 @@ export const FullscreenButton = defineComponent({
 
     return () => {
       const label = isFullscreen.value ? props.exitLabel : props.enterLabel
+      const content = slots['default']?.() ?? label
 
-      return h(
+      return renderElement(
         'button',
+        {},
         {
-          ...attrs,
-          type: attrs['type'] ?? 'button',
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLButtonElement | null
-          }) as VNodeRef,
-          'aria-label': attrs['aria-label'] ?? label,
-          'aria-pressed': isFullscreen.value,
-          onClick: async (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
-
-            if (event.defaultPrevented) {
-              return
-            }
-
-            await toggleFullscreen()
+          state: {
+            fullscreen: isFullscreen.value,
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLButtonElement | null
+          },
+          props: [
+            {
+              type: 'button',
+              'aria-label': label,
+              'aria-pressed': isFullscreen.value,
+              children: content,
+              onClick: async (event: MouseEvent) => {
+                if (event.defaultPrevented) {
+                  return
+                }
+
+                await toggleFullscreen()
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() ?? label,
       )
     }
   },

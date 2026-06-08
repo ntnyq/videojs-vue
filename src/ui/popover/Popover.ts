@@ -14,8 +14,8 @@ import type {
   PropType,
   Ref,
   VNode,
-  VNodeRef,
 } from 'vue'
+import { renderElement } from '../factories/renderElement'
 
 export interface PopoverContextValue {
   open: Ref<boolean>
@@ -104,28 +104,35 @@ const Trigger = defineComponent<PopoverTriggerProps>({
 
     expose({ el: element })
 
-    return () =>
-      h(
+    return () => {
+      const content = slots['default']?.() as VNode[] | undefined
+
+      return renderElement(
         'div',
+        {},
         {
-          ...attrs,
-          ref: ((value: Element | ComponentPublicInstance | null) => {
-            element.value = value as HTMLElement | null
-          }) as VNodeRef,
-          onClick: (event: MouseEvent) => {
-            if (typeof attrs['onClick'] === 'function') {
-              ;(attrs['onClick'] as (event: MouseEvent) => void)(event)
-            }
-
-            if (event.defaultPrevented) {
-              return
-            }
-
-            popover.setOpen(!popover.open.value)
+          state: {
+            open: popover.open.value,
           },
+          ref: (value: Element | ComponentPublicInstance | null) => {
+            element.value = value as HTMLElement | null
+          },
+          props: [
+            {
+              children: content,
+              onClick: (event: MouseEvent) => {
+                if (event.defaultPrevented) {
+                  return
+                }
+
+                popover.setOpen(!popover.open.value)
+              },
+            },
+            attrs,
+          ],
         },
-        slots['default']?.() as VNode[] | undefined,
       )
+    }
   },
 })
 

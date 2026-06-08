@@ -1,6 +1,7 @@
-import { defineComponent, h, onBeforeUnmount, shallowRef, watch } from 'vue'
+import { defineComponent, h, onBeforeUnmount, shallowRef } from 'vue'
 import type { HTMLAttributes, PropType, VNode } from 'vue'
 import { useMedia } from '../../player/context'
+import { useMediaEvents } from '../factories/useMediaEvents'
 
 export interface BufferingIndicatorProps extends HTMLAttributes {
   delay?: number
@@ -44,30 +45,15 @@ export const BufferingIndicator = defineComponent({
       visible.value = false
     }
 
-    watch(
-      media,
-      (node, _, onCleanup) => {
-        hide()
-
-        if (!node) {
-          return
-        }
-
-        node.addEventListener('waiting', queueShow)
-        node.addEventListener('stalled', queueShow)
-        node.addEventListener('playing', hide)
-        node.addEventListener('canplay', hide)
-
-        onCleanup(() => {
-          hide()
-          node.removeEventListener('waiting', queueShow)
-          node.removeEventListener('stalled', queueShow)
-          node.removeEventListener('playing', hide)
-          node.removeEventListener('canplay', hide)
-        })
-      },
-      { immediate: true },
-    )
+    useMediaEvents(media, {
+      onDetach: hide,
+      bindings: () => [
+        { type: 'waiting', listener: queueShow },
+        { type: 'stalled', listener: queueShow },
+        { type: 'playing', listener: hide },
+        { type: 'canplay', listener: hide },
+      ],
+    })
 
     onBeforeUnmount(() => {
       hide()

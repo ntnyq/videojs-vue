@@ -24,11 +24,36 @@ import {
   useMedia,
   usePlayer as useContextPlayer,
 } from './context'
-import type { PlayerMediaElement } from './context'
+import type { MediaUpdate, PlayerMediaElement } from './context'
 
 export interface CreatePlayerConfig<Features extends AnyPlayerFeature[]> {
   features: Features
   displayName?: string
+  plugins?: PlayerRuntimePlugin[]
+}
+
+export interface RuntimePluginTarget {
+  media: PlayerMediaElement
+  container: HTMLElement | null
+}
+
+export interface RuntimeProviderContext {
+  store: AnyPlayerStore
+  media: Readonly<ShallowRef<PlayerMediaElement | null>>
+  container: Readonly<ShallowRef<HTMLElement | null>>
+}
+
+export interface RuntimeAttachContext extends RuntimeProviderContext {
+  target: RuntimePluginTarget
+}
+
+type RuntimePluginCleanup = (() => void) | undefined
+
+export interface PlayerRuntimePlugin {
+  onProviderSetup?: (context: RuntimeProviderContext) => RuntimePluginCleanup
+  onProviderDestroy?: ((context: RuntimeProviderContext) => void) | undefined
+  onAttach?: (context: RuntimeAttachContext) => RuntimePluginCleanup
+  onDetach?: ((context: RuntimeAttachContext) => void) | undefined
 }
 
 // oxlint-disable-next-line typescript/no-empty-interface, typescript/no-empty-object-type
@@ -64,6 +89,7 @@ export function createPlayer(
   config: CreatePlayerConfig<AnyPlayerFeature[]>,
 ): CreatePlayerResult<AnyPlayerStore> {
   const slice = combine<PlayerTarget, AnyPlayerFeature[]>(...config.features)
+  const plugins = config.plugins ?? []
 
   const Provider = defineComponent({
     name: config.displayName
@@ -73,13 +99,27 @@ export function createPlayer(
       const store = createStore<PlayerTarget>()(slice)
       const media = shallowRef<PlayerMediaElement | null>(null)
       const container = shallowRef<HTMLElement | null>(null)
+      const providerContext: RuntimeProviderContext = {
+        store,
+        media,
+        container,
+      }
+
+      const providerCleanups: (() => void)[] = []
+
+      for (const plugin of plugins) {
+        const cleanup = plugin.onProviderSetup?.(providerContext)
+        if (typeof cleanup === 'function') {
+          providerCleanups.push(cleanup)
+        }
+      }
 
       provide(PLAYER_CONTEXT_KEY, {
         store,
         media,
         container,
-        setMedia: (value: PlayerMediaElement | null) => {
-          media.value = value
+        setMedia: (value: MediaUpdate<PlayerMediaElement>) => {
+          media.value = typeof value === 'function' ? value(media.value) : value
         },
         setContainer: (value: HTMLElement | null) => {
           container.value = value
@@ -93,17 +133,52 @@ export function createPlayer(
             return
           }
 
+          const attachContext: RuntimeAttachContext = {
+            ...providerContext,
+            target: {
+              media: currentMedia,
+              container: currentContainer,
+            },
+          }
+
+          const attachCleanups: (() => void)[] = []
+
+          for (const plugin of plugins) {
+            const cleanup = plugin.onAttach?.(attachContext)
+            if (typeof cleanup === 'function') {
+              attachCleanups.push(cleanup)
+            }
+          }
+
           const detach = store.attach({
             media: currentMedia,
             container: currentContainer,
           })
 
-          onCleanup(detach)
+          onCleanup(() => {
+            for (const cleanup of attachCleanups) {
+              cleanup()
+            }
+
+            for (const plugin of plugins) {
+              plugin.onDetach?.(attachContext)
+            }
+
+            detach()
+          })
         },
         { immediate: true },
       )
 
       onBeforeUnmount(() => {
+        for (const cleanup of providerCleanups) {
+          cleanup()
+        }
+
+        for (const plugin of plugins) {
+          plugin.onProviderDestroy?.(providerContext)
+        }
+
         store.destroy()
       })
 
