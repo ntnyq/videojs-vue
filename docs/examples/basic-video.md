@@ -1,6 +1,10 @@
-# Native video
+---
+description: Play native video, add WebVTT captions, and customize the poster and skin.
+---
 
-<script setup>
+# Native video and captions
+
+<script setup lang="ts">
 import { VideoPlayer } from 'videojs-vue'
 </script>
 
@@ -10,7 +14,11 @@ import { VideoPlayer } from 'videojs-vue'
   title="Video.js demo"
 />
 
-This example is rendered by the workspace library during the VitePress server build and hydrated in the browser.
+This player uses a public demo source. For source switching, settings, and event inspection, open the [Playground](https://videojs-vue-playground.vercel.app).
+
+## Add captions
+
+After [installation](../guide/getting-started.md), use the following component in your application. Serve `demo.mp4`, `poster.webp`, and `captions.vtt` from your public directory, or replace the URLs with your own assets.
 
 ```vue
 <script setup lang="ts">
@@ -29,10 +37,29 @@ import { VideoPlayer } from 'videojs-vue'
         kind: 'captions',
         srclang: 'en',
         label: 'English',
+        default: true,
       },
     ]"
   />
 </template>
 ```
 
-To replace the poster, use `#poster` with one image element. For a custom control layout, see [composition](../guide/composition.md).
+Create `public/captions.vtt` with a cue that overlaps your video:
+
+```text
+WEBVTT
+
+00:00:00.000 --> 00:00:04.000
+Welcome to the demo.
+```
+
+Start playback and select the English caption track in the player controls. The `default` flag marks it as a default candidate; the browser and user preferences determine the initial selection. Cross-origin media and tracks require compatible server CORS headers.
+
+## Customize the example
+
+- Change `src` to load another video using upstream source-change behavior.
+- Set `skin="neutral"` to try the other packaged skin.
+- Use the [poster slot](../guide/styling.md#replace-the-poster) for custom poster content.
+- Use [composition](../guide/composition.md) for a custom control layout.
+
+See [MediaTrack](../api/media.md#mediatrack) for track fields and [events](../api/events.md) for playback notifications.

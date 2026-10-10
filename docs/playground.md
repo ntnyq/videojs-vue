@@ -1,24 +1,30 @@
+---
+description: Explore the hosted videojs-vue playground and its interactive playback scenarios.
+---
+
 # Playground
 
-`playground` and `docs` are private pnpm workspace packages. Both use `videojs-vue: workspace:*`. This site runs VitePress 2.0.0-alpha.20; v2 is still a prerelease.
+[Open the Playground](https://videojs-vue-playground.vercel.app) to try the library without setting up a local project.
 
-```sh
-pnpm install
-pnpm build
-pnpm play:dev
-# In another terminal:
-pnpm docs:dev
-```
+## What to try
 
-The playground defaults to port 5174; docs to 5173. Run `pnpm dev` separately to rebuild the package as source changes.
+| Scenario             | What it demonstrates                                                  |
+| -------------------- | --------------------------------------------------------------------- |
+| Native video         | Default and neutral skins, captions, and settings.                    |
+| HLS                  | Playback through the optional `HlsVideo` adapter.                     |
+| Internationalization | English and Simplified Chinese labels, including custom control text. |
+| Composed controls    | Keyboard shortcuts, a seek slider, and an in-container overlay.       |
+| Reactive settings    | Source, volume, mute, and speed updates alongside actual store state. |
+| Lifecycle            | Play, pause, seek, unmount, and remount.                              |
+| Events and failures  | Media events and command errors beside the player.                    |
 
-## Scenarios
+Playback depends on the browser's media capabilities and the availability of demo URLs.
 
-- Native video with default or neutral skin, captions and settings.
-- HLS through the optional `HlsVideo` adapter.
-- Composed controls with keyboard shortcuts, a seek slider and an in-container overlay.
-- Change a source URL, volume, mute or speed and inspect actual store state.
-- Call play / pause / seek, then unmount and mount to exercise cleanup.
-- Read meaningful media events and command failures beside the player.
+## Related documentation
 
-`pnpm release:check` validates the library and builds both workspace sites. The browser's media support and the availability of external demo URLs still determine which playback capabilities work on your machine.
+- [Native video example](./examples/basic-video.md)
+- [HLS example](./examples/hls.md)
+- [Compose a player](./guide/composition.md)
+- [State and actions](./guide/state-and-actions.md)
+
+To run the playground locally or contribute a scenario, see [local development](./contributing.md#local-development).

@@ -1,10 +1,20 @@
+---
+description: Install the optional HLS adapter, play a stream, and configure typed engine options.
+---
+
 # HLS
 
-HLS is an explicit, optional import. The base package does not load hls.js.
+Use the optional `HlsVideo` adapter to play an HLS source. Try it in the [Playground](https://videojs-vue-playground.vercel.app).
+
+## Install the adapter
+
+Start with the [base package](../guide/getting-started.md), then add its optional HLS peer dependency. The base entry does not load hls.js.
 
 ```sh
 pnpm add @videojs/hlsjs-video@10.0.1
 ```
+
+## Render an HLS player
 
 ```vue
 <script setup lang="ts">
@@ -20,9 +30,11 @@ import { HlsVideo } from 'videojs-vue/media/hls'
 </template>
 ```
 
+Replace `/stream.m3u8` with an accessible HLS manifest URL. Its referenced segments and any cross-origin requests must also be accessible to the browser.
+
 ## Adapter configuration
 
-Use composition for typed engine options. The wrapper writes `source` as a DOM property, never a serialized HTML attribute.
+`VideoPlayer` forwards shared media props only. Use composition for typed engine options. The wrapper writes `source` as a DOM property, never a serialized HTML attribute.
 
 ```vue
 <script setup lang="ts">
@@ -47,3 +59,11 @@ const source: HlsSource = {
 ```
 
 The upstream adapter decides native/MSE playback support and handles adaptive streaming. Autoplay and fullscreen remain subject to browser policy. A live URL may play, but this wrapper's preset and UI are for on-demand video; dedicated live APIs are outside this release.
+
+Replace the `source` object to update its options. Avoid providing both `src` and `source.src` on `HlsVideo`.
+
+## Handle failures
+
+Listen for the media `error` event for loading failures and catch rejected player actions separately. Module resolution errors usually indicate that the optional dependency is missing or mismatched; see [troubleshooting](../guide/troubleshooting.md#hls-dependency-or-configuration-errors).
+
+See the [media adapter reference](../api/media.md#hlsvideo) for props and exported types, and [lifecycle](../guide/lifecycle.md) for adapter cleanup and KeepAlive behavior.

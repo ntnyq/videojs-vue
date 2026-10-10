@@ -1,14 +1,27 @@
 # videojs-vue
 
-Vue 3 components and composables for Video.js 10. Start with a complete player, then compose your own interface using the same upstream store and media capabilities.
+[![CI](https://github.com/ntnyq/videojs-vue/workflows/CI/badge.svg)](https://github.com/ntnyq/videojs-vue/actions)
+[![NPM VERSION](https://img.shields.io/npm/v/videojs-vue.svg)](https://www.npmjs.com/package/videojs-vue)
+[![NPM DOWNLOADS](https://img.shields.io/npm/dy/videojs-vue.svg)](https://www.npmjs.com/package/videojs-vue)
+[![LICENSE](https://img.shields.io/github/license/ntnyq/videojs-vue.svg)](https://github.com/ntnyq/videojs-vue/blob/main/LICENSE)
+
+Vue 3 components and composables for Video.js 10, with video and audio players, packaged skins, reactive playback state, and optional HLS support.
+
+[Documentation](https://videojs-vue-docs.vercel.app) · [Playground](https://videojs-vue-playground.vercel.app)
+
+## Installation
+
+Requires Vue 3.5 or later.
 
 ```sh
 pnpm add videojs-vue vue
 ```
 
+## Usage
+
 ```vue
 <script setup lang="ts">
-import { VideoPlayer } from 'videojs-vue'
+import { VideoPlayer } from 'videojs-vue/video/default'
 </script>
 
 <template>
@@ -20,39 +33,30 @@ import { VideoPlayer } from 'videojs-vue'
 </template>
 ```
 
-No `isCustomElement` configuration is needed when using the Vue components. Registration and packaged skin styles are included. Vue 3.5+ is required.
+Serve your video and poster at the URLs above. Component registration and skin styles are included; no Vue `isCustomElement` configuration is needed.
 
-## Entry points
+See the [documentation](https://videojs-vue-docs.vercel.app) for HLS, custom controls, internationalization, and the API reference. Try the [playground](https://videojs-vue-playground.vercel.app) for interactive examples.
 
-| Import                  | Purpose                                                        |
-| ----------------------- | -------------------------------------------------------------- |
-| `videojs-vue`           | `VideoPlayer`, `PlayerRoot`, `Video`, skins, state and actions |
-| `videojs-vue/media/hls` | Optional `HlsVideo` adapter and HLS source types               |
-| `videojs-vue/ui`        | Composable upstream controls and layout components             |
+## Audio
 
-For HLS, install `@videojs/hlsjs-video@10.0.1` and pass `HlsVideo` to the `media` prop. The basic entry does not import hls.js.
+```vue
+<script setup lang="ts">
+import { AudioPlayer } from 'videojs-vue/audio/default'
+</script>
 
-See [getting started](docs/guide/getting-started.md), [API contracts](docs/api/overview.md), [composition](docs/guide/composition.md), and [lifecycle / SSR](docs/guide/lifecycle.md).
-
-## Workspace
-
-The root is the publishable package. Both `playground` and `docs` are private pnpm workspace packages consuming `videojs-vue` through `workspace:*`. Docs use VitePress **2.0.0-alpha.20** (the current v2 prerelease).
-
-```sh
-pnpm install
-pnpm build
-pnpm play:dev        # localhost:5174
-pnpm docs:dev        # localhost:5173
-pnpm release:check   # format, lint, types, tests, package and both sites
+<template>
+  <AudioPlayer
+    src="/episode.mp3"
+    title="Episode one"
+  />
+</template>
 ```
 
-Run `pnpm dev` in another terminal while changing library source. Both sites consume the built package. See [playground scenarios](docs/playground.md).
+The fixed audio entry loads only the default audio skin. Use `videojs-vue/audio` when switching between both skins at runtime. Lightweight `core`, `composables`, and individual control entries are also available; see [bundle size and imports](https://videojs-vue-docs.vercel.app/guide/bundle-size). See the [audio API](https://videojs-vue-docs.vercel.app/api/audio).
 
-## Scope
+## Credits
 
-This version focuses on on-demand native video and HLS. Packaged default/neutral skins and a small set of upstream control bindings share one player store. It does not recreate Video.js internals, maintain a second playback state machine, or introduce a plugin framework. Audio, dedicated live presets, YouTube/Mux adapters and persistence remain future work.
-
-The previous provider/controller API and experimental component entrypoints have been removed. Migrate to `VideoPlayer` or `PlayerRoot` and the two composables described in the docs.
+Built on [Video.js](https://videojs.org), which provides the player, media adapters, and controls. Thanks to the [Video.js contributors](https://github.com/videojs/video.js).
 
 ## License
 
