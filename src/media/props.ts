@@ -1,16 +1,14 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { MediaTrack } from '../player/types'
 
-export const mediaProps = {
+export const commonMediaProps = {
   src: String as PropType<string | undefined>,
-  poster: String as PropType<string | undefined>,
   autoplay: Boolean,
   loop: Boolean,
   preload: {
     type: String as PropType<'none' | 'metadata' | 'auto'>,
     default: 'metadata',
   },
-  playsinline: { type: Boolean, default: true },
   crossorigin: String as PropType<
     '' | 'anonymous' | 'use-credentials' | undefined
   >,
@@ -19,4 +17,10 @@ export const mediaProps = {
   muted: { type: Boolean as PropType<boolean | undefined>, default: undefined },
   playbackRate: Number as PropType<number | undefined>,
 } as const
+export const mediaProps = {
+  ...commonMediaProps,
+  poster: String as PropType<string | undefined>,
+  playsinline: { type: Boolean, default: true },
+} as const
+export type CommonMediaProps = ExtractPropTypes<typeof commonMediaProps>
 export type MediaProps = ExtractPropTypes<typeof mediaProps>

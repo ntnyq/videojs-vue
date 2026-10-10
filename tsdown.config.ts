@@ -5,6 +5,7 @@ export default defineConfig({
   dts: true,
   entry: [
     'src/index.ts',
+    'src/audio/index.ts',
     'src/i18n/index.ts',
     'src/media/hls.ts',
     'src/ui/index.ts',

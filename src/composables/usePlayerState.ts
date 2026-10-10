@@ -1,7 +1,7 @@
-import { computed, shallowRef, watch } from 'vue'
 import type { ComputedRef } from 'vue'
 import { usePlayerTarget } from '../player/context'
 import type { PlayerState, PlayerTarget } from '../player/types'
+import { useStoreSelection } from './useStoreSelection'
 
 /**
  * @param {(state: PlayerState) => Selected} selector - Selects a value from the immutable upstream snapshot.
@@ -16,28 +16,5 @@ export function usePlayerState<Selected>(
 ): ComputedRef<Selected | undefined> {
   const player = usePlayerTarget(target)
 
-  const selection = shallowRef<Selected>()
-
-  watch(
-    () => player.value?.store,
-    (store, _previous, onCleanup) => {
-      selection.value = store ? selector(store.state) : undefined
-      if (!store) {
-        return
-      }
-      onCleanup(
-        store.subscribe(() => {
-          const next = selector(store.state)
-          if (!Object.is(selection.value, next)) {
-            selection.value = next
-          }
-        }),
-      )
-    },
-    {
-      immediate: true,
-      flush: 'sync',
-    },
-  )
-  return computed(() => selection.value)
+  return useStoreSelection(() => player.value?.store, selector)
 }

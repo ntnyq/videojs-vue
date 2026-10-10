@@ -27,6 +27,7 @@ describe('video player component', () => {
           h(VideoPlayer, {
             ref: player,
             src: '/movie.mp4',
+            title: 'Video title',
             onReady: ready,
             onPlay: played,
             class: 'visible-surface',
@@ -35,6 +36,7 @@ describe('video player component', () => {
     )
     await settle()
     expect(ready).toHaveBeenCalledTimes(1)
+    expect(player.value?.store?.title).toBe('Video title')
     expect(player.value?.media).toBe(container.querySelector('video'))
     expect(player.value?.store?.paused).toBe(true)
     expect(container.querySelector('video-skin')?.className).toBe(

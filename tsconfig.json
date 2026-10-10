@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "paths": {
+      "videojs-vue/audio": ["./src/audio/index.ts"],
       "videojs-vue": ["./src/index.ts"],
       "videojs-vue/i18n": ["./src/i18n/index.ts"],
       "videojs-vue/media/hls": ["./src/media/hls.ts"],

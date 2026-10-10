@@ -8,15 +8,15 @@ import {
   watch,
 } from 'vue'
 import type { EmitFn, SetupContext } from 'vue'
-import { PLAYER_CONTEXT } from '../player/context'
+import { MEDIA_CONTEXT } from '../player/context'
 import type { PlayerMedia } from '../player/types'
 import { MEDIA_EVENTS } from './events'
 import type { mediaEmits, MediaEventName } from './events'
-import type { MediaProps } from './props'
+import type { CommonMediaProps, MediaProps } from './props'
 
 interface MediaElementOptions {
   tag: string
-  props: MediaProps
+  props: CommonMediaProps & Partial<Pick<MediaProps, 'poster' | 'playsinline'>>
   context: Pick<SetupContext, 'attrs' | 'slots' | 'expose'>
   emit: EmitFn<typeof mediaEmits>
   extraProps?: () => Record<string, unknown>
@@ -32,7 +32,7 @@ export function useMediaElement({
   onUnmount,
 }: MediaElementOptions) {
   const emitMedia = emit as (name: MediaEventName, event: Event) => void
-  const player = inject(PLAYER_CONTEXT, null)
+  const player = inject(MEDIA_CONTEXT, null)
   const element = shallowRef<PlayerMedia | null>(null)
   const isActive = shallowRef(true)
 
@@ -144,7 +144,7 @@ export function useMediaElement({
         ...context.attrs,
         ref: element,
         // Preserve the adapter through Vue KeepAlive; release it on actual unmount.
-        ...(tag === 'video' ? {} : { 'keep-alive': '' }),
+        ...(tag === 'video' || tag === 'audio' ? {} : { 'keep-alive': '' }),
         ...(props.src === undefined ? {} : { src: props.src }),
         poster: props.poster,
         autoplay: props.autoplay ? '' : undefined,
