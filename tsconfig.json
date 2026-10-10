@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "paths": {
       "videojs-vue": ["./src/index.ts"],
+      "videojs-vue/i18n": ["./src/i18n/index.ts"],
       "videojs-vue/media/hls": ["./src/media/hls.ts"],
       "videojs-vue/ui": ["./src/ui/index.ts"]
     }
