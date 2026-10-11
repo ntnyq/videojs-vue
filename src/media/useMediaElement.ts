@@ -35,6 +35,7 @@ export function useMediaElement({
   const player = inject(MEDIA_CONTEXT, null)
   const element = shallowRef<PlayerMedia | null>(null)
   const isActive = shallowRef(true)
+  const initialMuted = props.muted
 
   onActivated(() => {
     isActive.value = true
@@ -152,8 +153,9 @@ export function useMediaElement({
         preload: props.preload,
         playsinline: props.playsinline ? '' : undefined,
         crossorigin: props.crossorigin,
-        // The attribute establishes the initial mute state before autoplay starts.
-        muted: props.muted ? '' : undefined,
+        // Keep the initial autoplay hint stable. syncSettings owns later changes.
+        // Undefined relinquishes control without changing the live mute state.
+        '^muted': initialMuted ? '' : undefined,
         ...extraProps(),
       },
       [

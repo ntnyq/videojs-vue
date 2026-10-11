@@ -1,10 +1,11 @@
-import '@videojs/html/audio/player'
-import { defineComponent, h, provide } from 'vue'
+import '../register/audio/player'
+import { defineComponent, h, provide, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { MediaEventName } from '../media/events'
 import { createCommonPlayerActions } from '../player/actions'
 import { AUDIO_PLAYER_CONTEXT } from '../player/context'
 import { createPlayerEmits } from '../player/events'
+import { preservePlayerTree } from '../player/preservePlayerTree'
 import { usePlayerRoot } from '../player/usePlayerRoot'
 import type {
   AudioPlayerActions,
@@ -39,15 +40,18 @@ const component = defineComponent({
     provide(AUDIO_PLAYER_CONTEXT, handle)
     expose(handle)
     return () =>
-      h(
-        'audio-player',
-        {
-          ...attrs,
-          ref: element,
-          'content-title': props.title,
-          poster: props.poster,
-        },
-        slots['default']?.(),
+      withDirectives(
+        h(
+          'audio-player',
+          {
+            ...attrs,
+            ref: element,
+            'content-title': props.title,
+            poster: props.poster,
+          },
+          slots['default']?.(),
+        ),
+        [[preservePlayerTree]],
       )
   },
 })

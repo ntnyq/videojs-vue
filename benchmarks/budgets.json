@@ -1,0 +1,77 @@
+{
+  "videoState": {
+    "initial": 500,
+    "async": 0,
+    "total": 500
+  },
+  "audioState": {
+    "initial": 500,
+    "async": 0,
+    "total": 500
+  },
+  "videoCore": {
+    "initial": 14400,
+    "async": 0,
+    "total": 14400
+  },
+  "audioCore": {
+    "initial": 10000,
+    "async": 0,
+    "total": 10000
+  },
+  "videoDefault": {
+    "initial": 82200,
+    "async": 65000,
+    "total": 147100
+  },
+  "audioDefault": {
+    "initial": 61300,
+    "async": 0,
+    "total": 61300
+  },
+  "videoLegacy": {
+    "initial": 98500,
+    "async": 65000,
+    "total": 163500
+  },
+  "audioLegacy": {
+    "initial": 71300,
+    "async": 0,
+    "total": 71300
+  },
+  "mixed": {
+    "initial": 92800,
+    "async": 65000,
+    "total": 157800
+  },
+  "playButton": {
+    "initial": 13400,
+    "async": 0,
+    "total": 13400
+  },
+  "hlsStatic": {
+    "initial": 254300,
+    "async": 65000,
+    "total": 319300
+  },
+  "hlsDynamic": {
+    "initial": 84000,
+    "async": 236900,
+    "total": 320900
+  },
+  "i18n": {
+    "initial": 7300,
+    "async": 65000,
+    "total": 72200
+  },
+  "videoNeutral": {
+    "initial": 82500,
+    "async": 65000,
+    "total": 147500
+  },
+  "audioNeutral": {
+    "initial": 61700,
+    "async": 0,
+    "total": 61700
+  }
+}

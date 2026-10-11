@@ -1,4 +1,4 @@
-import '@videojs/html/i18n'
+import '../register/i18n'
 import type { MediaTextElement } from '@videojs/html/i18n'
 import {
   Comment,

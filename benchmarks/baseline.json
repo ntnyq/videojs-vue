@@ -1,0 +1,223 @@
+{
+  "videoState": {
+    "initial": {
+      "bytes": 462682,
+      "gzip": 93869,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 616123,
+      "gzip": 155758,
+      "chunks": 54
+    }
+  },
+  "audioState": {
+    "initial": {
+      "bytes": 307898,
+      "gzip": 68065,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 0,
+      "gzip": 0,
+      "chunks": 0
+    },
+    "total": {
+      "bytes": 307898,
+      "gzip": 68065,
+      "chunks": 1
+    }
+  },
+  "videoCore": {
+    "initial": {
+      "bytes": 462796,
+      "gzip": 93909,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 616237,
+      "gzip": 155798,
+      "chunks": 54
+    }
+  },
+  "audioCore": {
+    "initial": {
+      "bytes": 308041,
+      "gzip": 68102,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 0,
+      "gzip": 0,
+      "chunks": 0
+    },
+    "total": {
+      "bytes": 308041,
+      "gzip": 68102,
+      "chunks": 1
+    }
+  },
+  "videoDefault": {
+    "initial": {
+      "bytes": 462159,
+      "gzip": 93699,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 615600,
+      "gzip": 155588,
+      "chunks": 54
+    }
+  },
+  "audioDefault": {
+    "initial": {
+      "bytes": 307399,
+      "gzip": 67873,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 0,
+      "gzip": 0,
+      "chunks": 0
+    },
+    "total": {
+      "bytes": 307399,
+      "gzip": 67873,
+      "chunks": 1
+    }
+  },
+  "videoLegacy": {
+    "initial": {
+      "bytes": 462159,
+      "gzip": 93699,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 615600,
+      "gzip": 155588,
+      "chunks": 54
+    }
+  },
+  "audioLegacy": {
+    "initial": {
+      "bytes": 307399,
+      "gzip": 67873,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 0,
+      "gzip": 0,
+      "chunks": 0
+    },
+    "total": {
+      "bytes": 307399,
+      "gzip": 67873,
+      "chunks": 1
+    }
+  },
+  "mixed": {
+    "initial": {
+      "bytes": 590885,
+      "gzip": 110309,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 744326,
+      "gzip": 172198,
+      "chunks": 54
+    }
+  },
+  "playButton": {
+    "initial": {
+      "bytes": 92346,
+      "gzip": 25772,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 0,
+      "gzip": 0,
+      "chunks": 0
+    },
+    "total": {
+      "bytes": 92346,
+      "gzip": 25772,
+      "chunks": 1
+    }
+  },
+  "hlsStatic": {
+    "initial": {
+      "bytes": 1010238,
+      "gzip": 257683,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 1163679,
+      "gzip": 319572,
+      "chunks": 54
+    }
+  },
+  "hlsDynamic": {
+    "initial": {
+      "bytes": 463851,
+      "gzip": 95353,
+      "chunks": 2
+    },
+    "async": {
+      "bytes": 700730,
+      "gzip": 225586,
+      "chunks": 54
+    },
+    "total": {
+      "bytes": 1164581,
+      "gzip": 320939,
+      "chunks": 56
+    }
+  },
+  "i18n": {
+    "initial": {
+      "bytes": 18533,
+      "gzip": 6865,
+      "chunks": 1
+    },
+    "async": {
+      "bytes": 153441,
+      "gzip": 61889,
+      "chunks": 53
+    },
+    "total": {
+      "bytes": 171974,
+      "gzip": 68754,
+      "chunks": 54
+    }
+  }
+}

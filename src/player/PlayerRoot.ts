@@ -1,10 +1,11 @@
-import '@videojs/html/video/player'
-import { defineComponent, h, provide } from 'vue'
+import '../register/video/player'
+import { defineComponent, h, provide, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { MediaEventName } from '../media/events'
 import { createPlayerActions } from './actions'
 import { PLAYER_CONTEXT } from './context'
 import { createPlayerEmits } from './events'
+import { preservePlayerTree } from './preservePlayerTree'
 import type {
   PlayerActions,
   PlayerElement,
@@ -39,15 +40,18 @@ const component = defineComponent({
     provide(PLAYER_CONTEXT, handle)
     expose(handle)
     return () =>
-      h(
-        'video-player',
-        {
-          ...attrs,
-          ref: element,
-          'content-title': props.title,
-          poster: props.poster,
-        },
-        slots['default']?.(),
+      withDirectives(
+        h(
+          'video-player',
+          {
+            ...attrs,
+            ref: element,
+            'content-title': props.title,
+            poster: props.poster,
+          },
+          slots['default']?.(),
+        ),
+        [[preservePlayerTree]],
       )
   },
 })

@@ -1,4 +1,4 @@
-import '@videojs/html/i18n'
+import '../register/i18n'
 import { defineComponent, h } from 'vue'
 import type { PropType } from 'vue'
 

@@ -1,3 +1,7 @@
+import './register/video/player'
+import './register/video/skin'
+import './register/video/neutral-skin'
+
 export { VideoPlayer } from './VideoPlayer'
 export type { VideoMediaComponent } from './VideoPlayer'
 export { PlayerRoot } from './player/PlayerRoot'

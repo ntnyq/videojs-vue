@@ -1,3 +1,7 @@
+import '../register/audio/player'
+import '../register/audio/skin'
+import '../register/audio/neutral-skin'
+
 export { AudioPlayer } from './AudioPlayer'
 export type { AudioMediaComponent } from './AudioPlayer'
 export { AudioPlayerRoot } from './AudioPlayerRoot'

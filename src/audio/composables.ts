@@ -33,3 +33,11 @@ export function useAudioPlayerActions(
   const player = useTarget(AUDIO_PLAYER_CONTEXT, 'AudioPlayerRoot', target)
   return createCommonPlayerActions(() => player.value?.store ?? null)
 }
+
+export type {
+  AudioPlayerActions,
+  AudioPlayerHandle,
+  AudioPlayerState,
+  AudioPlayerStore,
+  AudioPlayerTarget,
+} from './types'

@@ -23,7 +23,18 @@
   ],
   "type": "module",
   "sideEffects": [
-    "./dist/**/*.js"
+    "./src/register/**/*.ts",
+    "./dist/register/**/*.js",
+    "./dist/index.js",
+    "./dist/audio/index.js",
+    "./dist/ui/index.js",
+    "./dist/i18n/index.js",
+    "./dist/media/hls.js",
+    "./src/index.ts",
+    "./src/audio/index.ts",
+    "./src/ui/index.ts",
+    "./src/i18n/index.ts",
+    "./src/media/hls.ts"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -48,6 +59,134 @@
     "./audio": {
       "types": "./dist/audio/index.d.ts",
       "default": "./dist/audio/index.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "default": "./dist/core/index.js"
+    },
+    "./composables": {
+      "types": "./dist/composables/index.d.ts",
+      "default": "./dist/composables/index.js"
+    },
+    "./audio/core": {
+      "types": "./dist/audio/core.d.ts",
+      "default": "./dist/audio/core.js"
+    },
+    "./audio/composables": {
+      "types": "./dist/audio/composables.d.ts",
+      "default": "./dist/audio/composables.js"
+    },
+    "./skins/default": {
+      "types": "./dist/skins/default.d.ts",
+      "default": "./dist/skins/default.js"
+    },
+    "./skins/neutral": {
+      "types": "./dist/skins/neutral.d.ts",
+      "default": "./dist/skins/neutral.js"
+    },
+    "./audio/skins/default": {
+      "types": "./dist/audio/skins/default.d.ts",
+      "default": "./dist/audio/skins/default.js"
+    },
+    "./audio/skins/neutral": {
+      "types": "./dist/audio/skins/neutral.d.ts",
+      "default": "./dist/audio/skins/neutral.js"
+    },
+    "./video/default": {
+      "types": "./dist/video/default.d.ts",
+      "default": "./dist/video/default.js"
+    },
+    "./video/neutral": {
+      "types": "./dist/video/neutral.d.ts",
+      "default": "./dist/video/neutral.js"
+    },
+    "./audio/default": {
+      "types": "./dist/audio/default.d.ts",
+      "default": "./dist/audio/default.js"
+    },
+    "./audio/neutral": {
+      "types": "./dist/audio/neutral.d.ts",
+      "default": "./dist/audio/neutral.js"
+    },
+    "./ui/controls-group": {
+      "types": "./dist/ui/controls-group.d.ts",
+      "default": "./dist/ui/controls-group.js"
+    },
+    "./ui/slider-fill": {
+      "types": "./dist/ui/slider-fill.d.ts",
+      "default": "./dist/ui/slider-fill.js"
+    },
+    "./ui/controls": {
+      "types": "./dist/ui/controls.d.ts",
+      "default": "./dist/ui/controls.js"
+    },
+    "./ui/controls-content": {
+      "types": "./dist/ui/controls-content.d.ts",
+      "default": "./dist/ui/controls-content.js"
+    },
+    "./ui/pip-button": {
+      "types": "./dist/ui/pip-button.d.ts",
+      "default": "./dist/ui/pip-button.js"
+    },
+    "./ui/container": {
+      "types": "./dist/ui/container.d.ts",
+      "default": "./dist/ui/container.js"
+    },
+    "./ui/fullscreen-button": {
+      "types": "./dist/ui/fullscreen-button.d.ts",
+      "default": "./dist/ui/fullscreen-button.js"
+    },
+    "./ui/poster": {
+      "types": "./dist/ui/poster.d.ts",
+      "default": "./dist/ui/poster.js"
+    },
+    "./ui/seek-button": {
+      "types": "./dist/ui/seek-button.d.ts",
+      "default": "./dist/ui/seek-button.js"
+    },
+    "./ui/play-button": {
+      "types": "./dist/ui/play-button.d.ts",
+      "default": "./dist/ui/play-button.js"
+    },
+    "./ui/slider-thumb": {
+      "types": "./dist/ui/slider-thumb.d.ts",
+      "default": "./dist/ui/slider-thumb.js"
+    },
+    "./ui/mute-button": {
+      "types": "./dist/ui/mute-button.d.ts",
+      "default": "./dist/ui/mute-button.js"
+    },
+    "./ui/slider-track": {
+      "types": "./dist/ui/slider-track.d.ts",
+      "default": "./dist/ui/slider-track.js"
+    },
+    "./ui/slider-buffer": {
+      "types": "./dist/ui/slider-buffer.d.ts",
+      "default": "./dist/ui/slider-buffer.js"
+    },
+    "./ui/volume-slider": {
+      "types": "./dist/ui/volume-slider.d.ts",
+      "default": "./dist/ui/volume-slider.js"
+    },
+    "./ui/status-announcer": {
+      "types": "./dist/ui/status-announcer.d.ts",
+      "default": "./dist/ui/status-announcer.js"
+    },
+    "./ui/hotkey": {
+      "types": "./dist/ui/hotkey.d.ts",
+      "default": "./dist/ui/hotkey.js"
+    },
+    "./ui/time-slider": {
+      "types": "./dist/ui/time-slider.d.ts",
+      "default": "./dist/ui/time-slider.js"
+    },
+    "./ui/time": {
+      "types": "./dist/ui/time.d.ts",
+      "default": "./dist/ui/time.js"
+    },
+    "./ui/captions-button": {
+      "types": "./dist/ui/captions-button.d.ts",
+      "default": "./dist/ui/captions-button.js"
     }
   },
   "publishConfig": {
@@ -66,10 +205,14 @@
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
     "release": "run-s release:check release:version",
-    "release:check": "run-s format:check lint typecheck test build play:build docs:build",
+    "release:check": "run-s format:check lint build typecheck test test:package size:check play:build size:play docs:build",
     "release:version": "bumpp",
+    "size": "tsx scripts/bundle-size.ts",
+    "size:check": "tsx scripts/bundle-size.ts --check",
+    "size:play": "tsx scripts/playground-size.ts",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "test:package": "vitest --config vitest.package.config.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.package.json"
   },
   "dependencies": {
     "@videojs/html": "10.0.1"
@@ -85,7 +228,9 @@
     "npm-run-all2": "^9.0.3",
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
+    "rolldown": "1.2.13",
     "tsdown": "^0.23.0",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3",
     "vue": "^3.5.43"
