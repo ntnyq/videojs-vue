@@ -48,5 +48,6 @@
       "videojs-vue/ui/time": ["./src/ui/Time.ts"],
       "videojs-vue/ui/captions-button": ["./src/ui/CaptionsButton.ts"]
     }
-  }
+  },
+  "exclude": ["playground", "**/dist", "**/node_modules"]
 }
