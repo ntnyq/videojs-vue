@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "pnpm -w run build && pnpm run build",
+  "buildCommand": "pnpm -w run build && pnpm run build && pnpm run legacy:build --outDir dist --assetsDir assets/legacy --emptyOutDir false",
   "outputDirectory": "dist"
 }
