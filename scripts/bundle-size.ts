@@ -6,6 +6,7 @@ import { gzipSync } from 'node:zlib'
 import { rolldown } from 'rolldown'
 import type { OutputChunk } from 'rolldown'
 import budgetConfig from '../benchmarks/budgets.json'
+import { formatBytes } from './formatBytes'
 
 interface BundleMetrics {
   bytes: number
@@ -177,7 +178,7 @@ for (const [name, code] of Object.entries(cases)) {
       for (const phase of ['initial', 'async', 'total'] as const) {
         assert.ok(
           result[phase].gzip <= budget[phase],
-          `${name} ${phase} exceeds gzip budget: ${result[phase].gzip} > ${budget[phase]}`,
+          `${name} ${phase} exceeds gzip budget: ${formatBytes(result[phase].gzip)} > ${formatBytes(budget[phase])}`,
         )
       }
       assert.ok(
@@ -289,9 +290,9 @@ console.table(
     Object.entries(summary).map(([name, result]) => [
       name,
       {
-        initialGzip: result.initial.gzip,
-        asyncGzip: result.async.gzip,
-        totalGzip: result.total.gzip,
+        initialGzip: formatBytes(result.initial.gzip),
+        asyncGzip: formatBytes(result.async.gzip),
+        totalGzip: formatBytes(result.total.gzip),
       },
     ]),
   ),
