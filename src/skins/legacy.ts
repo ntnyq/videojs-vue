@@ -1,6 +1,6 @@
 import { defineComponent, h, mergeProps, shallowRef } from 'vue'
 import { usePlayerState } from '../composables/usePlayerState'
-import { MediaContainer } from '../ui/MediaContainer'
+import { MediaContainer } from '../ui/container'
 import { LegacyControls } from './legacy/LegacyControls'
 import { useLegacySize } from './legacy/useLegacySize'
 

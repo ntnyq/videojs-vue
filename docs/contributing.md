@@ -26,7 +26,7 @@ pnpm install
 pnpm build
 ```
 
-Both sites consume the library's built output through `workspace:*`. When editing library source, keep the build watcher running in a separate terminal:
+Both sites consume the library's built output through `workspace:*`. Type checking also resolves package imports through `package.json` exports and the declarations in `dist/`, so run `pnpm build` before `pnpm typecheck` on a fresh checkout. When editing library source, keep the build watcher running in a separate terminal:
 
 ```sh
 pnpm dev
@@ -43,6 +43,12 @@ pnpm play:dev
 ```
 
 Use the URL printed by each dev server. Stop and restart the relevant process after changing configuration if the change is not picked up automatically.
+
+## Package entry points
+
+tsdown builds `src/**/*.ts` with `unbundle: true`, preserving the source module structure in `dist/`. Public UI entry filenames use kebab-case to match their package subpaths. Registration modules remain separate and are marked in `sideEffects` so consumer bundlers retain required custom element registration.
+
+`package.json` explicitly lists the supported import paths. Each JavaScript export explicitly declares its `types` and `default` targets, with `types` listed first. Adding a source file includes it in the build; add an export only when it should become public API. Internal modules remain outside the export map.
 
 ## Documentation conventions
 

@@ -241,7 +241,7 @@
     "size:play": "tsx scripts/playground-size.ts",
     "test": "vitest",
     "test:package": "vitest --config vitest.package.config.ts",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.package.json && pnpm -C playground typecheck"
+    "typecheck": "tsc --noEmit && pnpm -C playground typecheck"
   },
   "dependencies": {
     "@videojs/html": "10.0.1"

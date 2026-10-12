@@ -3,11 +3,7 @@
   "compilerOptions": {
     "types": ["vite/client"],
     "paths": {
-      "@/*": ["./src/*"],
-      "videojs-vue": ["../src/index.ts"],
-      "videojs-vue/media/hls": ["../src/media/hls.ts"],
-      "videojs-vue/ui": ["../src/ui/index.ts"],
-      "videojs-vue/i18n": ["../src/i18n/index.ts"]
+      "@/*": ["./src/*"]
     },
     "exactOptionalPropertyTypes": false
   },

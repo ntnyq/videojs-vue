@@ -14,17 +14,17 @@
 Use pnpm as pinned in `package.json` and Node LTS (`.node-version`). Run commands from the repository root; apply the agent command wrapper below.
 
 - `pnpm install`: install workspace dependencies.
-- `pnpm build`: generate library bundles and declarations with tsdown.
+- `pnpm build`: generate library modules and declarations with tsdown in unbundle mode.
 - `pnpm dev`: watch and rebuild library source.
 - `pnpm play:dev` / `pnpm docs:dev`: start the playground / documentation site. Build first, then keep `pnpm dev` running; both consume the built package.
 - `pnpm test`: run Vitest once; `pnpm test --watch` enables watch mode.
-- `pnpm typecheck`: check types with `tsgo`.
+- `pnpm typecheck`: check library, test, and playground types with `tsc` / `vue-tsc`. Build first; package imports resolve declarations from `dist/` through `exports`.
 - `pnpm format` / `pnpm format:check`: format / check with Oxfmt; `pnpm lint` runs Oxlint.
 - `pnpm release:check`: run formatting, lint, types, tests, and library, playground, and documentation builds.
 
 ## Coding Style & Naming Conventions
 
-Use strict TypeScript and ESM, two-space indentation, LF endings, single quotes, no semicolons, and trailing commas. Let Oxfmt manage formatting and imports. Use PascalCase component filenames (`VideoPlayer.ts`, `PlayerDemo.tsx`) and camelCase helpers; composables start with `use`. Keep playback state in the upstream store and HLS dependencies behind the optional `media/hls` entry.
+Use strict TypeScript and ESM, two-space indentation, LF endings, single quotes, no semicolons, and trailing commas. Let Oxfmt manage formatting and imports. Use kebab-case filenames for public UI entries in `src/ui/` to match their export subpaths (`play-button.ts`, `controls.ts`), while keeping component exports in PascalCase. Other component filenames use PascalCase (`VideoPlayer.ts`, `PlayerDemo.tsx`), helpers use camelCase, and composables start with `use`. Keep playback state in the upstream store and HLS dependencies behind the optional `media/hls` entry.
 
 ## Testing Guidelines
 
