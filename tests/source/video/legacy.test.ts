@@ -3,7 +3,13 @@ import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import { HlsVideo } from '../../../src/media/hls'
 import type { PlayerHandle } from '../../../src/player/types'
 import { VideoPlayer } from '../../../src/video/legacy'
-import { cleanup, disposals, mount, settle } from '../../helpers'
+import {
+  cleanup,
+  disposals,
+  mount,
+  settle,
+  reconnectPlayer,
+} from '../../helpers'
 
 describe('legacy video player', () => {
   afterEach(() => {
@@ -124,8 +130,9 @@ describe('legacy video player', () => {
     await settle()
     expect(disconnect).toHaveBeenCalledWith()
     expect(handle.store).toBeNull()
-    visible.value = true
-    await settle()
+    await reconnectPlayer(() => {
+      visible.value = true
+    })
     container.querySelector<HTMLElement>('media-play-button')!.click()
     await settle()
     expect(handle.store?.paused).toBe(false)

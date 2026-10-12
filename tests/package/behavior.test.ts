@@ -10,6 +10,7 @@ import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
 import { usePlayerActions, usePlayerState } from 'videojs-vue/composables'
 import { PlayerRoot, Video } from 'videojs-vue/core'
 import type { PlayerHandle } from 'videojs-vue/core'
+import { MediaContainer } from 'videojs-vue/ui/container'
 import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
 import type { VideoMediaComponent } from 'videojs-vue/video/compat'
 import { VideoPlayer as DefaultVideoPlayer } from 'videojs-vue/video/default'
@@ -17,7 +18,7 @@ import { VideoPlayer as NeutralVideoPlayer } from 'videojs-vue/video/neutral'
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import type { Component } from 'vue'
-import { cleanup, disposals, mount, settle } from '../helpers'
+import { cleanup, disposals, mount, settle, reconnectPlayer } from '../helpers'
 
 describe('published package', () => {
   afterEach(cleanup)
@@ -99,7 +100,16 @@ describe('published package', () => {
       const { container, unmount } = mount(
         defineComponent(
           () => () =>
-            h(Root, { ref: player }, { default: () => [h(Media), h(Child)] }),
+            h(
+              Root,
+              { ref: player },
+              {
+                default: () =>
+                  h(MediaContainer, null, {
+                    default: () => [h(Media), h(Child)],
+                  }),
+              },
+            ),
         ),
       )
       await settle()
@@ -191,9 +201,11 @@ describe('published package', () => {
       await settle()
       expect(media.paused).toBe(true)
       expect(handle.store).toBeNull()
-      visible.value = true
-      await settle()
+      await reconnectPlayer(() => {
+        visible.value = true
+      })
       expect(handle.store).not.toBeNull()
+      expect(handle.store?.target?.container?.isConnected).toBe(true)
       expect(ready).toHaveBeenCalledTimes(2)
       unmount()
       disposals.pop()

@@ -107,15 +107,15 @@ describe('player composables', () => {
 
   it('rejects missing injected context clearly', () => {
     expect.hasAssertions()
-    expect(() =>
-      mount(
-        defineComponent({
-          setup() {
-            usePlayerState(state => state.paused)
-            return () => null
-          },
-        }),
-      ),
-    ).toThrow('inside PlayerRoot')
+    mount(
+      defineComponent({
+        setup() {
+          expect(() => usePlayerState(state => state.paused)).toThrow(
+            'inside PlayerRoot',
+          )
+          return () => null
+        },
+      }),
+    )
   })
 })

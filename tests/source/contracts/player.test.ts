@@ -15,7 +15,13 @@ import { Audio, AudioPlayer, AudioPlayerRoot } from '../../../src/audio'
 import type { AudioPlayerHandle } from '../../../src/audio'
 import { HlsVideo } from '../../../src/media/hls'
 import { MediaContainer, PlayButton } from '../../../src/ui'
-import { cleanup, disposals, mount, settle } from '../../helpers'
+import {
+  cleanup,
+  disposals,
+  mount,
+  settle,
+  reconnectPlayer,
+} from '../../helpers'
 
 async function flushDestruction() {
   // oxlint-disable-next-line promise/avoid-new -- Wait for the real browser frame lifecycle.
@@ -94,8 +100,10 @@ describe('player contracts', () => {
         expect(handle.store).toBeNull()
         expect(destroyRoot).not.toHaveBeenCalled()
         expect(destroyButton).not.toHaveBeenCalled()
-        visible.value = true
-        await settle()
+        await reconnectPlayer(() => {
+          visible.value = true
+        })
+        expect(handle.store?.target?.container?.isConnected).toBe(true)
         title.value = 'After'
         await settle()
         expect(handle.store?.title).toBe('After')
@@ -277,8 +285,9 @@ describe('player contracts', () => {
     await settle()
     await flushDestruction()
     expect(destroyAdded).not.toHaveBeenCalled()
-    content.value = VideoPlayer
-    await settle()
+    await reconnectPlayer(() => {
+      content.value = VideoPlayer
+    })
     added.click()
     await settle()
     expect(container.querySelector('video')!.paused).toBe(false)

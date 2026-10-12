@@ -111,15 +111,15 @@ describe('player composables', () => {
 
   it('rejects missing injected context clearly', () => {
     expect.hasAssertions()
-    expect(() =>
-      mount(
-        defineComponent({
-          setup() {
-            useAudioPlayerState(state => state.paused)
-            return () => null
-          },
-        }),
-      ),
-    ).toThrow('inside AudioPlayerRoot')
+    mount(
+      defineComponent({
+        setup() {
+          expect(() => useAudioPlayerState(state => state.paused)).toThrow(
+            'inside AudioPlayerRoot',
+          )
+          return () => null
+        },
+      }),
+    )
   })
 })

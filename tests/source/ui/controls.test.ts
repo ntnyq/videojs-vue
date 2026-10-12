@@ -108,7 +108,10 @@ describe('player controls', () => {
     const Player = defineComponent(
       () => () =>
         h(PlayerRoot, null, {
-          default: () => [h(Video), h(SeekButton, settings.value)],
+          default: () =>
+            h(MediaContainer, null, {
+              default: () => [h(Video), h(SeekButton, settings.value)],
+            }),
         }),
     )
     const container = document.createElement('div')

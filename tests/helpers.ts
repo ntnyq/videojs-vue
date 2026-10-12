@@ -25,6 +25,31 @@ export async function settle() {
   await nextTick()
 }
 
+/**
+ * Video.js 10.0.1 reconnects native media before its container registers again.
+ * Ignore only that transient diagnostic during a deliberate KeepAlive resume.
+ * @param {() => void} activate - Restores the cached player to the document.
+ */
+export async function reconnectPlayer(activate: () => void) {
+  const { warn } = console
+  const warning = vi.spyOn(console, 'warn').mockImplementation((...args) => {
+    if (
+      args.length === 1 &&
+      args[0] ===
+        '[vjs] controlsFeature requires a container element for activity tracking.'
+    ) {
+      return
+    }
+    warn(...args)
+  })
+  try {
+    activate()
+    await settle()
+  } finally {
+    warning.mockRestore()
+  }
+}
+
 export function cleanup() {
   for (const dispose of disposals.splice(0)) {
     dispose()

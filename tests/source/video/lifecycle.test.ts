@@ -4,7 +4,13 @@ import type { Component } from 'vue'
 import { VideoPlayer } from '../../../src'
 import type { PlayerHandle } from '../../../src'
 import { HlsVideo } from '../../../src/media/hls'
-import { mount, settle, cleanup, disposals } from '../../helpers'
+import {
+  mount,
+  settle,
+  cleanup,
+  disposals,
+  reconnectPlayer,
+} from '../../helpers'
 
 describe('player lifecycle', () => {
   afterEach(cleanup)
@@ -34,11 +40,19 @@ describe('player lifecycle', () => {
     await settle()
     expect(media.paused).toBe(true)
     expect(handle.store).toBeNull()
-    isVisible.value = true
-    await settle()
+    await reconnectPlayer(() => {
+      isVisible.value = true
+    })
     expect(player.value!.store).not.toBeNull()
     expect(player.value!.store!.paused).toBe(true)
     expect(ready).toHaveBeenCalledTimes(2)
+    const store = player.value!.store!
+    const container = store.target!.container!
+    expect(container.isConnected).toBe(true)
+    container.dispatchEvent(new MouseEvent('mouseleave'))
+    expect(store.userActive).toBe(false)
+    container.dispatchEvent(new Event('pointermove'))
+    expect(store.userActive).toBe(true)
   })
 
   it('preserves an HLS adapter in KeepAlive and destroys it on actual unmount', async () => {
