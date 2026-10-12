@@ -1,5 +1,12 @@
 export const registrationEntries: Record<string, string[]> = {
   core: ['video-player'],
+  'video/legacy': [
+    'video-player',
+    'media-container',
+    'media-play-button',
+    'media-time-slider',
+  ],
+  'skins/legacy': ['media-container', 'media-play-button'],
   'audio/core': ['audio-player'],
   'video/compat': ['video-player', 'video-compat-skin'],
   'video/default': ['video-player', 'video-skin'],

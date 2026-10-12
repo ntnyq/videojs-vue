@@ -68,3 +68,9 @@ import { PlayerRoot, NeutralVideoSkin, Video } from 'videojs-vue'
 ```
 
 Continue with [composition](../guide/composition.md) for a custom interface or [skins and styling](../guide/styling.md) for sizing and poster slots.
+
+## LegacyVideoSkin
+
+Import `LegacyVideoSkin` from `videojs-vue/skins/legacy` and its stylesheet from `videojs-vue/skins/legacy.css`. It requires a surrounding `PlayerRoot` and renders a fullscreen `media-container` with light-DOM controls. Attributes and listeners target that container, with the same default 16:9 sizing as the other skins.
+
+The default slot contains one media component. The `poster` slot provides an overlay until playback starts; the `thumbnail` slot is not implemented. It accepts no additional Vue props. See [legacy mode](../guide/legacy.md) for the required polyfills, consumer build target, controls, and browser validation limits.

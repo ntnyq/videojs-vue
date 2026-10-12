@@ -10,15 +10,21 @@ Use the entries below as the public package interface. All components register t
 
 ## Package entries
 
-| Import                  | Runtime exports                                                                                                                   | Reference                                                                                                          |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `videojs-vue`           | `VideoPlayer`, `PlayerRoot`, `Video`, `DefaultVideoSkin`, `NeutralVideoSkin`, `usePlayerState`, `usePlayerActions`                | [Player](./video-player.md), [composition](./player-root.md), [media](./media.md), [composables](./composables.md) |
-| `videojs-vue/audio`     | `AudioPlayer`, `AudioPlayerRoot`, `Audio`, `DefaultAudioSkin`, `NeutralAudioSkin`, `useAudioPlayerState`, `useAudioPlayerActions` | [Audio players](./audio.md)                                                                                        |
-| `videojs-vue/media/hls` | `HlsVideo`                                                                                                                        | [Media adapters](./media.md#hlsvideo)                                                                              |
-| `videojs-vue/ui`        | Layout, buttons, sliders, poster, hotkeys, and status announcer                                                                   | [UI controls](./ui.md)                                                                                             |
-| `videojs-vue/i18n`      | `MediaI18n`, `MediaText`, and translation registry functions                                                                      | [Internationalization](./i18n.md)                                                                                  |
+| Import                         | Runtime exports                                                                                                                   | Reference                                                                                                          |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `videojs-vue`                  | `VideoPlayer`, `PlayerRoot`, `Video`, `DefaultVideoSkin`, `NeutralVideoSkin`, `usePlayerState`, `usePlayerActions`                | [Player](./video-player.md), [composition](./player-root.md), [media](./media.md), [composables](./composables.md) |
+| `videojs-vue/audio`            | `AudioPlayer`, `AudioPlayerRoot`, `Audio`, `DefaultAudioSkin`, `NeutralAudioSkin`, `useAudioPlayerState`, `useAudioPlayerActions` | [Audio players](./audio.md)                                                                                        |
+| `videojs-vue/media/hls`        | `HlsVideo`                                                                                                                        | [Media adapters](./media.md#hlsvideo)                                                                              |
+| `videojs-vue/ui`               | Layout, buttons, sliders, poster, hotkeys, and status announcer                                                                   | [UI controls](./ui.md)                                                                                             |
+| `videojs-vue/i18n`             | `MediaI18n`, `MediaText`, and translation registry functions                                                                      | [Internationalization](./i18n.md)                                                                                  |
+| `videojs-vue/video/legacy`     | `VideoPlayer` fixed to the legacy skin                                                                                            | [Chrome 90+ legacy mode](../guide/legacy.md)                                                                       |
+| `videojs-vue/skins/legacy`     | `LegacyVideoSkin` for composition                                                                                                 | [Legacy skin](./player-root.md#legacyvideoskin)                                                                    |
+| `videojs-vue/skins/legacy.css` | Standalone legacy stylesheet                                                                                                      | [Legacy styling](../guide/legacy.md#controls-and-styling)                                                          |
+| `videojs-vue/polyfills`        | Side-effect-only global `Array.prototype.at` and `Object.hasOwn` polyfills                                                        | [Startup order](../guide/legacy.md#load-the-polyfills-first)                                                       |
 
 The base entry does not import hls.js. Install `@videojs/hlsjs-video@10.0.1` before importing the HLS entry.
+
+`core-js` is an optional peer dependency used only by `videojs-vue/polyfills`. Install it with `pnpm add core-js@^3.50.0` before importing that entry. Other entries do not require it; see [legacy mode](../guide/legacy.md#load-the-polyfills-first) for when to load the polyfills.
 
 ## Components
 

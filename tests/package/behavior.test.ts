@@ -39,7 +39,7 @@ describe('published package', () => {
     >().toEqualTypeOf<'compat' | undefined>()
     expectTypeOf<
       InstanceType<typeof CompatVideoPlayer>
-    >().toMatchTypeOf<PlayerHandle>()
+    >().toExtend<PlayerHandle>()
     expectTypeOf<VideoMediaComponent>().toEqualTypeOf<typeof Video>()
     // @ts-expect-error A fixed default player cannot select a neutral skin.
     h(DefaultVideoPlayer, { skin: 'neutral' })
@@ -59,10 +59,10 @@ describe('published package', () => {
     >().toEqualTypeOf<'neutral' | undefined>()
     expectTypeOf<
       InstanceType<typeof DefaultVideoPlayer>
-    >().toMatchTypeOf<PlayerHandle>()
+    >().toExtend<PlayerHandle>()
     expectTypeOf<
       InstanceType<typeof DefaultAudioPlayer>
-    >().toMatchTypeOf<AudioPlayerHandle>()
+    >().toExtend<AudioPlayerHandle>()
   })
 
   describe.each([

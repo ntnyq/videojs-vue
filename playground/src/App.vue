@@ -25,11 +25,20 @@ import { usePlayground } from './composables/usePlayground'
 import type { ExampleId } from './data'
 
 const { t: translate, locale } = useI18n()
+
 const lab = usePlayground()
+
 const isWide = useMediaQuery('(min-width: 1280px)')
 const isDesktop = useMediaQuery('(min-width: 1024px)')
+
 const isNavigationOpen = shallowRef(false)
 const isSettingsOpen = shallowRef(false)
+
+function selectExample(example: ExampleId) {
+  lab.selectExample(example)
+  isNavigationOpen.value = false
+}
+
 watch(isWide, wide => {
   if (wide) {
     isSettingsOpen.value = false
@@ -40,11 +49,8 @@ watch(isDesktop, desktop => {
     isNavigationOpen.value = false
   }
 })
-function selectExample(example: ExampleId) {
-  lab.selectExample(example)
-  isNavigationOpen.value = false
-}
 </script>
+
 <template>
   <MediaI18n
     :lang="locale"
@@ -82,10 +88,12 @@ function selectExample(example: ExampleId) {
                 >
                   <ScrollArea
                     class="h-full [container-type:size] max-lg:h-auto max-lg:[container-type:normal]"
-                    ><PlayerStage
+                  >
+                    <PlayerStage
                       :lab="lab"
                       @open-settings="isSettingsOpen = true"
-                  /></ScrollArea>
+                    />
+                  </ScrollArea>
                 </ResizablePanel>
                 <ResizableHandle
                   v-if="isWide"
@@ -96,8 +104,9 @@ function selectExample(example: ExampleId) {
                   :default-size="28"
                   :min-size="23"
                   :max-size="40"
-                  ><PlayerSettings :lab="lab"
-                /></ResizablePanel>
+                >
+                  <PlayerSettings :lab="lab" />
+                </ResizablePanel>
               </ResizablePanelGroup>
             </ResizablePanel>
             <ResizableHandle
@@ -108,37 +117,46 @@ function selectExample(example: ExampleId) {
               :default-size="30"
               :min-size="20"
               class="max-lg:!flex-none"
-              ><EventConsole :lab="lab"
-            /></ResizablePanel>
+            >
+              <EventConsole :lab="lab" />
+            </ResizablePanel>
           </ResizablePanelGroup>
         </main>
       </div>
-      <Sheet v-model:open="isNavigationOpen"
-        ><SheetContent
+      <Sheet v-model:open="isNavigationOpen">
+        <SheetContent
           side="left"
           class="w-72 gap-0 p-0"
           :close-label="translate('app.close')"
-          ><SheetHeader class="px-6 pt-6 pb-2"
-            ><SheetTitle>{{ translate('app.examples') }}</SheetTitle
-            ><SheetDescription>{{
-              translate('app.inspect')
-            }}</SheetDescription></SheetHeader
-          ><ExampleNav
+        >
+          <SheetHeader class="px-6 pt-6 pb-2">
+            <SheetTitle>{{ translate('app.examples') }}</SheetTitle>
+            <SheetDescription>{{ translate('app.inspect') }}</SheetDescription>
+          </SheetHeader>
+          <ExampleNav
             :selected="lab.example"
-            @select="selectExample" /></SheetContent
-      ></Sheet>
-      <Sheet v-model:open="isSettingsOpen"
-        ><SheetContent
+            @select="selectExample"
+          />
+        </SheetContent>
+      </Sheet>
+      <Sheet v-model:open="isSettingsOpen">
+        <SheetContent
           class="w-[min(100vw,400px)] gap-0 p-0"
           :close-label="translate('app.close')"
-          ><SheetHeader class="px-5 pt-6 pb-2"
-            ><SheetTitle>{{ translate('app.settings') }}</SheetTitle
-            ><SheetDescription>{{
-              translate('settings.live')
-            }}</SheetDescription></SheetHeader
-          >
+        >
+          <SheetHeader class="px-5 pt-6 pb-2">
+            <SheetTitle>
+              {{ translate('app.settings') }}
+            </SheetTitle>
+            <SheetDescription>
+              {{ translate('settings.live') }}
+            </SheetDescription>
+          </SheetHeader>
           <div class="min-h-0 flex-1">
-            <PlayerSettings :lab="lab" /></div></SheetContent
-      ></Sheet></div
-  ></MediaI18n>
+            <PlayerSettings :lab="lab" />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  </MediaI18n>
 </template>

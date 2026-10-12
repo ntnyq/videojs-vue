@@ -2,6 +2,7 @@ import { AudioPlayer as DefaultAudioPlayer } from 'videojs-vue/audio/default'
 import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
 import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
 import { VideoPlayer as DefaultVideoPlayer } from 'videojs-vue/video/default'
+import { VideoPlayer as LegacyVideoPlayer } from 'videojs-vue/video/legacy'
 import { VideoPlayer as NeutralVideoPlayer } from 'videojs-vue/video/neutral'
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
@@ -11,6 +12,7 @@ import { renderToString } from 'vue/server-renderer'
 
 describe('published package', () => {
   it.each<[Component, string]>([
+    [LegacyVideoPlayer, 'media-container'],
     [CompatVideoPlayer, 'video-compat-skin'],
     [DefaultVideoPlayer, 'video-skin'],
     [NeutralVideoPlayer, 'video-neutral-skin'],

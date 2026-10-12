@@ -10,6 +10,7 @@ export default defineConfig({
           include: [
             'tests/package/behavior.test.ts',
             'tests/package/ssr.test.ts',
+            'tests/package/legacy.test.ts',
           ],
           name: 'package-behavior',
           setupFiles: ['./tests/setup.ts'],

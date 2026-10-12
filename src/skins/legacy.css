@@ -1,0 +1,160 @@
+.vjs-legacy {
+  --vjs-legacy-background: #000;
+  --vjs-legacy-foreground: #fff;
+  --vjs-legacy-controls: rgba(0, 0, 0, 0.8);
+  --vjs-legacy-accent: #409eff;
+  position: relative;
+  background: var(--vjs-legacy-background);
+  color: var(--vjs-legacy-foreground);
+  font: 14px/1.4 sans-serif;
+}
+
+.vjs-legacy__surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.vjs-legacy__surface > video,
+.vjs-legacy__surface > hlsjs-video,
+.vjs-legacy__poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.vjs-legacy__poster {
+  pointer-events: none;
+}
+
+.vjs-legacy__controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding: 4px 12px;
+  background: var(--vjs-legacy-controls);
+}
+
+.vjs-legacy__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.vjs-legacy__spacer {
+  flex: 1;
+}
+
+.vjs-legacy__button,
+.vjs-legacy__rate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.vjs-legacy__rate option {
+  background: #000;
+  color: #fff;
+}
+
+.vjs-legacy__button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.vjs-legacy :focus-visible {
+  outline: 2px solid var(--vjs-legacy-accent);
+  outline-offset: 2px;
+}
+
+.vjs-legacy [hidden] {
+  display: none;
+}
+
+.vjs-legacy [aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.vjs-legacy__slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.vjs-legacy__slider media-slider-track,
+.vjs-legacy__slider media-slider-buffer,
+.vjs-legacy__slider media-slider-fill {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.vjs-legacy__slider media-slider-track {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.vjs-legacy__slider media-slider-buffer {
+  width: var(--media-slider-buffer, 0%);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.vjs-legacy__slider media-slider-fill {
+  width: var(--media-slider-fill, 0%);
+  background: var(--vjs-legacy-accent);
+}
+
+.vjs-legacy__slider media-slider-thumb {
+  position: absolute;
+  left: var(--media-slider-fill, 0%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--vjs-legacy-foreground);
+  transform: translateX(-50%);
+}
+
+.vjs-legacy__volume {
+  width: 64px;
+  margin: 0 8px;
+}
+
+.vjs-legacy[data-size="small"] .vjs-legacy__volume,
+.vjs-legacy[data-size="small"] .vjs-legacy__pip {
+  display: none;
+}
+
+.vjs-legacy__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.vjs-legacy:fullscreen {
+  width: 100%;
+  height: 100%;
+}

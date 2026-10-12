@@ -37,6 +37,10 @@ Serve your video and poster at the URLs above. Component registration and skin s
 
 To use the upstream Compat skin, change the import to `videojs-vue/video/compat`. This entry loads only that skin and keeps the same player API. It does not include polyfills or guarantee a lower minimum browser version; see [Compat skin](https://videojs-vue-docs.vercel.app/guide/styling#compat-skin).
 
+For Chrome 90+, use `videojs-vue/video/legacy` with `videojs-vue/skins/legacy.css`, opt-in `videojs-vue/polyfills`, and a consumer build targeting `chrome90`. See [legacy mode](https://videojs-vue-docs.vercel.app/guide/legacy) for setup and validation limits.
+
+`core-js` is an optional peer dependency. Install it with `pnpm add core-js@^3.50.0` before importing `videojs-vue/polyfills`. Other entries do not require it. If your target browsers or application already provide `Array.prototype.at` and `Object.hasOwn`, omit both the polyfill import and the `core-js` installation, including when using the legacy skin.
+
 See the [documentation](https://videojs-vue-docs.vercel.app) for HLS, custom controls, internationalization, and the API reference. Try the [playground](https://videojs-vue-playground.vercel.app) for interactive examples.
 
 ## Audio

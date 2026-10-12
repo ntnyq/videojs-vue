@@ -9,18 +9,56 @@ export const HLS_SOURCE =
 export const POSTER =
   'https://image.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/thumbnail.jpg'
 export const EXAMPLES = [
-  { id: 'audio', group: 'playback', icon: 'radio' },
-  { id: 'basic', group: 'playback', icon: 'play' },
-  { id: 'hls', group: 'playback', icon: 'radio' },
-  { id: 'custom', group: 'playback', icon: 'sliders' },
-  { id: 'captions', group: 'playback', icon: 'captions' },
-  { id: 'binding', group: 'api', icon: 'link' },
-  { id: 'state', group: 'api', icon: 'activity' },
-  { id: 'actions', group: 'api', icon: 'settings' },
-  { id: 'lifecycle', group: 'api', icon: 'power' },
+  {
+    id: 'audio',
+    group: 'playback',
+    icon: 'radio',
+  },
+  {
+    id: 'basic',
+    group: 'playback',
+    icon: 'play',
+  },
+  {
+    id: 'hls',
+    group: 'playback',
+    icon: 'radio',
+  },
+  {
+    id: 'custom',
+    group: 'playback',
+    icon: 'sliders',
+  },
+  {
+    id: 'captions',
+    group: 'playback',
+    icon: 'captions',
+  },
+  {
+    id: 'binding',
+    group: 'api',
+    icon: 'link',
+  },
+  {
+    id: 'state',
+    group: 'api',
+    icon: 'activity',
+  },
+  {
+    id: 'actions',
+    group: 'api',
+    icon: 'settings',
+  },
+  {
+    id: 'lifecycle',
+    group: 'api',
+    icon: 'power',
+  },
 ] as const
 export type ExampleId = (typeof EXAMPLES)[number]['id']
+
 export type PlayerType = 'video' | 'audio'
+
 export interface PlaygroundConfig {
   src: string
   poster: string

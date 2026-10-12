@@ -17,6 +17,7 @@
     "**/*.min.*",
     "**/node_modules/**",
     "**/dist/**",
+    "**/dist-legacy/**",
     "**/fixtures/**",
     ".github/skills/**",
   ],

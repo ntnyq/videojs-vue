@@ -17,7 +17,10 @@
     "name": "ntnyq",
     "email": "ntnyq13@gmail.com"
   },
-  "repository": "ntnyq/videojs-vue",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntnyq/videojs-vue.git"
+  },
   "files": [
     "dist"
   ],
@@ -34,7 +37,11 @@
     "./src/audio/index.ts",
     "./src/ui/index.ts",
     "./src/i18n/index.ts",
-    "./src/media/hls.ts"
+    "./src/media/hls.ts",
+    "./src/polyfills.ts",
+    "./dist/polyfills.js",
+    "./src/skins/legacy.css",
+    "./dist/skins/legacy.css"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -195,7 +202,20 @@
     "./ui/captions-button": {
       "types": "./dist/ui/captions-button.d.ts",
       "default": "./dist/ui/captions-button.js"
-    }
+    },
+    "./video/legacy": {
+      "types": "./dist/video/legacy.d.ts",
+      "default": "./dist/video/legacy.js"
+    },
+    "./skins/legacy": {
+      "types": "./dist/skins/legacy.d.ts",
+      "default": "./dist/skins/legacy.js"
+    },
+    "./polyfills": {
+      "types": "./dist/polyfills.d.ts",
+      "default": "./dist/polyfills.js"
+    },
+    "./skins/legacy.css": "./dist/skins/legacy.css"
   },
   "publishConfig": {
     "access": "public"
@@ -210,10 +230,11 @@
     "lint": "oxlint",
     "play:build": "pnpm -C playground run build",
     "play:dev": "pnpm -C playground run dev",
+    "play:legacy:build": "pnpm -C playground run legacy:build",
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
     "release": "run-s release:check release:version",
-    "release:check": "run-s format:check lint build typecheck test test:package size:check play:build size:play docs:build",
+    "release:check": "run-s format:check lint build typecheck test test:package size:check play:build play:legacy:build size:play docs:build",
     "release:version": "bumpp",
     "size": "tsx scripts/bundle-size.ts",
     "size:check": "tsx scripts/bundle-size.ts --check",
@@ -230,6 +251,7 @@
     "@types/node": "^26.6.5",
     "@videojs/hlsjs-video": "10.0.1",
     "bumpp": "^12.3.0",
+    "core-js": "^3.50.0",
     "husky": "^9.1.7",
     "jsdom": "^30.1.2",
     "nano-staged": "^1.0.2",
@@ -245,10 +267,14 @@
   },
   "peerDependencies": {
     "@videojs/hlsjs-video": "10.0.1",
+    "core-js": "^3.50.0",
     "vue": "^3.5.0"
   },
   "peerDependenciesMeta": {
     "@videojs/hlsjs-video": {
+      "optional": true
+    },
+    "core-js": {
       "optional": true
     }
   },

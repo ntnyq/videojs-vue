@@ -2,6 +2,16 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig({
   clean: true,
+  copy: [
+    {
+      from: 'src/skins/legacy.css',
+      to: 'dist/skins',
+    },
+  ],
+  deps: {
+    // Vue's inferred $watch signature inlines the OnCleanup declaration.
+    onlyBundle: ['@vue/reactivity'],
+  },
   dts: true,
   entry: {
     'audio/composables': 'src/audio/composables.ts',
@@ -16,6 +26,7 @@ export default defineConfig({
     'i18n/index': 'src/i18n/index.ts',
     index: 'src/index.ts',
     'media/hls': 'src/media/hls.ts',
+    polyfills: 'src/polyfills.ts',
     'register/audio/neutral-skin': 'src/register/audio/neutral-skin.ts',
     'register/audio/player': 'src/register/audio/player.ts',
     'register/audio/skin': 'src/register/audio/skin.ts',
@@ -46,6 +57,7 @@ export default defineConfig({
     'register/video/skin': 'src/register/video/skin.ts',
     'skins/compat': 'src/skins/compat.ts',
     'skins/default': 'src/skins/default.ts',
+    'skins/legacy': 'src/skins/legacy.ts',
     'skins/neutral': 'src/skins/neutral.ts',
     'ui/captions-button': 'src/ui/CaptionsButton.ts',
     'ui/container': 'src/ui/MediaContainer.ts',
@@ -70,7 +82,9 @@ export default defineConfig({
     'ui/volume-slider': 'src/ui/VolumeSlider.ts',
     'video/compat': 'src/video/compat.ts',
     'video/default': 'src/video/default.ts',
+    'video/legacy': 'src/video/legacy.ts',
     'video/neutral': 'src/video/neutral.ts',
   },
   platform: 'browser',
+  target: 'chrome90',
 })

@@ -48,7 +48,10 @@
       "videojs-vue/ui/hotkey": ["./src/ui/Hotkey.ts"],
       "videojs-vue/ui/time-slider": ["./src/ui/TimeSlider.ts"],
       "videojs-vue/ui/time": ["./src/ui/Time.ts"],
-      "videojs-vue/ui/captions-button": ["./src/ui/CaptionsButton.ts"]
+      "videojs-vue/ui/captions-button": ["./src/ui/CaptionsButton.ts"],
+      "videojs-vue/video/legacy": ["./src/video/legacy.ts"],
+      "videojs-vue/skins/legacy": ["./src/skins/legacy.ts"],
+      "videojs-vue/polyfills": ["./src/polyfills.ts"]
     }
   },
   "exclude": ["playground", "**/dist", "**/node_modules"]

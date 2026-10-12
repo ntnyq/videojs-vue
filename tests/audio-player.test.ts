@@ -17,7 +17,7 @@ describe('audio player component', () => {
     expect.assertions(0)
     expectTypeOf<
       InstanceType<typeof AudioPlayer>
-    >().toMatchTypeOf<AudioPlayerHandle>()
+    >().toExtend<AudioPlayerHandle>()
     expectTypeOf<AudioPlayerState['paused']>().toEqualTypeOf<boolean>()
     expectTypeOf<AudioPlayerState['currentTime']>().toEqualTypeOf<number>()
     expectTypeOf<AudioPlayerHandle>().not.toHaveProperty('requestFullscreen')

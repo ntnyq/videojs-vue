@@ -46,6 +46,7 @@ export default defineConfig({
           { text: 'Compose a player', link: '/guide/composition' },
           { text: 'Bundle size and imports', link: '/guide/bundle-size' },
           { text: 'Skins and styling', link: '/guide/styling' },
+          { text: 'Chrome 90+ legacy mode', link: '/guide/legacy' },
           { text: 'Internationalization', link: '/guide/internationalization' },
           { text: 'Lifecycle and SSR', link: '/guide/lifecycle' },
           { text: 'Troubleshooting', link: '/guide/troubleshooting' },

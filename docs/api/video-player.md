@@ -16,6 +16,8 @@ import { VideoPlayer } from 'videojs-vue'
 
 For the upstream Compat skin, import `VideoPlayer` from `videojs-vue/video/compat`. It shares the API below, but its optional `skin` prop accepts only `'compat'` and defaults to that value. The aggregate `videojs-vue` player continues to support only default and neutral skins. See [Compat skin](../guide/styling.md#compat-skin) for examples and compatibility limits.
 
+`videojs-vue/video/legacy` exports the same player contract with `skin?: 'legacy'`. It requires the standalone legacy CSS and Chrome 90 consumer build setup; its simplified skin does not implement thumbnail previews. See [legacy mode](../guide/legacy.md).
+
 All props are optional. Provide a media source to play video.
 
 | Prop           | Type                                     | Default      | Description                                           |

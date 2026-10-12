@@ -20,6 +20,7 @@
   },
   "ignorePatterns": [
     "**/dist/**",
+    "**/dist-legacy/**",
     "**/node_modules/**",
     "**/fixtures/**",
     ".github/skills/**",

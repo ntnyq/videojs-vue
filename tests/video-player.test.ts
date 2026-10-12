@@ -9,9 +9,7 @@ describe('video player component', () => {
 
   it('keeps real upstream state types', () => {
     expect.assertions(0)
-    expectTypeOf<
-      InstanceType<typeof VideoPlayer>
-    >().toMatchTypeOf<PlayerHandle>()
+    expectTypeOf<InstanceType<typeof VideoPlayer>>().toExtend<PlayerHandle>()
     expectTypeOf<PlayerState['paused']>().toEqualTypeOf<boolean>()
     expectTypeOf<PlayerState['currentTime']>().toEqualTypeOf<number>()
   })

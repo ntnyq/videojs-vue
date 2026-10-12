@@ -7,30 +7,41 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
   },
-  "js/ts.experimental.useTsgo": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "js/ts.experimental.useTsgo": false,
   "cSpell.words": [
     "bumpp",
     "changelogithub",
     "codecov",
     "deindent",
+    "effectful",
     "enterpictureinpicture",
     "esbuild",
     "hlsjs",
     "lcov",
     "leavepictureinpicture",
+    "lucide",
+    "oklch",
     "onwarn",
     "oxfmt",
     "oxlint",
     "oxlintrc",
     "pnpm",
+    "reka",
+    "rgba",
     "tsdown",
     "tsgo",
     "unmute",
     "unrs",
+    "unstub",
     "videojs",
     "vite",
     "vitepress",
-    "vitest"
+    "vitest",
+    "vueuse",
+    "whib"
   ],
   "cSpell.allowCompoundWords": true
 }

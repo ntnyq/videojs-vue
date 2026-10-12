@@ -13,7 +13,7 @@ import type { PlayerHandle } from './player/types'
  */
 export type VideoMediaComponent = typeof Video
 
-type VideoSkin = 'default' | 'neutral' | 'compat'
+type VideoSkin = 'default' | 'neutral' | 'compat' | 'legacy'
 
 export function createVideoPlayer<Skin extends VideoSkin>(
   componentName: string,
