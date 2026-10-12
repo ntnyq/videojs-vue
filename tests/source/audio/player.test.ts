@@ -6,9 +6,9 @@ import {
   Audio,
   useAudioPlayerActions,
   useAudioPlayerState,
-} from '../src/audio'
-import type { AudioPlayerHandle, AudioPlayerState } from '../src/audio'
-import { mount, settle, cleanup } from './helpers'
+} from '../../../src/audio'
+import type { AudioPlayerHandle, AudioPlayerState } from '../../../src/audio'
+import { mount, settle, cleanup } from '../../helpers'
 
 describe('audio player component', () => {
   afterEach(cleanup)

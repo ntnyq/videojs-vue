@@ -1,7 +1,7 @@
-import { createVideoPlayer } from '../createVideoPlayer'
 import { LegacyVideoSkin } from '../skins/legacy'
+import { createVideoPlayer } from './createVideoPlayer'
 
-export type { VideoMediaComponent } from '../createVideoPlayer'
+export type { VideoMediaComponent } from './createVideoPlayer'
 
 export type * from '../player/types'
 

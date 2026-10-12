@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { MediaTrack } from '../player/types'
+import type { MediaTrack } from './types'
 
 export const commonMediaProps = {
   src: String as PropType<string | undefined>,

@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { defineComponent, h, shallowRef } from 'vue'
-import { PlayerRoot, Video, VideoPlayer } from '../src'
-import type { PlayerHandle } from '../src'
-import { HlsVideo } from '../src/media/hls'
-import { MediaContainer } from '../src/ui'
-import { mount, settle, cleanup } from './helpers'
+import { PlayerRoot, Video, VideoPlayer } from '../../../src'
+import type { PlayerHandle } from '../../../src'
+import { HlsVideo } from '../../../src/media/hls'
+import { MediaContainer } from '../../../src/ui'
+import { mount, settle, cleanup } from '../../helpers'
 
 describe('hls media adapter', () => {
   afterEach(cleanup)

@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest'
 import { createSSRApp, h } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { AudioPlayer } from '../src/audio'
+import { AudioPlayer } from '../../../src/audio'
 
 describe('audio server rendering', () => {
   it.each(['default', 'neutral'] as const)(

@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
-import { HlsVideo } from '../src/media/hls'
-import type { PlayerHandle } from '../src/player/types'
-import { VideoPlayer } from '../src/video/legacy'
-import { cleanup, disposals, mount, settle } from './helpers'
+import { HlsVideo } from '../../../src/media/hls'
+import type { PlayerHandle } from '../../../src/player/types'
+import { VideoPlayer } from '../../../src/video/legacy'
+import { cleanup, disposals, mount, settle } from '../../helpers'
 
 describe('legacy video player', () => {
   afterEach(() => {

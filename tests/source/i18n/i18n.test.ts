@@ -2,7 +2,7 @@ import '@videojs/html/i18n/locales/zh-CN/register'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createSSRApp, defineComponent, h, shallowRef } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { PlayerRoot, Video, VideoPlayer } from '../src'
+import { PlayerRoot, Video, VideoPlayer } from '../../../src'
 import {
   MediaI18n,
   MediaText,
@@ -10,10 +10,10 @@ import {
   hasRegisteredLocale,
   onI18nRegistryChange,
   registerI18n,
-} from '../src/i18n'
-import type { Translations } from '../src/i18n'
-import { MediaContainer, PlayButton } from '../src/ui'
-import { cleanup, disposals, mount, settle } from './helpers'
+} from '../../../src/i18n'
+import type { Translations } from '../../../src/i18n'
+import { MediaContainer, PlayButton } from '../../../src/ui'
+import { cleanup, disposals, mount, settle } from '../../helpers'
 
 describe('internationalization', () => {
   afterEach(cleanup)

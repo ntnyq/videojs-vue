@@ -9,13 +9,13 @@ import {
 } from 'vue'
 import type { Component } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { PlayerRoot, Video, VideoPlayer } from '../src'
-import type { PlayerHandle } from '../src'
-import { Audio, AudioPlayer, AudioPlayerRoot } from '../src/audio'
-import type { AudioPlayerHandle } from '../src/audio'
-import { HlsVideo } from '../src/media/hls'
-import { MediaContainer, PlayButton } from '../src/ui'
-import { cleanup, disposals, mount, settle } from './helpers'
+import { PlayerRoot, Video, VideoPlayer } from '../../../src'
+import type { PlayerHandle } from '../../../src'
+import { Audio, AudioPlayer, AudioPlayerRoot } from '../../../src/audio'
+import type { AudioPlayerHandle } from '../../../src/audio'
+import { HlsVideo } from '../../../src/media/hls'
+import { MediaContainer, PlayButton } from '../../../src/ui'
+import { cleanup, disposals, mount, settle } from '../../helpers'
 
 async function flushDestruction() {
   // oxlint-disable-next-line promise/avoid-new -- Wait for the real browser frame lifecycle.

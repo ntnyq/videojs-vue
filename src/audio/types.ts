@@ -1,8 +1,8 @@
 import type { AudioPlayerStore } from '@videojs/html'
 import type { AudioPlayerElement as UpstreamAudioPlayerElement } from '@videojs/html/audio'
 import type { MaybeRefOrGetter } from 'vue'
+import type { PlayerMedia } from '../media/types'
 import type { CommonPlayerActions } from '../player/actions'
-import type { PlayerMedia } from '../player/types'
 
 export type { AudioPlayerStore } from '@videojs/html'
 export type AudioPlayerState = AudioPlayerStore['state']

@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import type { Component } from 'vue'
-import { VideoPlayer } from '../src'
-import type { PlayerHandle } from '../src'
-import { HlsVideo } from '../src/media/hls'
-import { mount, settle, cleanup, disposals } from './helpers'
+import { VideoPlayer } from '../../../src'
+import type { PlayerHandle } from '../../../src'
+import { HlsVideo } from '../../../src/media/hls'
+import { mount, settle, cleanup, disposals } from '../../helpers'
 
 describe('player lifecycle', () => {
   afterEach(cleanup)

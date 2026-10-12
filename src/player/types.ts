@@ -1,6 +1,9 @@
 import type { VideoPlayerStore } from '@videojs/html'
 import type { VideoPlayerElement } from '@videojs/html/video'
 import type { MaybeRefOrGetter } from 'vue'
+import type { PlayerMedia } from '../media/types'
+
+export type { MediaTrack, PlayerMedia } from '../media/types'
 
 export type PlayerStore = VideoPlayerStore
 // Upstream 10.0.1's preset declaration loses the store type through its namespace.
@@ -23,21 +26,6 @@ export type PlayerActions = Pick<
 >
 
 /**
- * Common native and adapter media surface. Adapter-specific APIs remain on the element.
- */
-export interface PlayerMedia extends HTMLElement {
-  src: string
-  volume: number
-  muted: boolean
-  playbackRate: number
-  readonly paused: boolean
-  readonly currentTime: number
-  readonly error: MediaError | null
-  play: () => Promise<void>
-  pause: () => void
-}
-
-/**
  * Live getters become null when the player is inactive or unmounted.
  */
 export interface PlayerHandle extends PlayerActions {
@@ -47,11 +35,3 @@ export interface PlayerHandle extends PlayerActions {
 }
 
 export type PlayerTarget = MaybeRefOrGetter<PlayerHandle | null | undefined>
-
-export interface MediaTrack {
-  src: string
-  kind?: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata'
-  srclang?: string
-  label?: string
-  default?: boolean
-}

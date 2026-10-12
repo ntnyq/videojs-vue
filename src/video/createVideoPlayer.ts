@@ -1,12 +1,12 @@
 import { defineComponent, h, shallowRef } from 'vue'
 import type { Component, PropType } from 'vue'
-import { MEDIA_EVENTS } from './media/events'
-import type { MediaEventName } from './media/events'
-import { mediaProps } from './media/props'
-import { Video } from './media/Video'
-import { createPlayerActions } from './player/actions'
-import { PlayerRoot, playerEmits } from './player/PlayerRoot'
-import type { PlayerHandle } from './player/types'
+import { MEDIA_EVENTS } from '../media/events'
+import type { MediaEventName } from '../media/events'
+import { mediaProps } from '../media/props'
+import { Video } from '../media/Video'
+import { createPlayerActions } from '../player/actions'
+import { PlayerRoot, playerEmits } from '../player/PlayerRoot'
+import type { PlayerHandle } from '../player/types'
 
 /**
  * Supported media components share the Video props, events and context contract.

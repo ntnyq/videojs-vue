@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
-import { AudioPlayer } from '../src/audio'
-import type { AudioPlayerHandle } from '../src/audio'
-import { mount, settle, cleanup, disposals } from './helpers'
+import { AudioPlayer } from '../../../src/audio'
+import type { AudioPlayerHandle } from '../../../src/audio'
+import { mount, settle, cleanup, disposals } from '../../helpers'
 
 describe('player lifecycle', () => {
   afterEach(cleanup)

@@ -2,14 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { createSSRApp, h } from 'vue'
 // @vitest-environment node
 import { renderToString } from 'vue/server-renderer'
-import { VideoPlayer } from '../src'
+import { VideoPlayer } from '../../../src'
 import {
   MediaI18n,
   MediaText,
   registerI18n,
   getI18nTranslations,
-} from '../src/i18n'
-import { HlsVideo } from '../src/media/hls'
+} from '../../../src/i18n'
+import { HlsVideo } from '../../../src/media/hls'
 
 describe('server rendering', () => {
   it('renders i18n attributes and fallback text without browser globals', async () => {

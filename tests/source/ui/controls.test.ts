@@ -1,15 +1,15 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { createSSRApp, defineComponent, h, shallowRef } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { PlayerRoot, Video, usePlayerState } from '../src'
+import { PlayerRoot, Video, usePlayerState } from '../../../src'
 import {
   Hotkey,
   MediaContainer,
   PlayButton,
   SeekButton,
   TimeSlider,
-} from '../src/ui'
-import { mount, settle, cleanup, disposals } from './helpers'
+} from '../../../src/ui'
+import { mount, settle, cleanup, disposals } from '../../helpers'
 
 describe('player controls', () => {
   afterEach(cleanup)

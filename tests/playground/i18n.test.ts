@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { createApp, defineComponent, h } from 'vue'
-import { usePreferences } from '../playground/src/composables/usePreferences'
-import { i18n } from '../playground/src/i18n'
-import { cleanup, disposals, settle } from './helpers'
+import { usePreferences } from '../../playground/src/composables/usePreferences'
+import { i18n } from '../../playground/src/i18n'
+import { cleanup, disposals, settle } from '../helpers'
 
 function mountPreferences() {
   const container = document.createElement('div')

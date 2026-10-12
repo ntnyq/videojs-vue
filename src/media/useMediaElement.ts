@@ -9,10 +9,10 @@ import {
 } from 'vue'
 import type { EmitFn, SetupContext } from 'vue'
 import { MEDIA_CONTEXT } from '../player/context'
-import type { PlayerMedia } from '../player/types'
 import { MEDIA_EVENTS } from './events'
 import type { mediaEmits, MediaEventName } from './events'
 import type { CommonMediaProps, MediaProps } from './props'
+import type { PlayerMedia } from './types'
 
 interface MediaElementOptions {
   tag: string

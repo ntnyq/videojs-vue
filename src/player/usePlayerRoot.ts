@@ -10,9 +10,9 @@ import {
 } from 'vue'
 import type { ShallowRef } from 'vue'
 import type { MediaEventName } from '../media/events'
+import type { PlayerMedia } from '../media/types'
 import type { CommonPlayerActions } from './actions'
 import { MEDIA_CONTEXT } from './context'
-import type { PlayerMedia } from './types'
 
 interface RootCallbacks {
   onReady: () => void

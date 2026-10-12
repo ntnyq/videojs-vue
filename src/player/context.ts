@@ -2,7 +2,8 @@ import { computed, inject, toValue } from 'vue'
 import type { InjectionKey, MaybeRefOrGetter } from 'vue'
 import type { AudioPlayerHandle } from '../audio/types'
 import type { MediaEventName } from '../media/events'
-import type { PlayerHandle, PlayerMedia, PlayerTarget } from './types'
+import type { PlayerMedia } from '../media/types'
+import type { PlayerHandle, PlayerTarget } from './types'
 
 interface MediaContext {
   handle: Pick<AudioPlayerHandle, 'media' | 'store'>

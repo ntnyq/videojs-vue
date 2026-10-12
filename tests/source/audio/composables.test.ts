@@ -4,9 +4,9 @@ import {
   AudioPlayer,
   useAudioPlayerActions,
   useAudioPlayerState,
-} from '../src/audio'
-import type { AudioPlayerHandle } from '../src/audio'
-import { mount, settle, cleanup, disposals } from './helpers'
+} from '../../../src/audio'
+import type { AudioPlayerHandle } from '../../../src/audio'
+import { mount, settle, cleanup, disposals } from '../../helpers'
 
 describe('player composables', () => {
   afterEach(cleanup)

@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { defineComponent, h, shallowRef } from 'vue'
-import { VideoPlayer } from '../src'
-import type { PlayerHandle, PlayerState } from '../src'
-import { mount, settle, cleanup } from './helpers'
+import { VideoPlayer } from '../../../src'
+import type { PlayerHandle, PlayerState } from '../../../src'
+import { mount, settle, cleanup } from '../../helpers'
 
 describe('video player component', () => {
   afterEach(cleanup)

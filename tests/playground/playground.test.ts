@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { effectScope } from 'vue'
 import { parse, compileScript, compileTemplate } from 'vue/compiler-sfc'
-import { useEventLog } from '../playground/src/composables/useEventLog'
-import { usePlayground } from '../playground/src/composables/usePlayground'
-import { createConfig, EXAMPLES, LOG_LIMIT } from '../playground/src/data'
-import { createExampleCode } from '../playground/src/lib/createExampleCode'
+import { useEventLog } from '../../playground/src/composables/useEventLog'
+import { usePlayground } from '../../playground/src/composables/usePlayground'
+import { createConfig, EXAMPLES, LOG_LIMIT } from '../../playground/src/data'
+import { createExampleCode } from '../../playground/src/lib/createExampleCode'
 
 describe('playground event log', () => {
   it('bounds retained entries without reusing identifiers after clearing', () => {

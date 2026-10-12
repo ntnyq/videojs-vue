@@ -4,8 +4,8 @@
 
 `videojs-vue` is a Vue 3.5+ component and composable library for Video.js 10. The root package publishes `dist/`; `playground/` and `docs/` are private pnpm workspace packages.
 
-- `src/`: public exports in `index.ts`, player lifecycle/context in `player/`, media adapters in `media/`, reactive helpers in `composables/`, controls in `ui/`, and skins in `skins/`.
-- `tests/`: player contract and SSR tests, plus shared browser mocks in `setup.ts`.
+- `src/`: public exports in `index.ts`, video assembly and presets in `video/`, audio components and presets in `audio/`, shared player lifecycle/context in `player/`, media adapters and shared media types in `media/`, reactive helpers in `composables/`, controls in `ui/`, and skins in `skins/`.
+- `tests/`: source behavior tests in `source/` (grouped by domain, with cross-player contracts in `source/contracts/`), published entry tests in `package/`, and demo tests in `playground/`. Shared helpers and browser mocks stay in `helpers.ts` and `setup.ts`.
 - `playground/src/`: Vue TSX demos; `playground/public/` holds static assets, including captions.
 - `docs/`: VitePress guides, API documentation, examples, and theme configuration.
 
@@ -17,7 +17,8 @@ Use pnpm as pinned in `package.json` and Node LTS (`.node-version`). Run command
 - `pnpm build`: generate library modules and declarations with tsdown in unbundle mode.
 - `pnpm dev`: watch and rebuild library source.
 - `pnpm play:dev` / `pnpm docs:dev`: start the playground / documentation site. Build first, then keep `pnpm dev` running; both consume the built package.
-- `pnpm test`: run Vitest once; `pnpm test --watch` enables watch mode.
+- `pnpm test`: run source and playground tests once; `pnpm test --watch` enables watch mode.
+- `pnpm test:package`: test built package entries, registration side effects, and SSR behavior with the separate package configuration. Build first.
 - `pnpm typecheck`: check library, test, and playground types with `tsc` / `vue-tsc`. Build first; package imports resolve declarations from `dist/` through `exports`.
 - `pnpm format` / `pnpm format:check`: format / check with Oxfmt; `pnpm lint` runs Oxlint.
 - `pnpm release:check`: run formatting, lint, types, tests, and library, playground, and documentation builds.
@@ -28,7 +29,7 @@ Use strict TypeScript and ESM, two-space indentation, LF endings, single quotes,
 
 ## Testing Guidelines
 
-Add `tests/*.test.ts` cases with descriptive `describe`/`it` names. Vitest defaults to jsdom; SSR tests select Node. Cover public behavior, prop/event forwarding, cleanup, and SSR safety. Mock browser capabilities unavailable in jsdom. No coverage threshold is configured.
+Add `tests/source/**/*.test.ts` cases for source behavior, `tests/package/*.test.ts` cases for published entry contracts, and `tests/playground/*.test.ts` cases for demos, with descriptive `describe`/`it` names. The default Vitest configuration includes only source and playground tests; package tests use `vitest.package.config.ts`. Vitest defaults to jsdom; SSR tests select Node. Cover public behavior, prop/event forwarding, cleanup, and SSR safety. Mock browser capabilities unavailable in jsdom. No coverage threshold is configured.
 
 ## Commit & Pull Request Guidelines
 
