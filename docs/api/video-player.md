@@ -14,6 +14,8 @@ import { VideoPlayer } from 'videojs-vue'
 
 ## Props
 
+For the upstream Compat skin, import `VideoPlayer` from `videojs-vue/video/compat`. It shares the API below, but its optional `skin` prop accepts only `'compat'` and defaults to that value. The aggregate `videojs-vue` player continues to support only default and neutral skins. See [Compat skin](../guide/styling.md#compat-skin) for examples and compatibility limits.
+
 All props are optional. Provide a media source to play video.
 
 | Prop           | Type                                     | Default      | Description                                           |

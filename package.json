@@ -76,6 +76,10 @@
       "types": "./dist/audio/composables.d.ts",
       "default": "./dist/audio/composables.js"
     },
+    "./skins/compat": {
+      "types": "./dist/skins/compat.d.ts",
+      "default": "./dist/skins/compat.js"
+    },
     "./skins/default": {
       "types": "./dist/skins/default.d.ts",
       "default": "./dist/skins/default.js"
@@ -91,6 +95,10 @@
     "./audio/skins/neutral": {
       "types": "./dist/audio/skins/neutral.d.ts",
       "default": "./dist/audio/skins/neutral.js"
+    },
+    "./video/compat": {
+      "types": "./dist/video/compat.d.ts",
+      "default": "./dist/video/compat.js"
     },
     "./video/default": {
       "types": "./dist/video/default.d.ts",
@@ -229,7 +237,7 @@
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
     "rolldown": "1.2.13",
-    "tsdown": "^0.23.0",
+    "tsdown": "^0.23.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3",
@@ -248,5 +256,5 @@
     "*.{js,ts,mjs,tsx}": "oxlint --fix",
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "packageManager": "pnpm@12.10.1"
+  "packageManager": "pnpm@12.11.2"
 }

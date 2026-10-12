@@ -18,6 +18,7 @@
     "hlsjs",
     "lcov",
     "leavepictureinpicture",
+    "onwarn",
     "oxfmt",
     "oxlint",
     "oxlintrc",

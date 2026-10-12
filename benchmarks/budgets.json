@@ -64,6 +64,11 @@
     "async": 65000,
     "total": 72200
   },
+  "videoCompat": {
+    "initial": 81600,
+    "async": 65000,
+    "total": 146500
+  },
   "videoNeutral": {
     "initial": 82500,
     "async": 65000,

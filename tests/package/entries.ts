@@ -1,10 +1,12 @@
 export const registrationEntries: Record<string, string[]> = {
   core: ['video-player'],
   'audio/core': ['audio-player'],
+  'video/compat': ['video-player', 'video-compat-skin'],
   'video/default': ['video-player', 'video-skin'],
   'video/neutral': ['video-player', 'video-neutral-skin'],
   'audio/default': ['audio-player', 'audio-skin'],
   'audio/neutral': ['audio-player', 'audio-neutral-skin'],
+  'skins/compat': ['video-compat-skin'],
   'skins/default': ['video-skin'],
   'skins/neutral': ['video-neutral-skin'],
   'audio/skins/default': ['audio-skin'],

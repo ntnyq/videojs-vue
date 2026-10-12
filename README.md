@@ -35,6 +35,8 @@ import { VideoPlayer } from 'videojs-vue/video/default'
 
 Serve your video and poster at the URLs above. Component registration and skin styles are included; no Vue `isCustomElement` configuration is needed.
 
+To use the upstream Compat skin, change the import to `videojs-vue/video/compat`. This entry loads only that skin and keeps the same player API. It does not include polyfills or guarantee a lower minimum browser version; see [Compat skin](https://videojs-vue-docs.vercel.app/guide/styling#compat-skin).
+
 See the [documentation](https://videojs-vue-docs.vercel.app) for HLS, custom controls, internationalization, and the API reference. Try the [playground](https://videojs-vue-playground.vercel.app) for interactive examples.
 
 ## Audio

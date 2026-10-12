@@ -47,6 +47,7 @@ const cases = {
   hlsDynamic: `export { VideoPlayer } from '${video}'; export const loadHls = () => import('videojs-vue/media/hls')`,
   i18n: "export { MediaI18n, MediaText, registerI18n } from 'videojs-vue/i18n'",
   ...(!isBaseline && {
+    videoCompat: "export { VideoPlayer } from 'videojs-vue/video/compat'",
     videoNeutral: "export { VideoPlayer } from 'videojs-vue/video/neutral'",
     audioNeutral: "export { AudioPlayer } from 'videojs-vue/audio/neutral'",
   }),
@@ -145,6 +146,9 @@ for (const [name, code] of Object.entries(cases)) {
           `${name.startsWith('video') ? 'video' : 'audio'}/neutral-skin`,
         )
       }
+      if (name === 'videoCompat') {
+        required.push('video/compat-skin')
+      }
       if (name.endsWith('Legacy')) {
         const media = name.startsWith('video') ? 'video' : 'audio'
         required.push(`${media}/skin`, `${media}/neutral-skin`)
@@ -232,10 +236,21 @@ for (const [name, code] of Object.entries(cases)) {
           `${name} includes neutral skin`,
         )
       }
-      if (name.endsWith('Neutral')) {
+      if (name.endsWith('Neutral') || name === 'videoCompat') {
         assert.ok(
           !allModules.some(id => /\/(?:video|audio)\/skin\//u.test(id)),
           `${name} includes default skin`,
+        )
+      }
+      if (name === 'videoCompat') {
+        assert.ok(
+          !allModules.some(id => id.includes('neutral-skin')),
+          `${name} includes neutral skin`,
+        )
+      } else {
+        assert.ok(
+          !allModules.some(id => id.includes('compat-skin')),
+          `${name} includes compat skin`,
         )
       }
       if (name === 'playButton') {

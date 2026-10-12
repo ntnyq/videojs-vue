@@ -1,3 +1,4 @@
+import { VideoPlayer } from 'videojs-vue'
 import {
   useAudioPlayerActions,
   useAudioPlayerState,
@@ -9,6 +10,8 @@ import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
 import { usePlayerActions, usePlayerState } from 'videojs-vue/composables'
 import { PlayerRoot, Video } from 'videojs-vue/core'
 import type { PlayerHandle } from 'videojs-vue/core'
+import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
+import type { VideoMediaComponent } from 'videojs-vue/video/compat'
 import { VideoPlayer as DefaultVideoPlayer } from 'videojs-vue/video/default'
 import { VideoPlayer as NeutralVideoPlayer } from 'videojs-vue/video/neutral'
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
@@ -21,6 +24,23 @@ describe('published package', () => {
 
   it('keeps fixed skin and exposed handle types', () => {
     expect.assertions(0)
+    h(CompatVideoPlayer, { skin: 'compat' })
+    // @ts-expect-error A fixed compat player cannot select the default skin.
+    h(CompatVideoPlayer, { skin: 'default' })
+    // @ts-expect-error A fixed default player cannot select the compat skin.
+    h(DefaultVideoPlayer, { skin: 'compat' })
+    // @ts-expect-error The aggregate player still selects default or neutral.
+    h(VideoPlayer, { skin: 'compat' })
+    expectTypeOf<
+      InstanceType<typeof VideoPlayer>['$props']['skin']
+    >().toEqualTypeOf<'default' | 'neutral' | undefined>()
+    expectTypeOf<
+      InstanceType<typeof CompatVideoPlayer>['$props']['skin']
+    >().toEqualTypeOf<'compat' | undefined>()
+    expectTypeOf<
+      InstanceType<typeof CompatVideoPlayer>
+    >().toMatchTypeOf<PlayerHandle>()
+    expectTypeOf<VideoMediaComponent>().toEqualTypeOf<typeof Video>()
     // @ts-expect-error A fixed default player cannot select a neutral skin.
     h(DefaultVideoPlayer, { skin: 'neutral' })
     // @ts-expect-error A fixed neutral audio player cannot select the default skin.
@@ -97,6 +117,11 @@ describe('published package', () => {
   })
 
   describe.each<{ name: string; Player: Component; tag: string }>([
+    {
+      name: 'compat video',
+      Player: CompatVideoPlayer,
+      tag: 'video-compat-skin',
+    },
     { name: 'default video', Player: DefaultVideoPlayer, tag: 'video-skin' },
     {
       name: 'neutral video',

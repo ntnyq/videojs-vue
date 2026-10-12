@@ -13,7 +13,9 @@ import type { PlayerHandle } from './player/types'
  */
 export type VideoMediaComponent = typeof Video
 
-export function createVideoPlayer<Skin extends 'default' | 'neutral'>(
+type VideoSkin = 'default' | 'neutral' | 'compat'
+
+export function createVideoPlayer<Skin extends VideoSkin>(
   componentName: string,
   skins: Record<Skin, Component>,
   initialSkin: NoInfer<Skin>,
@@ -29,8 +31,8 @@ export function createVideoPlayer<Skin extends 'default' | 'neutral'>(
         default: () => Video,
       },
       skin: {
-        type: String as PropType<'default' | 'neutral'>,
-        default: initialSkin as 'default' | 'neutral',
+        type: String as PropType<VideoSkin>,
+        default: initialSkin as VideoSkin,
       },
     },
     emits: playerEmits,
