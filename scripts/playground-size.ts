@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { gzipSync } from 'node:zlib'
 import { formatBytes } from './formatBytes'
+import { formatTable } from './formatTable'
 
 interface ManifestChunk {
   file: string
@@ -92,12 +93,16 @@ await writeFile(
   '.cache/bundle-size/playground.json',
   `${JSON.stringify(report, null, 2)}\n`,
 )
-console.table(
-  sizes.map(({ file, bytes, gzip }) => ({
-    file,
-    size: formatBytes(bytes),
-    gzip: formatBytes(gzip),
-  })),
+console.log(
+  formatTable(
+    ['(index)', 'file', 'size', 'gzip'],
+    sizes.map(({ file, bytes, gzip }, index) => [
+      String(index),
+      file,
+      formatBytes(bytes),
+      formatBytes(gzip),
+    ]),
+  ),
 )
 console.log(
   `Default page initial JS: ${formatBytes(report.initialGzip)} gzip (including Vue and demo UI)`,

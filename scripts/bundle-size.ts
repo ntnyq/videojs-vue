@@ -7,6 +7,7 @@ import { rolldown } from 'rolldown'
 import type { OutputChunk } from 'rolldown'
 import budgetConfig from '../benchmarks/budgets.json'
 import { formatBytes } from './formatBytes'
+import { formatTable } from './formatTable'
 
 interface BundleMetrics {
   bytes: number
@@ -285,15 +286,14 @@ if (isBaseline) {
     `${JSON.stringify(summary, null, 2)}\n`,
   )
 }
-console.table(
-  Object.fromEntries(
+console.log(
+  formatTable(
+    ['(index)', 'initialGzip', 'asyncGzip', 'totalGzip'],
     Object.entries(summary).map(([name, result]) => [
       name,
-      {
-        initialGzip: formatBytes(result.initial.gzip),
-        asyncGzip: formatBytes(result.async.gzip),
-        totalGzip: formatBytes(result.total.gzip),
-      },
+      formatBytes(result.initial.gzip),
+      formatBytes(result.async.gzip),
+      formatBytes(result.total.gzip),
     ]),
   ),
 )
