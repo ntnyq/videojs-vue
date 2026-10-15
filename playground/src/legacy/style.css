@@ -251,21 +251,23 @@ body {
   border-radius: 0;
 }
 
-@media (max-width: 380px) {
-  .legacy-demo__player .vjs-legacy__row {
-    gap: 2px;
-    font-size: 12px;
-  }
+/* Follow the player width so embedded and desktop compact players match mobile. */
+.legacy-demo__player .vjs-legacy[data-size="small"] .vjs-legacy__controls {
+  padding: 4px 8px;
+}
 
-  .legacy-demo__player .vjs-legacy__button {
-    min-width: 32px;
-  }
+.legacy-demo__player .vjs-legacy[data-size="small"] .vjs-legacy__row {
+  gap: 2px;
+  font-size: 12px;
+}
 
-  .legacy-demo__player .vjs-legacy__rate {
-    width: 44px;
-    min-width: 44px;
-    padding: 2px;
-  }
+.legacy-demo__player .vjs-legacy[data-size="small"] .vjs-legacy__button {
+  min-width: 32px;
+}
+
+.legacy-demo__player .vjs-legacy[data-size="small"] .vjs-legacy__rate {
+  min-width: 44px;
+  padding: 2px;
 }
 
 .legacy-demo__statusbar {
@@ -462,9 +464,6 @@ body {
   .legacy-demo__stage {
     min-height: 0;
     padding: 16px 0;
-  }
-  .legacy-demo__player .vjs-legacy__controls {
-    padding: 4px 8px;
   }
 
   .legacy-demo__player,
