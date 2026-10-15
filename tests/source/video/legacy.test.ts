@@ -58,14 +58,34 @@ describe('legacy video player', () => {
       container.querySelector('.custom-skin')?.classList.contains('vjs-legacy'),
     ).toBe(true)
     expect(container.querySelector('.vjs-legacy__poster img')).not.toBeNull()
+    const playButton =
+      container.querySelector<HTMLElement>('media-play-button')!
+    const muteButton =
+      container.querySelector<HTMLElement>('media-mute-button')!
+    const playIcon = playButton.querySelector('svg')?.outerHTML
+    const volumeIcon = muteButton.querySelector('svg')?.outerHTML
+    expect(playIcon).toBeDefined()
+    expect(volumeIcon).toBeDefined()
+    expect(muteButton.getAttribute('aria-label')).toBe('Mute')
+    expect(muteButton.querySelector('svg')?.getAttribute('aria-hidden')).toBe(
+      'true',
+    )
     container.querySelector<HTMLElement>('media-play-button')!.click()
     await settle()
     expect(player.value?.store?.paused).toBe(false)
     expect(played).toHaveBeenCalledTimes(1)
     expect(container.querySelector('.vjs-legacy__poster')).toBeNull()
+    expect(playButton.querySelector('svg')?.outerHTML).not.toBe(playIcon)
     container.querySelector<HTMLElement>('media-mute-button')!.click()
     await settle()
     expect(player.value?.store?.muted).toBe(true)
+    expect(muteButton.querySelector('svg')?.outerHTML).not.toBe(volumeIcon)
+    expect(muteButton.getAttribute('aria-label')).toBe('Unmute')
+    const mutedIcon = muteButton.querySelector('svg')?.outerHTML
+    player.value!.media!.volume = 0
+    player.value!.media!.muted = false
+    await settle()
+    expect(muteButton.querySelector('svg')?.outerHTML).toBe(mutedIcon)
     const select = container.querySelector('select')!
     select.value = '1.5'
     select.dispatchEvent(new Event('change', { bubbles: true }))

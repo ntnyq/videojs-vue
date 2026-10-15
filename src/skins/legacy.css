@@ -74,6 +74,14 @@
   color: #fff;
 }
 
+.vjs-legacy__icon,
+.vjs-legacy__icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
 .vjs-legacy__button:hover {
   background: rgba(255, 255, 255, 0.2);
 }

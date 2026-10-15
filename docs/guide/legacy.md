@@ -6,6 +6,8 @@ description: Build a simplified video player targeting Chrome 90 and later.
 
 The opt-in legacy entry targets Chrome 90+ with a separate light-DOM skin. It uses the same Video.js store, media adapters, props, events, exposed handle, and lifecycle as the other fixed players.
 
+Legacy refers to browser compatibility. Its purpose is to avoid newer browser requirements, not to recreate the Video.js 8 appearance or API. The layout is assembled from Video.js 10 controls with a standalone stylesheet; playback behavior still comes from Video.js 10.
+
 Three pieces are required: the legacy skin, runtime polyfills, and a production build that lowers **all** player dependencies to Chrome 90. Importing the entry alone does not lower upstream JavaScript syntax.
 
 ## Load the polyfills first
@@ -74,6 +76,8 @@ For composition, use `PlayerRoot` and `Video` from `videojs-vue/core`, and `Lega
 ## Controls and styling
 
 The skin includes play/pause, seeking with buffer display, current time and duration, mute, volume, playback speed, captions toggle, picture-in-picture and fullscreen. Space/K toggle playback and Left/Right seek. Buttons and sliders reuse upstream keyboard and accessibility behavior; speed uses a native select. The control bar stays visible.
+
+Controls use the standard Video.js 10 inline SVG icons, including state changes for playback, volume, captions, picture-in-picture, and fullscreen. They inherit `currentColor`, need no icon font or additional request, and do not import the packaged skin CSS. Decorative SVGs are hidden from assistive technology; the upstream buttons provide accessible labels.
 
 `ResizeObserver` measures the player container. Below 480px the volume slider and picture-in-picture button are hidden; mute remains available. The layout wraps in narrow players and disconnects its observer while cached or unmounted.
 

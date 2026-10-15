@@ -1,3 +1,16 @@
+import {
+  captionsOffIcon,
+  captionsOnIcon,
+  fullscreenEnterIcon,
+  fullscreenExitIcon,
+  pauseIcon,
+  pipEnterIcon,
+  pipExitIcon,
+  playIcon,
+  volumeHighIcon,
+  volumeLowIcon,
+  volumeOffIcon,
+} from '@videojs/html/icons/default'
 import { computed, defineComponent, h } from 'vue'
 import { usePlayerActions } from '../../composables/usePlayerActions'
 import { usePlayerState } from '../../composables/usePlayerState'
@@ -18,6 +31,17 @@ import { Time } from '../../ui/time'
 import { TimeSlider } from '../../ui/time-slider'
 import { VolumeSlider } from '../../ui/volume-slider'
 
+const LOW_VOLUME_THRESHOLD = 0.5
+
+function renderIcon(svg: string) {
+  return h('span', {
+    class: 'vjs-legacy__icon',
+    'aria-hidden': 'true',
+    // Only static SVG strings from @videojs/html/icons/default reach this helper.
+    innerHTML: svg,
+  })
+}
+
 function sliderParts(buffer = false) {
   return [
     h(SliderTrack),
@@ -35,6 +59,18 @@ export const LegacyControls = defineComponent({
   setup() {
     const paused = usePlayerState(state => state.paused)
     const muted = usePlayerState(state => state.muted)
+    const volume = usePlayerState(state => state.volume)
+    const fullscreen = usePlayerState(state => state.isFullscreen)
+    const pip = usePlayerState(state => state.isPictureInPicture)
+    const subtitles = usePlayerState(state => state.subtitlesShowing)
+    const volumeIcon = computed(() => {
+      if (muted.value || volume.value === 0) {
+        return volumeOffIcon
+      }
+      return (volume.value ?? 1) < LOW_VOLUME_THRESHOLD
+        ? volumeLowIcon
+        : volumeHighIcon
+    })
     const rate = usePlayerState(state => state.playbackRate)
     const rates = usePlayerState(state => state.playbackRates)
     const options = computed(() => {
@@ -73,7 +109,12 @@ export const LegacyControls = defineComponent({
                     h(
                       PlayButton,
                       { class: 'vjs-legacy__button' },
-                      { default: () => (paused.value === false ? '❚❚' : '▶') },
+                      {
+                        default: () =>
+                          renderIcon(
+                            paused.value === false ? pauseIcon : playIcon,
+                          ),
+                      },
                     ),
                     h(Time, { type: 'current' }),
                     h('span', { 'aria-hidden': 'true' }, '/'),
@@ -82,7 +123,7 @@ export const LegacyControls = defineComponent({
                     h(
                       MuteButton,
                       { class: 'vjs-legacy__button' },
-                      { default: () => (muted.value ? '🔇' : '🔊') },
+                      { default: () => renderIcon(volumeIcon.value) },
                     ),
                     h(
                       VolumeSlider,
@@ -105,17 +146,32 @@ export const LegacyControls = defineComponent({
                     h(
                       CaptionsButton,
                       { class: 'vjs-legacy__button' },
-                      { default: () => 'CC' },
+                      {
+                        default: () =>
+                          renderIcon(
+                            subtitles.value ? captionsOnIcon : captionsOffIcon,
+                          ),
+                      },
                     ),
                     h(
                       PiPButton,
                       { class: 'vjs-legacy__button vjs-legacy__pip' },
-                      { default: () => '▣' },
+                      {
+                        default: () =>
+                          renderIcon(pip.value ? pipExitIcon : pipEnterIcon),
+                      },
                     ),
                     h(
                       FullscreenButton,
                       { class: 'vjs-legacy__button' },
-                      { default: () => '⛶' },
+                      {
+                        default: () =>
+                          renderIcon(
+                            fullscreen.value
+                              ? fullscreenExitIcon
+                              : fullscreenEnterIcon,
+                          ),
+                      },
                     ),
                   ]),
                 ],
