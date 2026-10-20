@@ -22,6 +22,11 @@ export const EXAMPLES = [
     icon: 'play',
   },
   {
+    id: 'playlist',
+    group: 'playback',
+    icon: 'play',
+  },
+  {
     id: 'hls',
     group: 'playback',
     icon: 'radio',

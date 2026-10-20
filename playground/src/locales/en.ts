@@ -30,6 +30,12 @@ const en = {
     close: 'Close',
   },
   examples: {
+    playlist: {
+      title: 'Playlists',
+      description:
+        'Switch items in one player and continue after each item ends.',
+      hint: 'Choose an item or use Previous / Next. Repeat loops the entire list. Errors stop on the current item; retry or select another item.',
+    },
     audio: {
       title: 'Audio playback',
       description:
@@ -84,6 +90,14 @@ const en = {
       description: 'Explore readiness, cleanup and a fresh player instance.',
       hint: 'Unmount the player to release its media and subscriptions. Mount it again and watch the ready event. Reset restores this example’s defaults.',
     },
+  },
+  playlist: {
+    previous: 'Previous',
+    next: 'Next',
+    repeat: 'Repeat playlist',
+    loading: 'Resolving source…',
+    retry: 'Retry item',
+    cancel: 'Cancel',
   },
   player: {
     quality: 'Quality',

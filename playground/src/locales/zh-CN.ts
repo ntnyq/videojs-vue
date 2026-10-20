@@ -32,6 +32,11 @@ export default {
     close: '关闭',
   },
   examples: {
+    playlist: {
+      title: '播放列表',
+      description: '在同一个播放器中切换资源，播完后自动播放下一项。',
+      hint: '点击列表或使用上一项 / 下一项。循环作用于整个列表；失败时停在当前项，可重试或手动切换。',
+    },
     audio: {
       title: '音频播放',
       description: '原生音频、预设皮肤和响应式播放设置。',
@@ -83,6 +88,14 @@ export default {
       description: '观察就绪、清理及新播放器实例的生命周期。',
       hint: '卸载播放器会释放媒体与订阅。重新挂载后观察 ready 事件。重置会恢复当前示例的默认配置。',
     },
+  },
+  playlist: {
+    previous: '上一项',
+    next: '下一项',
+    repeat: '循环播放列表',
+    loading: '正在解析地址…',
+    retry: '重试当前项',
+    cancel: '取消',
   },
   player: {
     quality: '清晰度',

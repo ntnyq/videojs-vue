@@ -12,6 +12,11 @@ const LiveDemo = defineAsyncComponent(async () => {
   return module.LiveDemo
 })
 
+const PlaylistDemo = defineAsyncComponent(async () => {
+  const module = await import('./PlaylistDemo')
+  return module.PlaylistDemo
+})
+
 const AudioDemo = defineAsyncComponent(async () => {
   const module = await import('./AudioDemo')
   return module.AudioDemo
@@ -44,6 +49,15 @@ export const PlayerDemo = defineComponent({
         'onUpdate:muted': (value: boolean) => lab.syncModel('muted', value),
         'onUpdate:playbackRate': (value: number) =>
           lab.syncModel('playbackRate', value),
+      }
+      if (lab.example === 'playlist') {
+        return (
+          <PlaylistDemo
+            key={lab.generation}
+            lab={lab}
+            {...listeners}
+          />
+        )
       }
       if (lab.example === 'live') {
         return (

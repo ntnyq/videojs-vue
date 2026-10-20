@@ -6,7 +6,7 @@ import type { PlayerMedia } from '../media/types'
 
 export type MediaSettingsStore = Pick<
   AudioPlayerStore,
-  'volume' | 'muted' | 'setVolume' | 'setMuted'
+  'target' | 'volume' | 'muted' | 'setVolume' | 'setMuted'
 > &
   Partial<Pick<AudioPlayerStore, 'setPlaybackRate'>>
 

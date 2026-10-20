@@ -52,7 +52,9 @@ export function useMediaElement({
   })
 
   function syncSettings(media: PlayerMedia) {
-    const store = player?.handle.media === media ? player.handle.store : null
+    const activeStore = player?.handle.store
+    // Vue refs can update before upstream's MutationObserver rebinds native media.
+    const store = activeStore?.target?.media === media ? activeStore : null
     const muteRequest = props.muted ?? media.muted
     if (props.volume !== undefined && Number.isFinite(props.volume)) {
       const volume = Math.min(1, Math.max(0, props.volume))

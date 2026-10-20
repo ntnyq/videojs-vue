@@ -5,6 +5,7 @@ import {
   Fragment,
   h,
   KeepAlive,
+  onErrorCaptured,
   shallowRef,
 } from 'vue'
 import type { Component } from 'vue'
@@ -65,6 +66,71 @@ describe('player contracts', () => {
       tag: 'audio-skin',
     },
   ])('$name', ({ Player, Root, Media, tag }) => {
+    it.each(['immediate', 'after removal'])(
+      'applies settings to replacement media %s before the upstream target catches up',
+      async mode => {
+        expect.hasAssertions()
+        const revision = shallowRef<number | null>(0)
+        const errors: unknown[] = []
+        const player = shallowRef<
+          VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
+        >(null)
+        const { container } = mount(
+          defineComponent({
+            setup() {
+              // oxlint-disable-next-line promise/prefer-await-to-callbacks -- Vue's error capture hook receives the actual child watcher failure.
+              onErrorCaptured(error => {
+                errors.push(error)
+                return false
+              })
+              return () =>
+                h(
+                  Root,
+                  { ref: player },
+                  {
+                    default: () =>
+                      h(MediaContainer, null, {
+                        default: () =>
+                          // oxlint-disable-next-line vitest/no-conditional-in-test -- Exercises both direct replacement and an async resolver gap.
+                          revision.value === null
+                            ? null
+                            : h(Media, {
+                                key: revision.value,
+                                src: `/${revision.value}.mp4`,
+                                volume: 0.3,
+                                muted: true,
+                                playbackRate: 1.5,
+                              }),
+                      }),
+                  },
+                )
+            },
+          }),
+        )
+        await settle()
+        const original = player.value!.media!
+        const root = player.value!.element
+        // oxlint-disable-next-line vitest/no-conditional-in-test -- An async resolver can leave the root without media between selections.
+        if (mode === 'after removal') {
+          revision.value = null
+          await settle()
+        }
+        revision.value = 1
+        await settle()
+        const replacement =
+          container.querySelector<HTMLMediaElement>('video, audio')!
+        expect(errors).toStrictEqual([])
+        expect(player.value!.element).toBe(root)
+        expect(player.value!.media).toBe(replacement)
+        expect(replacement).not.toBe(original)
+        expect(replacement.volume).toBe(0.3)
+        expect(replacement.muted).toBe(true)
+        expect(replacement.playbackRate).toBe(1.5)
+        expect(player.value!.store!.volume).toBe(0.3)
+        expect(player.value!.store!.muted).toBe(true)
+      },
+    )
+
     it.each(['packaged', 'composed'])(
       'keeps %s controls and metadata live after a long cache',
       async mode => {

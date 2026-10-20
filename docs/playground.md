@@ -11,6 +11,7 @@ description: Explore the hosted videojs-vue playground and its interactive playb
 | Scenario             | What it demonstrates                                                  |
 | -------------------- | --------------------------------------------------------------------- |
 | Native video         | Default and neutral skins, captions, and settings.                    |
+| Playlists            | Item selection, continuous playback, cancellation, and list repeat.   |
 | HLS                  | Playback through the optional `HlsVideo` adapter.                     |
 | Internationalization | English and Simplified Chinese labels, including custom control text. |
 | Composed controls    | Keyboard shortcuts, a seek slider, and an in-container overlay.       |
@@ -23,6 +24,7 @@ Playback depends on the browser's media capabilities and the availability of dem
 ## Related documentation
 
 - [Native video example](./examples/basic-video.md)
+- [Playlist example](./examples/playlist.md)
 - [HLS example](./examples/hls.md)
 - [Compose a player](./guide/composition.md)
 - [State and actions](./guide/state-and-actions.md)

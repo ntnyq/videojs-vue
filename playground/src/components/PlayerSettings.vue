@@ -98,11 +98,14 @@ const skin = computed({
   get: () => props.lab.config.skin,
   set: value => props.lab.updateConfig('skin', value),
 })
-const booleanProps = computed(() =>
-  props.lab.example === 'audio'
+const booleanProps = computed(() => {
+  if (props.lab.example === 'playlist') {
+    return ['muted', 'playsinline'] as const
+  }
+  return props.lab.example === 'audio'
     ? (['muted', 'autoplay', 'loop'] as const)
-    : (['muted', 'autoplay', 'loop', 'playsinline'] as const),
-)
+    : (['muted', 'autoplay', 'loop', 'playsinline'] as const)
+})
 </script>
 <template>
   <section
@@ -139,7 +142,16 @@ const booleanProps = computed(() =>
                 translate('settings.media')
               }}</AccordionTrigger
               ><AccordionContent class="space-y-4">
-                <form @submit.prevent="applyUrl('src')">
+                <p
+                  v-if="lab.example === 'playlist'"
+                  class="text-xs text-muted-foreground"
+                >
+                  {{ translate('examples.playlist.hint') }}
+                </p>
+                <form
+                  v-else
+                  @submit.prevent="applyUrl('src')"
+                >
                   <Label
                     for="source-url"
                     class="text-xs"
@@ -172,7 +184,9 @@ const booleanProps = computed(() =>
                   v-model="skin"
                   label="skin"
                   :options="skins"
-                  :disabled="lab.example === 'custom'"
+                  :disabled="
+                    lab.example === 'custom' || lab.example === 'playlist'
+                  "
                 />
                 <p
                   v-if="lab.example === 'custom'"
@@ -182,7 +196,10 @@ const booleanProps = computed(() =>
                 </p>
               </AccordionContent></AccordionItem
             >
-            <AccordionItem value="advanced">
+            <AccordionItem
+              v-if="lab.example !== 'playlist'"
+              value="advanced"
+            >
               <AccordionTrigger>{{
                 translate('settings.advanced')
               }}</AccordionTrigger>

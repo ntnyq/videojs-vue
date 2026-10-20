@@ -5,7 +5,9 @@ import { shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Button } from './ui/button'
 
-const props = defineProps<{ code: string }>()
+const props = withDefaults(defineProps<{ code: string; filename?: string }>(), {
+  filename: 'Example.vue',
+})
 const { t: translate } = useI18n()
 const { copy, copied } = useClipboard({ legacy: true })
 const hasFailed = shallowRef(false)
@@ -47,7 +49,7 @@ async function copyCode() {
     class="overflow-hidden rounded-md border bg-muted/30 [contain:inline-size]"
   >
     <div class="flex items-center justify-between border-b px-4 py-2">
-      <span class="text-xs text-muted-foreground">Example.vue</span
+      <span class="text-xs text-muted-foreground">{{ filename }}</span
       ><Button
         variant="ghost"
         size="sm"

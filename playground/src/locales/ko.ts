@@ -32,6 +32,12 @@ export default {
     close: '닫기',
   },
   examples: {
+    playlist: {
+      title: '재생 목록',
+      description:
+        '하나의 플레이어에서 항목을 전환하고 종료 후 다음 항목을 재생합니다.',
+      hint: '항목을 선택하거나 이전 / 다음을 사용하세요. 반복은 전체 목록에 적용됩니다. 오류가 발생하면 중지되며 재시도하거나 다른 항목을 선택할 수 있습니다.',
+    },
     audio: {
       title: '오디오 재생',
       description:
@@ -85,6 +91,14 @@ export default {
         '준비 완료, 정리, 새 플레이어 인스턴스의 생명주기를 확인합니다.',
       hint: '마운트를 해제하면 미디어와 구독이 해제됩니다. 다시 마운트하여 ready 이벤트를 확인하세요. 초기화하면 현재 예제의 기본 설정으로 돌아갑니다.',
     },
+  },
+  playlist: {
+    previous: '이전',
+    next: '다음',
+    repeat: '목록 반복',
+    loading: '주소 확인 중…',
+    retry: '항목 재시도',
+    cancel: '취소',
   },
   player: {
     quality: '화질',

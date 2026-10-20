@@ -66,6 +66,7 @@ const asyncEntries = [...manifest.keys()].filter(
 for (const example of [
   'AudioDemo.tsx',
   'LiveDemo.tsx',
+  'PlaylistDemo.tsx',
   'CustomPlayerDemo.tsx',
   'media/hls.js',
 ]) {

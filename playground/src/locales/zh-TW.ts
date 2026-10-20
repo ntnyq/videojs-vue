@@ -32,6 +32,11 @@ export default {
     close: '關閉',
   },
   examples: {
+    playlist: {
+      title: '播放清單',
+      description: '在同一播放器中切換資源，播放結束後接續下一項。',
+      hint: '點選清單或使用上一項 / 下一項。循環作用於整份清單；失敗時停在目前項目，可重試或手動切換。',
+    },
     audio: {
       title: '音訊播放',
       description: '原生音訊、預設外觀與響應式播放設定。',
@@ -82,6 +87,14 @@ export default {
       description: '觀察就緒、清理與新播放器實例的生命週期。',
       hint: '卸載播放器會釋放媒體與訂閱。重新掛載後觀察 ready 事件。重設會還原目前範例的預設設定。',
     },
+  },
+  playlist: {
+    previous: '上一項',
+    next: '下一項',
+    repeat: '循環播放清單',
+    loading: '正在解析網址…',
+    retry: '重試目前項目',
+    cancel: '取消',
   },
   player: {
     quality: '畫質',

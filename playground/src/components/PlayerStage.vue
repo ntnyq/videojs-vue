@@ -10,6 +10,8 @@ import {
 } from '@lucide/vue'
 import { useI18n } from 'vue-i18n'
 import type { Playground } from '../composables/usePlayground'
+// oxlint-disable-next-line import/default -- Vite's raw loader exports the source text.
+import playlistController from '../playlist/usePlaylist.ts?raw'
 import CodePanel from './CodePanel.vue'
 import { PlayerDemo } from './PlayerDemo'
 import PlayerModeTabs from './PlayerModeTabs.vue'
@@ -134,6 +136,15 @@ function setSeek(lab: Playground, value: string | number) {
           ><CodePanel
             class="mt-4"
             :code="lab.code"
+            :filename="
+              lab.example === 'playlist' ? 'PlaylistExample.vue' : 'Example.vue'
+            "
+          />
+          <CodePanel
+            v-if="lab.example === 'playlist'"
+            class="mt-4"
+            :code="playlistController"
+            filename="usePlaylist.ts"
           />
         </TabsContent>
         <TabsContent value="state"

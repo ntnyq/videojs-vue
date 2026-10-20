@@ -45,6 +45,8 @@ For Chrome 90+, use `videojs-vue/video/legacy` with `videojs-vue/video/skins/leg
 
 See the [documentation](https://videojs-vue.ntnyq.dev) for HLS, custom controls, internationalization, and the API reference. Try the [playground](https://videojs-vue-playground.ntnyq.dev) for interactive examples.
 
+For multiple media items, the [playlist recipe](https://videojs-vue.ntnyq.dev/examples/playlist) demonstrates continuous playback, whole-list repeat, and cancellable URL resolution with one player. The Playground includes a runnable playlist and both copyable source files.
+
 ## Audio
 
 ```vue

@@ -1,4 +1,5 @@
 import type { ExampleId, PlaygroundConfig } from '../data'
+import playlistExample from '../playlist/PlaylistExample.vue?raw'
 
 const EXAMPLE_APIS = {
   video: {
@@ -66,6 +67,9 @@ export function createExampleCode(
   config: PlaygroundConfig,
   actionTarget: string,
 ) {
+  if (example === 'playlist') {
+    return playlistExample
+  }
   const isLive = example === 'live'
   const props = createExampleOptions(example, config)
   // Escape HTML delimiters so arbitrary URLs cannot terminate a copied SFC script.
