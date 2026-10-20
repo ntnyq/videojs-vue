@@ -10,7 +10,15 @@ export type { VideoPlayerStore } from '@videojs/html'
 export type VideoPlayerElement = Omit<UpstreamVideoPlayerElement, 'store'> & {
   readonly store: VideoPlayerStore
 }
+/**
+ * Readonly playback snapshot from the upstream video player store.
+ * @interface
+ */
 export type VideoPlayerState = VideoPlayerStore['state']
+/**
+ * Playback, track selection, and presentation actions exposed by a video player.
+ * @interface
+ */
 export type VideoPlayerActions = Pick<
   VideoPlayerStore,
   | 'play'

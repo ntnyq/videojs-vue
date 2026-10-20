@@ -6,6 +6,8 @@ See [bundle size and imports](../guide/bundle-size.md) for lightweight core/comp
 
 # API overview
 
+See the generated [API Reference](../reference/index.md) for signatures, parameters, return values, and types across all public TypeScript entries.
+
 Use the entries below as the public package interface. All components register their required upstream custom elements automatically.
 
 ## Package entries

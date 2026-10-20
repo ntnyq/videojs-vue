@@ -4,7 +4,15 @@ import type { MaybeRefOrGetter } from 'vue'
 import type { PlayerMedia } from '../media/types'
 
 export type { LiveVideoPlayerStore } from '@videojs/html'
+/**
+ * Readonly playback snapshot from the upstream live video player store.
+ * @interface
+ */
 export type LiveVideoPlayerState = LiveVideoPlayerStore['state']
+/**
+ * Playback and presentation actions exposed by a live video player.
+ * @interface
+ */
 export type LiveVideoPlayerActions = Pick<
   LiveVideoPlayerStore,
   | 'play'

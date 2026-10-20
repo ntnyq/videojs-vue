@@ -56,11 +56,16 @@ Keep pages focused on a reader's task:
 
 - `guide/` explains setup, usage, concepts, and troubleshooting.
 - `api/` specifies exports, types, defaults, events, slots, and lifecycle contracts.
+- `reference/` contains the API Reference overview; `reference/api/` is generated from public TypeScript exports and JSDoc and is not committed.
 - `examples/` provides reproducible code and links to the hosted Playground.
 
 Use English prose, descriptive headings, and a frontmatter description. Write Vue examples with `<script setup lang="ts">`, explicit imports, and available public exports. Explain placeholder assets and required optional dependencies.
 
 Keep existing page URLs when reorganizing content, update navigation in `.vitepress/config.mts`, and check cross-links. Direct Playground links should use `https://videojs-vue-playground.ntnyq.dev`.
+
+`pnpm docs:dev` and `pnpm docs:build` generate the API Reference before starting VitePress. To regenerate it after editing source or JSDoc, run `pnpm -C docs reference:generate` and restart the docs server to refresh its sidebar. Entry points come from the typed exports in the root `package.json`, so adding a public export also includes it in the reference. CSS and package metadata exports do not produce TypeScript API pages.
+
+The documentation package uses TypeScript 6 for TypeDoc compatibility; the library build and type checks continue to use the root TypeScript version. Generation uses `docs/tsconfig.reference.json` to check library source without including tests or playground code. DOM inheritance is filtered to keep media interfaces readable.
 
 ## Validate changes
 
