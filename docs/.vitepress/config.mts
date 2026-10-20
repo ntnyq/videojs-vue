@@ -74,6 +74,10 @@ export default defineConfig({
           { text: 'Native audio', link: '/examples/audio' },
           { text: 'HLS', link: '/examples/hls' },
           {
+            text: 'Quality and audio selection',
+            link: '/examples/media-selection',
+          },
+          {
             text: 'Playground',
             link: 'https://videojs-vue-playground.vercel.app',
           },

@@ -20,9 +20,19 @@ export const registrationEntries: Record<string, string[]> = {
   'audio/skins/neutral': ['audio-neutral-skin'],
   'media/hls': ['hlsjs-video'],
   i18n: ['media-i18n', 'media-text'],
+  'ui/quality-radio-group': [
+    'media-quality-radio-group',
+    'media-menu-radio-item',
+  ],
+  'ui/audio-track-radio-group': [
+    'media-audio-track-radio-group',
+    'media-menu-radio-item',
+  ],
   ...Object.fromEntries(
     [
       'container',
+      'menu',
+      'menu-content',
       'controls',
       'controls-content',
       'controls-group',

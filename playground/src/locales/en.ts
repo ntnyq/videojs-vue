@@ -81,6 +81,11 @@ const en = {
     },
   },
   player: {
+    quality: 'Quality',
+    autoQuality: 'Auto',
+    audioTrack: 'Audio track',
+    selectionHint:
+      'Use an HLS stream with multiple renditions or audio tracks. Options follow the current source.',
     play: 'Play',
     pause: 'Pause',
     seek: 'Seek',

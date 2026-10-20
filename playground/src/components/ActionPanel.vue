@@ -2,6 +2,7 @@
 import { computed, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { Playground } from '../composables/usePlayground'
+import MediaSelection from './MediaSelection.vue'
 import NumberField from './NumberField.vue'
 import SelectField from './SelectField.vue'
 import { Button } from './ui/button'
@@ -9,13 +10,19 @@ import { Label } from './ui/label'
 import { Separator } from './ui/separator'
 import { Switch } from './ui/switch'
 
-const props = defineProps<{ lab: Playground }>()
+const props = defineProps<{
+  lab: Playground
+}>()
+
 const { t: translate } = useI18n()
+
 const DEFAULT_ACTION_VOLUME = 0.5
+const DEFAULT_ACTION_RATE = 1.5
+
 const volume = shallowRef(DEFAULT_ACTION_VOLUME)
 const muted = shallowRef(true)
-const DEFAULT_ACTION_RATE = 1.5
 const rate = shallowRef(DEFAULT_ACTION_RATE)
+
 const targets = computed(() => [
   {
     value: 'composable',
@@ -57,6 +64,7 @@ const methods = computed(() =>
   ),
 )
 </script>
+
 <template>
   <div class="space-y-5 pt-3">
     <SelectField
@@ -82,6 +90,10 @@ const methods = computed(() =>
       >
     </div>
     <Separator />
+    <MediaSelection
+      v-if="lab.playerType === 'video'"
+      :lab="lab"
+    />
     <NumberField
       id="action-seek"
       v-model="lab.seekTime"

@@ -1,5 +1,9 @@
 import { AudioPlayer as DefaultAudioPlayer } from 'videojs-vue/audio/default'
 import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
+import { AudioTrackRadioGroup } from 'videojs-vue/ui/audio-track-radio-group'
+import { MediaMenu } from 'videojs-vue/ui/menu'
+import { MediaMenuContent } from 'videojs-vue/ui/menu-content'
+import { QualityRadioGroup } from 'videojs-vue/ui/quality-radio-group'
 import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
 import { VideoPlayer as DefaultVideoPlayer } from 'videojs-vue/video/default'
 import { VideoPlayer as LegacyVideoPlayer } from 'videojs-vue/video/legacy'
@@ -18,6 +22,10 @@ describe('published package', () => {
     [NeutralVideoPlayer, 'video-neutral-skin'],
     [DefaultAudioPlayer, 'audio-skin'],
     [NeutralAudioPlayer, 'audio-neutral-skin'],
+    [QualityRadioGroup, 'media-quality-radio-group'],
+    [AudioTrackRadioGroup, 'media-audio-track-radio-group'],
+    [MediaMenu, 'media-menu'],
+    [MediaMenuContent, 'media-menu-content'],
   ])('renders %s from dist without browser globals', async (Player, tag) => {
     expect.hasAssertions()
     const html = await renderToString(

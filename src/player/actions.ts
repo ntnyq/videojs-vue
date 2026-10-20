@@ -56,6 +56,13 @@ export function createPlayerActions(
   const requireStore = () => requirePlayerStore(getStore)
   return {
     ...createCommonPlayerActions(getStore),
+
+    selectVideoRendition(id) {
+      return requireStore().selectVideoRendition(id)
+    },
+    selectAudioTrack(id) {
+      return requireStore().selectAudioTrack(id)
+    },
     async requestFullscreen() {
       return await requireStore().requestFullscreen()
     },

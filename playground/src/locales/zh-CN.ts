@@ -80,6 +80,10 @@ export default {
     },
   },
   player: {
+    quality: '清晰度',
+    autoQuality: '自动',
+    audioTrack: '音轨',
+    selectionHint: '使用包含多种清晰度或音轨的 HLS 流。选项随当前媒体源更新。',
     play: '播放',
     pause: '暂停',
     seek: '跳转',

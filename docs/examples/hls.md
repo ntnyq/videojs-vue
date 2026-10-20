@@ -4,6 +4,8 @@ description: Install the optional HLS adapter, play a stream, and configure type
 
 # HLS
 
+For independent quality/audio menus and programmatic selection, see [quality and audio selection](./media-selection.md).
+
 Use the optional `HlsVideo` adapter to play an HLS source. Try it in the [Playground](https://videojs-vue-playground.vercel.app).
 
 ## Install the adapter
@@ -45,7 +47,11 @@ import type { HlsSource } from 'videojs-vue/media/hls'
 const source: HlsSource = {
   src: '/stream.m3u8',
   preferPlayback: 'mse',
-  engine: { capLevelToPlayerSize: true },
+  engine: {
+    hlsJs: {
+      capLevelToPlayerSize: true,
+    },
+  },
 }
 </script>
 
@@ -57,6 +63,8 @@ const source: HlsSource = {
   </PlayerRoot>
 </template>
 ```
+
+Use `engine.hlsJs` for hls.js options and `engine.nativeHls` for native HLS options. Each playback path reads only its own options.
 
 The upstream adapter decides native/MSE playback support and handles adaptive streaming. Autoplay and fullscreen remain subject to browser policy. A live URL may play, but this wrapper's preset and UI are for on-demand video; dedicated live APIs are outside this release.
 

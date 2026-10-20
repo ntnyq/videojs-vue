@@ -81,6 +81,11 @@ export default {
     },
   },
   player: {
+    quality: '화질',
+    autoQuality: '자동',
+    audioTrack: '오디오 트랙',
+    selectionHint:
+      '여러 화질 또는 오디오 트랙이 포함된 HLS 스트림을 사용하세요. 옵션은 현재 소스에 따라 업데이트됩니다.',
     play: '재생',
     pause: '일시 정지',
     seek: '이동',

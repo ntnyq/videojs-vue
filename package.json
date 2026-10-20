@@ -215,7 +215,23 @@
       "types": "./dist/polyfills.d.ts",
       "default": "./dist/polyfills.js"
     },
-    "./skins/legacy.css": "./dist/skins/legacy.css"
+    "./skins/legacy.css": "./dist/skins/legacy.css",
+    "./ui/menu": {
+      "types": "./dist/ui/menu.d.ts",
+      "default": "./dist/ui/menu.js"
+    },
+    "./ui/menu-content": {
+      "types": "./dist/ui/menu-content.d.ts",
+      "default": "./dist/ui/menu-content.js"
+    },
+    "./ui/quality-radio-group": {
+      "types": "./dist/ui/quality-radio-group.d.ts",
+      "default": "./dist/ui/quality-radio-group.js"
+    },
+    "./ui/audio-track-radio-group": {
+      "types": "./dist/ui/audio-track-radio-group.d.ts",
+      "default": "./dist/ui/audio-track-radio-group.js"
+    }
   },
   "publishConfig": {
     "access": "public"

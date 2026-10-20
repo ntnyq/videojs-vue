@@ -79,6 +79,11 @@ export default {
     },
   },
   player: {
+    quality: '畫質',
+    autoQuality: '自動',
+    audioTrack: '音軌',
+    selectionHint:
+      '使用包含多種畫質或音軌的 HLS 串流。選項隨目前媒體來源更新。',
     play: '播放',
     pause: '暫停',
     seek: '跳轉',

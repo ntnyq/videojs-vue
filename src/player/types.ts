@@ -19,6 +19,8 @@ export type PlayerActions = Pick<
   | 'setVolume'
   | 'setMuted'
   | 'setPlaybackRate'
+  | 'selectVideoRendition'
+  | 'selectAudioTrack'
   | 'requestFullscreen'
   | 'exitFullscreen'
   | 'requestPictureInPicture'

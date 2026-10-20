@@ -83,6 +83,11 @@ export default {
     },
   },
   player: {
+    quality: '画質',
+    autoQuality: '自動',
+    audioTrack: '音声トラック',
+    selectionHint:
+      '複数の画質または音声トラックを含む HLS ストリームを使用してください。選択肢は現在のソースに応じて更新されます。',
     play: '再生',
     pause: '一時停止',
     seek: 'シーク',

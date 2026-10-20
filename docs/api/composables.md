@@ -58,6 +58,8 @@ Returns actions that resolve the current store on every call. The same methods a
 | `setVolume(volume)`         | `number`          | Set volume through the upstream store.     |
 | `setMuted(muted)`           | `boolean`         | Set the mute state.                        |
 | `setPlaybackRate(rate)`     | `void`            | Set playback speed.                        |
+| `selectVideoRendition(id)`  | `void`            | Select a rendition ID or `"auto"` for ABR. |
+| `selectAudioTrack(id)`      | `void`            | Select an alternate audio track by ID.     |
 | `requestFullscreen()`       | `Promise<void>`   | Request fullscreen.                        |
 | `exitFullscreen()`          | `Promise<void>`   | Exit fullscreen.                           |
 | `requestPictureInPicture()` | `Promise<void>`   | Request picture-in-picture.                |
@@ -66,6 +68,8 @@ Returns actions that resolve the current store on every call. The same methods a
 Commands are never queued. If the player is unavailable, asynchronous methods reject and synchronous methods throw. Upstream failures retain their original rejection reason or thrown error. Browser policy and capability checks still apply.
 
 Actions delegate directly to Video.js. The shared media props' normalization rules are not an additional validation layer for action arguments. For example, the upstream volume action can unmute media; set mute explicitly when your application needs to preserve it.
+
+For video quality and alternate audio, select `videoRenditionList`, `activeVideoRendition`, and `audioTrackList` with `usePlayerState`. Renditions use `selected` for manual selection; tracks use `enabled`. IDs are source-specific. Unknown IDs and unsupported capabilities follow upstream no-op behavior. See [quality and audio selection](../examples/media-selection.md) for complete examples.
 
 ## PlayerHandle
 

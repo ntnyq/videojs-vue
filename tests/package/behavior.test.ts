@@ -19,9 +19,41 @@ import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import type { Component } from 'vue'
 import { cleanup, disposals, mount, settle, reconnectPlayer } from '../helpers'
+import { installMediaSelections } from '../mediaSelections'
 
 describe('published package', () => {
   afterEach(cleanup)
+
+  it('exposes selection actions from the built player and composables', async () => {
+    expect.hasAssertions()
+    const player = shallowRef<PlayerHandle | null>(null)
+    let actions: ReturnType<typeof usePlayerActions> | undefined
+    const { container } = mount(
+      defineComponent({
+        setup() {
+          actions = usePlayerActions(player)
+          return () => h(VideoPlayer, { ref: player })
+        },
+      }),
+    )
+    await settle()
+    const { videoRenditions, tracks } = installMediaSelections(
+      container.querySelector('video')!,
+    )
+    await settle()
+    actions!.selectVideoRendition('1080p')
+    player.value!.selectAudioTrack('zh')
+    expect(videoRenditions.selectedIndex).toBe(1)
+    expect(tracks[1]!.enabled).toBe(true)
+    player.value!.selectVideoRendition('auto')
+    expect(videoRenditions.selectedIndex).toBe(-1)
+    expectTypeOf(actions!.selectVideoRendition).parameters.toEqualTypeOf<
+      [id: string]
+    >()
+    expectTypeOf(actions!.selectAudioTrack).toEqualTypeOf<
+      (id: string) => void
+    >()
+  })
 
   it('keeps fixed skin and exposed handle types', () => {
     expect.assertions(0)
