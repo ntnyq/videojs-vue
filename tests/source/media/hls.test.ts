@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { defineComponent, h, shallowRef } from 'vue'
-import { PlayerRoot, Video, VideoPlayer } from '../../../src'
-import type { PlayerHandle } from '../../../src'
+import { VideoPlayerRoot, Video, VideoPlayer } from '../../../src'
+import type { VideoPlayerHandle } from '../../../src'
 import { HlsVideo } from '../../../src/media/hls'
 import { MediaContainer } from '../../../src/ui'
 import { mount, settle, cleanup } from '../../helpers'
@@ -19,7 +19,7 @@ describe('hls media adapter', () => {
     const { container } = mount(
       defineComponent(
         () => () =>
-          h(PlayerRoot, null, {
+          h(VideoPlayerRoot, null, {
             default: () =>
               h(MediaContainer, null, {
                 default: () =>
@@ -48,7 +48,7 @@ describe('hls media adapter', () => {
 
   it('keeps bound adapter settings in upstream state after metadata arrives', async () => {
     expect.hasAssertions()
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const { container } = mount(
       defineComponent(
         () => () =>

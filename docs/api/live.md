@@ -27,20 +27,20 @@ Shared props match [VideoPlayer](./video-player.md), except `playbackRate` is om
 
 `skin` accepts `default` or `neutral`. Both skins replace the time slider and time displays with a Live button. Attributes and styles target the skin, and the `poster` and `thumbnail` slots follow the existing video skin contract.
 
-The component forwards [media events](./events.md), emits `ready` with a `LivePlayerHandle`, and supports `v-model:volume` and `v-model:muted`. `ready` means the store is available; media metadata may still be loading.
+The component forwards [media events](./events.md), emits `ready` with a `LiveVideoPlayerHandle`, and supports `v-model:volume` and `v-model:muted`. `ready` means the store is available; media metadata may still be loading.
 
 ## Composition and imports
 
-| Entry                            | Exports                                                                                                                              |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `videojs-vue/live`               | `LiveVideoPlayer`, `LiveVideoPlayerRoot`, `LiveVideoSkin`, `NeutralLiveVideoSkin`, `LiveButton`, `Video`, live composables and types |
-| `videojs-vue/live/core`          | `LiveVideoPlayerRoot`, `Video`, live types                                                                                           |
-| `videojs-vue/live/composables`   | `useLivePlayerState`, `useLivePlayerActions`, live types                                                                             |
-| `videojs-vue/live/default`       | `LiveVideoPlayer` with only the default skin                                                                                         |
-| `videojs-vue/live/neutral`       | `LiveVideoPlayer` with only the neutral skin                                                                                         |
-| `videojs-vue/live/skins/default` | `LiveVideoSkin`                                                                                                                      |
-| `videojs-vue/live/skins/neutral` | `NeutralLiveVideoSkin`                                                                                                               |
-| `videojs-vue/ui/live-button`     | `LiveButton`                                                                                                                         |
+| Entry                            | Exports                                                                                                                                     |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `videojs-vue/live`               | `LiveVideoPlayer`, `LiveVideoPlayerRoot`, `DefaultLiveVideoSkin`, `NeutralLiveVideoSkin`, `LiveButton`, `Video`, live composables and types |
+| `videojs-vue/live/core`          | `LiveVideoPlayerRoot`, `Video`, live types                                                                                                  |
+| `videojs-vue/live/composables`   | `useLiveVideoPlayerState`, `useLiveVideoPlayerActions`, live types                                                                          |
+| `videojs-vue/live/default`       | `LiveVideoPlayer` with only the default skin                                                                                                |
+| `videojs-vue/live/neutral`       | `LiveVideoPlayer` with only the neutral skin                                                                                                |
+| `videojs-vue/live/skins/default` | `DefaultLiveVideoSkin`                                                                                                                      |
+| `videojs-vue/live/skins/neutral` | `NeutralLiveVideoSkin`                                                                                                                      |
+| `videojs-vue/ui/live-button`     | `LiveButton`                                                                                                                                |
 
 `LiveVideoPlayerRoot` accepts `title` and `poster`, and wraps composed media and controls in `<live-video-player>`. Root events match the high-level player. For structured HLS configuration, compose `HlsVideo` with its typed `source` prop; see the [live example](../examples/live.md).
 
@@ -50,23 +50,26 @@ The base, audio, and live entries stay independent. Live composables register no
 
 ```ts
 import {
-  useLivePlayerActions,
-  useLivePlayerState,
+  useLiveVideoPlayerActions,
+  useLiveVideoPlayerState,
 } from 'videojs-vue/live/composables'
-import type { LivePlayerHandle } from 'videojs-vue/live/core'
+import type { LiveVideoPlayerHandle } from 'videojs-vue/live/core'
 import { shallowRef } from 'vue'
 
-const player = shallowRef<LivePlayerHandle | null>(null)
-const liveEdgeStart = useLivePlayerState(state => state.liveEdgeStart, player)
-const targetLiveWindow = useLivePlayerState(
+const player = shallowRef<LiveVideoPlayerHandle | null>(null)
+const liveEdgeStart = useLiveVideoPlayerState(
+  state => state.liveEdgeStart,
+  player,
+)
+const targetLiveWindow = useLiveVideoPlayerState(
   state => state.targetLiveWindow,
   player,
 )
-const seekable = useLivePlayerState(state => state.seekable, player)
-const actions = useLivePlayerActions(player)
+const seekable = useLiveVideoPlayerState(state => state.seekable, player)
+const actions = useLiveVideoPlayerActions(player)
 ```
 
-Omit the target inside `LiveVideoPlayerRoot` descendants to use its injected context. The selector reads the immutable upstream `LivePlayerState`; values become `undefined` while the target is unavailable. Selectors release their subscriptions on target changes, deactivation, and unmount.
+Omit the target inside `LiveVideoPlayerRoot` descendants to use its injected context. The selector reads the immutable upstream `LiveVideoPlayerState`; values become `undefined` while the target is unavailable. Selectors release their subscriptions on target changes, deactivation, and unmount.
 
 | Field              | Meaning                                                                                                                                |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -76,7 +79,7 @@ Omit the target inside `LiveVideoPlayerRoot` descendants to use its injected con
 
 Check `targetLiveWindow` after readiness to identify live content. `duration` can be the finite seekable end even when the browser reports `Infinity`.
 
-`LivePlayerActions` and `LivePlayerHandle` expose `play`, `pause`, `seek`, `setVolume`, `setMuted`, `requestFullscreen`, `exitFullscreen`, `requestPictureInPicture`, and `exitPictureInPicture`, with the upstream return types. The live preset omits playback speed, quality selection, and audio-track selection.
+`LiveVideoPlayerActions` and `LiveVideoPlayerHandle` expose `play`, `pause`, `seek`, `setVolume`, `setMuted`, `requestFullscreen`, `exitFullscreen`, `requestPictureInPicture`, and `exitPictureInPicture`, with the upstream return types. The live preset omits playback speed, quality selection, and audio-track selection.
 
 The handle also exposes `element`, `store`, and `media` getters. These return `null` while inactive or unmounted. Commands resolve the current store on every call, reject or throw when unavailable, and preserve original rejection causes. Fullscreen, PiP, and autoplay remain subject to browser policy.
 

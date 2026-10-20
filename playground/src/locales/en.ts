@@ -55,7 +55,7 @@ const en = {
     custom: {
       title: 'Custom controls',
       description:
-        'Compose your player with PlayerRoot, Video and individual controls.',
+        'Compose your player with VideoPlayerRoot, Video and individual controls.',
       hint: 'The controls below use the shared player context. Try Space / K to play or pause and arrow keys to seek while the player is focused.',
     },
     captions: {
@@ -70,14 +70,14 @@ const en = {
     },
     state: {
       title: 'State subscriptions',
-      description: 'Read reactive snapshots with usePlayerState.',
+      description: 'Read reactive snapshots with useVideoPlayerState.',
       hint: 'The live-state view subscribes to the upstream store. Its values become unavailable when the player is unmounted.',
     },
     actions: {
       title: 'Player actions',
       description:
         'Call player methods with typed arguments and inspect the results.',
-      hint: 'Switch between usePlayerActions and the component ref in the Actions tab. Fullscreen and PiP require browser support and a user gesture.',
+      hint: 'Switch between useVideoPlayerActions and the component ref in the Actions tab. Fullscreen and PiP require browser support and a user gesture.',
     },
     lifecycle: {
       title: 'Mount & unmount',

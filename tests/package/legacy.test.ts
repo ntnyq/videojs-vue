@@ -84,7 +84,7 @@ describe('published legacy entry', () => {
         /static\s*\{/u,
       )
       const css = await readFile(
-        new URL('../../dist/skins/legacy.css', import.meta.url),
+        new URL('../../dist/video/skins/legacy.css', import.meta.url),
         'utf8',
       )
       expect(css).toContain('.vjs-legacy')

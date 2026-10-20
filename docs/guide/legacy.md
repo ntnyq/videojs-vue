@@ -50,7 +50,7 @@ The library targets Chrome 90 syntax but keeps `@videojs/*` external. Your bundl
 ```vue
 <script setup lang="ts">
 import { VideoPlayer } from 'videojs-vue/video/legacy'
-import 'videojs-vue/skins/legacy.css'
+import 'videojs-vue/video/skins/legacy.css'
 </script>
 
 <template>
@@ -71,7 +71,7 @@ import { HlsVideo } from 'videojs-vue/media/hls'
 // <VideoPlayer :media="HlsVideo" src="/stream.m3u8" />
 ```
 
-For composition, use `PlayerRoot` and `Video` from `videojs-vue/core`, and `LegacyVideoSkin` from `videojs-vue/skins/legacy`. Place the skin inside `PlayerRoot` and the media inside the skin. Import the same legacy stylesheet.
+For composition, use `VideoPlayerRoot` and `Video` from `videojs-vue/video/core`, and `LegacyVideoSkin` from `videojs-vue/video/skins/legacy`. Place the skin inside `VideoPlayerRoot` and the media inside the skin. Import the same legacy stylesheet.
 
 ## Controls and styling
 

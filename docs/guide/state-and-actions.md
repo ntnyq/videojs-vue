@@ -8,18 +8,22 @@ Use selectors to read the Video.js store and actions to request playback changes
 
 ## Control a player from its parent
 
-Pass a typed template ref when the component calling the composables is outside `PlayerRoot`:
+Pass a typed template ref when the component calling the composables is outside `VideoPlayerRoot`:
 
 ```vue
 <script setup lang="ts">
 import { computed, shallowRef, useTemplateRef } from 'vue'
-import { VideoPlayer, usePlayerActions, usePlayerState } from 'videojs-vue'
-import type { PlayerHandle } from 'videojs-vue'
+import {
+  VideoPlayer,
+  useVideoPlayerActions,
+  useVideoPlayerState,
+} from 'videojs-vue'
+import type { VideoPlayerHandle } from 'videojs-vue'
 
-const player = useTemplateRef<PlayerHandle>('player')
-const paused = usePlayerState(state => state.paused, player)
-const currentTime = usePlayerState(state => state.currentTime, player)
-const actions = usePlayerActions(player)
+const player = useTemplateRef<VideoPlayerHandle>('player')
+const paused = useVideoPlayerState(state => state.paused, player)
+const currentTime = useVideoPlayerState(state => state.currentTime, player)
+const actions = useVideoPlayerActions(player)
 const errorMessage = shallowRef('')
 const playbackLabel = computed(() =>
   paused.value === undefined ? 'Not ready' : paused.value ? 'Play' : 'Pause',
@@ -65,13 +69,13 @@ Before readiness, selectors return `undefined`. Keep that state distinct from va
 
 ## Use context in a child component
 
-A component rendered inside `PlayerRoot` can omit the target:
+A component rendered inside `VideoPlayerRoot` can omit the target:
 
 ```ts
-import { usePlayerActions, usePlayerState } from 'videojs-vue'
+import { useVideoPlayerActions, useVideoPlayerState } from 'videojs-vue'
 
-const paused = usePlayerState(state => state.paused)
-const actions = usePlayerActions()
+const paused = useVideoPlayerState(state => state.paused)
+const actions = useVideoPlayerActions()
 ```
 
 Call these from a descendant's setup, not from the setup that renders the root itself. Missing injected context throws immediately. See [composition](./composition.md) for the parent layout.
@@ -92,4 +96,4 @@ Do not pass `player.value` during setup: it is initially `null` and will not fol
 
 The `ready` event makes the store available; it does not guarantee loaded metadata or playable media. Commands issued while unavailable reject or throw and are never replayed later.
 
-See the [action reference](../api/composables.md#useplayeractions) for return types, [events](../api/events.md) for media milestones, and [lifecycle](./lifecycle.md) for KeepAlive behavior.
+See the [action reference](../api/composables.md#usevideoplayeractions) for return types, [events](../api/events.md) for media milestones, and [lifecycle](./lifecycle.md) for KeepAlive behavior.

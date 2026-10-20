@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { createSSRApp, defineComponent, h, shallowRef } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { PlayerRoot, Video, usePlayerState } from '../../../src'
+import { VideoPlayerRoot, Video, useVideoPlayerState } from '../../../src'
 import {
   Hotkey,
   MediaContainer,
@@ -18,14 +18,14 @@ describe('player controls', () => {
     expect.hasAssertions()
     const Child = defineComponent({
       setup() {
-        const paused = usePlayerState(state => state.paused)
+        const paused = useVideoPlayerState(state => state.paused)
         return () => h('output', String(paused.value))
       },
     })
     const { container } = mount(
       defineComponent(
         () => () =>
-          h(PlayerRoot, null, {
+          h(VideoPlayerRoot, null, {
             default: () =>
               h(MediaContainer, null, {
                 default: () => [
@@ -62,7 +62,7 @@ describe('player controls', () => {
     const { container } = mount(
       defineComponent(
         () => () =>
-          h(PlayerRoot, null, {
+          h(VideoPlayerRoot, null, {
             default: () => [
               h(SeekButton, seekProps.value),
               h(TimeSlider, sliderProps.value),
@@ -107,7 +107,7 @@ describe('player controls', () => {
     })
     const Player = defineComponent(
       () => () =>
-        h(PlayerRoot, null, {
+        h(VideoPlayerRoot, null, {
           default: () =>
             h(MediaContainer, null, {
               default: () => [h(Video), h(SeekButton, settings.value)],

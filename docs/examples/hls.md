@@ -40,7 +40,7 @@ Replace `/stream.m3u8` with an accessible HLS manifest URL. Its referenced segme
 
 ```vue
 <script setup lang="ts">
-import { PlayerRoot, DefaultVideoSkin } from 'videojs-vue'
+import { VideoPlayerRoot, DefaultVideoSkin } from 'videojs-vue'
 import { HlsVideo } from 'videojs-vue/media/hls'
 import type { HlsSource } from 'videojs-vue/media/hls'
 
@@ -56,11 +56,11 @@ const source: HlsSource = {
 </script>
 
 <template>
-  <PlayerRoot>
+  <VideoPlayerRoot>
     <DefaultVideoSkin>
       <HlsVideo :source="source" />
     </DefaultVideoSkin>
-  </PlayerRoot>
+  </VideoPlayerRoot>
 </template>
 ```
 

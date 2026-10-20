@@ -3,10 +3,13 @@ import type { Component, PropType } from 'vue'
 import { MEDIA_EVENTS } from '../media/events'
 import type { MediaEventName } from '../media/events'
 import { Video } from '../media/Video'
-import { createLivePlayerActions } from './actions'
-import { LiveVideoPlayerRoot, livePlayerEmits } from './LiveVideoPlayerRoot'
-import { liveMediaProps } from './props'
-import type { LivePlayerHandle } from './types'
+import { createLiveVideoPlayerActions } from './actions'
+import {
+  LiveVideoPlayerRoot,
+  liveVideoPlayerEmits,
+} from './LiveVideoPlayerRoot'
+import { liveVideoMediaProps } from './props'
+import type { LiveVideoPlayerHandle } from './types'
 
 /**
  * Supported media components share the Video props, events and context contract.
@@ -24,7 +27,7 @@ export function createLiveVideoPlayer<Skin extends VideoSkin>(
     name: componentName,
     inheritAttrs: false,
     props: {
-      ...liveMediaProps,
+      ...liveVideoMediaProps,
       title: String,
       media: {
         type: Object as PropType<LiveVideoMediaComponent>,
@@ -35,11 +38,11 @@ export function createLiveVideoPlayer<Skin extends VideoSkin>(
         default: initialSkin as VideoSkin,
       },
     },
-    emits: livePlayerEmits,
+    emits: liveVideoPlayerEmits,
     setup(props, { attrs, slots, emit, expose }) {
-      const root = shallowRef<LivePlayerHandle | null>(null)
+      const root = shallowRef<LiveVideoPlayerHandle | null>(null)
 
-      const handle: LivePlayerHandle = {
+      const handle: LiveVideoPlayerHandle = {
         get element() {
           return root.value?.element ?? null
         },
@@ -49,7 +52,7 @@ export function createLiveVideoPlayer<Skin extends VideoSkin>(
         get media() {
           return root.value?.media ?? null
         },
-        ...createLivePlayerActions(() => root.value?.store ?? null),
+        ...createLiveVideoPlayerActions(() => root.value?.store ?? null),
       }
 
       expose(handle)
@@ -101,7 +104,7 @@ export function createLiveVideoPlayer<Skin extends VideoSkin>(
 
   // Vue cannot infer generic runtime props or expose() handles.
   // Replace the constructor signature so callers see only bound skin keys.
-  type Instance = InstanceType<typeof component> & LivePlayerHandle
+  type Instance = InstanceType<typeof component> & LiveVideoPlayerHandle
   return component as unknown as Omit<typeof component, never> & {
     new (): Instance & { $props: { skin?: Skin } }
   }

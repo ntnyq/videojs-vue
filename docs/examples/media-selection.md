@@ -17,7 +17,7 @@ Each group belongs inside `MediaMenuContent`, which must be a direct child of `M
 ```vue
 <script setup lang="ts">
 import { useId } from 'vue'
-import { PlayerRoot } from 'videojs-vue/core'
+import { VideoPlayerRoot } from 'videojs-vue/video/core'
 import { HlsVideo } from 'videojs-vue/media/hls'
 import { AudioTrackRadioGroup } from 'videojs-vue/ui/audio-track-radio-group'
 import { MediaContainer } from 'videojs-vue/ui/container'
@@ -31,7 +31,7 @@ const audioId = useId()
 </script>
 
 <template>
-  <PlayerRoot>
+  <VideoPlayerRoot>
     <MediaContainer>
       <HlsVideo src="https://example.com/master.m3u8" />
       <PlayButton>Play / pause</PlayButton>
@@ -58,7 +58,7 @@ const audioId = useId()
         </MediaMenuContent>
       </MediaMenu>
     </MediaContainer>
-  </PlayerRoot>
+  </VideoPlayerRoot>
 </template>
 
 <style scoped>
@@ -94,20 +94,27 @@ Individual group entries also register the radio items they generate. Style thos
 
 ## Select with actions
 
-Read IDs from the current source through `usePlayerState`. Re-read them after a source change. Manual selection and the currently playing rendition are different: ABR can change the active rendition while selection remains Auto.
+Read IDs from the current source through `useVideoPlayerState`. Re-read them after a source change. Manual selection and the currently playing rendition are different: ABR can change the active rendition while selection remains Auto.
 
 ```vue
 <script setup lang="ts">
 import { computed, shallowRef } from 'vue'
-import { VideoPlayer, usePlayerActions, usePlayerState } from 'videojs-vue'
-import type { PlayerHandle } from 'videojs-vue'
+import {
+  VideoPlayer,
+  useVideoPlayerActions,
+  useVideoPlayerState,
+} from 'videojs-vue'
+import type { VideoPlayerHandle } from 'videojs-vue'
 import { HlsVideo } from 'videojs-vue/media/hls'
 
-const player = shallowRef<PlayerHandle | null>(null)
-const actions = usePlayerActions(player)
-const renditions = usePlayerState(state => state.videoRenditionList, player)
-const tracks = usePlayerState(state => state.audioTrackList, player)
-const active = usePlayerState(state => state.activeVideoRendition, player)
+const player = shallowRef<VideoPlayerHandle | null>(null)
+const actions = useVideoPlayerActions(player)
+const renditions = useVideoPlayerState(
+  state => state.videoRenditionList,
+  player,
+)
+const tracks = useVideoPlayerState(state => state.audioTrackList, player)
+const active = useVideoPlayerState(state => state.activeVideoRendition, player)
 const quality = computed(
   () => renditions.value?.find(item => item.selected)?.id ?? 'auto',
 )

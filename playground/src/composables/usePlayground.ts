@@ -1,15 +1,18 @@
-import type { PlayerActions, PlayerHandle } from 'videojs-vue'
+import type { VideoPlayerActions, VideoPlayerHandle } from 'videojs-vue'
 import type { AudioPlayerHandle } from 'videojs-vue/audio'
 import {
   useAudioPlayerActions,
   useAudioPlayerState,
 } from 'videojs-vue/audio/composables'
-import { usePlayerActions, usePlayerState } from 'videojs-vue/composables'
 import {
-  useLivePlayerActions,
-  useLivePlayerState,
+  useLiveVideoPlayerActions,
+  useLiveVideoPlayerState,
 } from 'videojs-vue/live/composables'
-import type { LivePlayerHandle } from 'videojs-vue/live/core'
+import type { LiveVideoPlayerHandle } from 'videojs-vue/live/core'
+import {
+  useVideoPlayerActions,
+  useVideoPlayerState,
+} from 'videojs-vue/video/composables'
 import { computed, reactive, shallowRef } from 'vue'
 import { createConfig, MEDIA_EVENTS } from '../data'
 import type { ExampleId, PlaygroundConfig, PlayerType } from '../data'
@@ -24,7 +27,7 @@ export function usePlayground() {
   )
   const config = reactive(createConfig())
   const player = shallowRef<
-    PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+    VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
   >(null)
   const isMounted = shallowRef(true)
   const generation = shallowRef(0)
@@ -50,11 +53,11 @@ export function usePlayground() {
       ? handle
       : null
   })
-  const liveActions = useLivePlayerActions(livePlayer)
-  const liveSnapshot = useLivePlayerState(state => state, livePlayer)
-  const actions = usePlayerActions(videoPlayer)
+  const liveActions = useLiveVideoPlayerActions(livePlayer)
+  const liveSnapshot = useLiveVideoPlayerState(state => state, livePlayer)
+  const actions = useVideoPlayerActions(videoPlayer)
   const audioActions = useAudioPlayerActions(audioPlayer)
-  const videoSnapshot = usePlayerState(state => state, videoPlayer)
+  const videoSnapshot = useVideoPlayerState(state => state, videoPlayer)
   const audioSnapshot = useAudioPlayerState(state => state, audioPlayer)
   const snapshot = computed(() => {
     if (example.value === 'audio') {
@@ -108,7 +111,11 @@ export function usePlayground() {
     createExampleCode(example.value, config, actionTarget.value),
   )
   function setPlayer(
-    handle: PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null,
+    handle:
+      | VideoPlayerHandle
+      | AudioPlayerHandle
+      | LiveVideoPlayerHandle
+      | null,
   ) {
     player.value = handle
   }
@@ -166,20 +173,20 @@ export function usePlayground() {
     config[key] = value
     log.record('model', `update:${key}`, { value })
   }
-  async function run<Name extends keyof PlayerActions>(
+  async function run<Name extends keyof VideoPlayerActions>(
     name: Name,
-    ...args: Parameters<PlayerActions[Name]>
+    ...args: Parameters<VideoPlayerActions[Name]>
   ) {
     const instance = player.value
     const token = generation.value
-    let currentActions: Partial<PlayerActions> = actions
+    let currentActions: Partial<VideoPlayerActions> = actions
     if (example.value === 'audio') {
       currentActions = audioActions
     }
     if (example.value === 'live') {
       currentActions = liveActions
     }
-    const target: Partial<PlayerActions> | null =
+    const target: Partial<VideoPlayerActions> | null =
       actionTarget.value === 'ref' ? instance : currentActions
     log.record('action', `${name}()`, { args, target: actionTarget.value })
     function fail(error: unknown) {

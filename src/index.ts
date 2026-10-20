@@ -4,19 +4,19 @@ import './register/video/neutral-skin'
 
 export { VideoPlayer } from './video/VideoPlayer'
 export type { VideoMediaComponent } from './video/VideoPlayer'
-export { PlayerRoot } from './player/PlayerRoot'
+export { VideoPlayerRoot } from './video/VideoPlayerRoot'
 export { Video } from './media/Video'
-export { DefaultVideoSkin, NeutralVideoSkin } from './skins'
-export { usePlayerState } from './composables/usePlayerState'
-export { usePlayerActions } from './composables/usePlayerActions'
+export { DefaultVideoSkin, NeutralVideoSkin } from './video/skins'
+export { useVideoPlayerState } from './video/useVideoPlayerState'
+export { useVideoPlayerActions } from './video/useVideoPlayerActions'
 export type { MediaEventName } from './media/events'
-export type { MediaProps } from './media/props'
+export type { VideoMediaProps } from './media/props'
 export type { MediaTrack, PlayerMedia } from './media/types'
 export type {
-  PlayerActions,
-  PlayerHandle,
-  PlayerElement,
-  PlayerState,
-  PlayerStore,
-  PlayerTarget,
-} from './player/types'
+  VideoPlayerActions,
+  VideoPlayerHandle,
+  VideoPlayerElement,
+  VideoPlayerState,
+  VideoPlayerStore,
+  VideoPlayerTarget,
+} from './video/types'

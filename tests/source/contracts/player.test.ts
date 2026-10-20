@@ -9,12 +9,12 @@ import {
 } from 'vue'
 import type { Component } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { PlayerRoot, Video, VideoPlayer } from '../../../src'
-import type { PlayerHandle } from '../../../src'
+import { VideoPlayerRoot, Video, VideoPlayer } from '../../../src'
+import type { VideoPlayerHandle } from '../../../src'
 import { Audio, AudioPlayer, AudioPlayerRoot } from '../../../src/audio'
 import type { AudioPlayerHandle } from '../../../src/audio'
 import { LiveVideoPlayer, LiveVideoPlayerRoot } from '../../../src/live'
-import type { LivePlayerHandle } from '../../../src/live'
+import type { LiveVideoPlayerHandle } from '../../../src/live'
 import { HlsVideo } from '../../../src/media/hls'
 import { MediaContainer, PlayButton } from '../../../src/ui'
 import {
@@ -46,7 +46,7 @@ describe('player contracts', () => {
     {
       name: 'video',
       Player: VideoPlayer,
-      Root: PlayerRoot,
+      Root: VideoPlayerRoot,
       Media: Video,
       tag: 'video-skin',
     },
@@ -72,7 +72,7 @@ describe('player contracts', () => {
         const visible = shallowRef(true)
         const title = shallowRef('Before')
         const player = shallowRef<
-          PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+          VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
         >(null)
         const ready = vi.fn()
         const Cached = defineComponent(
@@ -143,7 +143,7 @@ describe('player contracts', () => {
       expect.hasAssertions()
       const muted = shallowRef<boolean | undefined>(true)
       const player = shallowRef<
-        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+        VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
       >(null)
       const updated = vi.fn()
       mount(
@@ -206,7 +206,7 @@ describe('player contracts', () => {
       expect.hasAssertions()
       const muted = shallowRef<boolean | undefined>(true)
       const player = shallowRef<
-        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+        VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
       >(null)
       const Fixture = defineComponent(
         () => () =>
@@ -265,7 +265,7 @@ describe('player contracts', () => {
   it('preserves HLS mute when its binding is removed', async () => {
     expect.hasAssertions()
     const muted = shallowRef<boolean | undefined>(true)
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     mount(
       defineComponent(
         () => () =>

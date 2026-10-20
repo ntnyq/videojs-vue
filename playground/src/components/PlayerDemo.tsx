@@ -1,8 +1,8 @@
 import { VideoPlayer } from 'videojs-vue'
-import type { PlayerHandle } from 'videojs-vue'
+import type { VideoPlayerHandle } from 'videojs-vue'
 import type { AudioPlayerHandle } from 'videojs-vue/audio'
-import { Video } from 'videojs-vue/core'
-import type { LivePlayerHandle } from 'videojs-vue/live/core'
+import type { LiveVideoPlayerHandle } from 'videojs-vue/live/core'
+import { Video } from 'videojs-vue/video/core'
 import { defineAsyncComponent, defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { Playground } from '../composables/usePlayground'
@@ -30,7 +30,7 @@ export const PlayerDemo = defineComponent({
   props: { lab: { type: Object as PropType<Playground>, required: true } },
   setup(props) {
     function onReady(
-      handle: PlayerHandle | AudioPlayerHandle | LivePlayerHandle,
+      handle: VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle,
     ) {
       props.lab.setPlayer(handle)
       props.lab.log.record('lifecycle', 'ready', { example: props.lab.example })

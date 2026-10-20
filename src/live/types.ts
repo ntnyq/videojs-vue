@@ -4,8 +4,8 @@ import type { MaybeRefOrGetter } from 'vue'
 import type { PlayerMedia } from '../media/types'
 
 export type { LiveVideoPlayerStore } from '@videojs/html'
-export type LivePlayerState = LiveVideoPlayerStore['state']
-export type LivePlayerActions = Pick<
+export type LiveVideoPlayerState = LiveVideoPlayerStore['state']
+export type LiveVideoPlayerActions = Pick<
   LiveVideoPlayerStore,
   | 'play'
   | 'pause'
@@ -18,7 +18,7 @@ export type LivePlayerActions = Pick<
   | 'exitPictureInPicture'
 >
 // Upstream 10.0.1's preset declaration loses the store type through its namespace.
-export type LivePlayerElement = Omit<
+export type LiveVideoPlayerElement = Omit<
   UpstreamLiveVideoPlayerElement,
   'store'
 > & {
@@ -28,11 +28,11 @@ export type LivePlayerElement = Omit<
 /**
  * Getters return null while the live player is inactive or unmounted.
  */
-export interface LivePlayerHandle extends LivePlayerActions {
-  readonly element: LivePlayerElement | null
+export interface LiveVideoPlayerHandle extends LiveVideoPlayerActions {
+  readonly element: LiveVideoPlayerElement | null
   readonly store: LiveVideoPlayerStore | null
   readonly media: PlayerMedia | null
 }
-export type LivePlayerTarget = MaybeRefOrGetter<
-  LivePlayerHandle | null | undefined
+export type LiveVideoPlayerTarget = MaybeRefOrGetter<
+  LiveVideoPlayerHandle | null | undefined
 >

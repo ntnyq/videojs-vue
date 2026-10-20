@@ -1,17 +1,17 @@
 import { defineComponent, h, mergeProps, shallowRef } from 'vue'
-import { usePlayerState } from '../composables/usePlayerState'
-import { MediaContainer } from '../ui/container'
+import { MediaContainer } from '../../ui/container'
+import { useVideoPlayerState } from '../useVideoPlayerState'
 import { LegacyControls } from './legacy/LegacyControls'
 import { useLegacySize } from './legacy/useLegacySize'
 
-/** Light-DOM skin. Import videojs-vue/skins/legacy.css separately. */
+/** Light-DOM skin. Import videojs-vue/video/skins/legacy.css separately. */
 export const LegacyVideoSkin = defineComponent({
   name: 'LegacyVideoSkin',
   inheritAttrs: false,
   setup(_props, { attrs, slots }) {
     const element = shallowRef<HTMLElement | null>(null)
     const size = useLegacySize(element)
-    const hasStarted = usePlayerState(state => state.started)
+    const hasStarted = useVideoPlayerState(state => state.started)
     return () =>
       h(
         MediaContainer,

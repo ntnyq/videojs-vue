@@ -1,5 +1,5 @@
-import { PlayerRoot, Video } from 'videojs-vue/core'
 import { MediaContainer } from 'videojs-vue/ui/container'
+import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -14,7 +14,7 @@ export const CustomPlayerDemo = defineComponent({
     return () => {
       const { lab } = props
       return (
-        <PlayerRoot
+        <VideoPlayerRoot
           title={lab.config.title}
           poster={lab.config.poster}
           {...attrs}
@@ -29,7 +29,7 @@ export const CustomPlayerDemo = defineComponent({
             </div>
             <CustomControls />
           </MediaContainer>
-        </PlayerRoot>
+        </VideoPlayerRoot>
       )
     }
   },

@@ -6,9 +6,9 @@ description: Diagnose context errors, unavailable players, HLS setup, captions, 
 
 Start by reproducing the issue in the [Playground](https://videojs-vue-playground.vercel.app), then compare your component structure and configuration with the examples.
 
-## “Use this composable inside PlayerRoot or pass a player ref”
+## “Use this composable inside VideoPlayerRoot or pass a player ref”
 
-The calling component has no injected player context. Move the composable into a descendant component, or pass a template ref as its target. The setup that renders `PlayerRoot` cannot inject that root's context.
+The calling component has no injected player context. Move the composable into a descendant component, or pass a template ref as its target. The setup that renders `VideoPlayerRoot` cannot inject that root's context.
 
 See [state and actions](./state-and-actions.md).
 
@@ -26,7 +26,7 @@ Try playback from a user-initiated button. See [events](../api/events.md) to dis
 
 ## HLS dependency or configuration errors
 
-Install `@videojs/hlsjs-video@10.0.1`, then import `HlsVideo` from `videojs-vue/media/hls`. For a simple URL, pass it as `VideoPlayer`'s `media` prop. For engine options, place `HlsVideo :source="source"` inside `PlayerRoot` and a skin.
+Install `@videojs/hlsjs-video@10.0.1`, then import `HlsVideo` from `videojs-vue/media/hls`. For a simple URL, pass it as `VideoPlayer`'s `media` prop. For engine options, place `HlsVideo :source="source"` inside `VideoPlayerRoot` and a skin.
 
 A `source` attribute on `VideoPlayer` reaches the skin, not the media adapter. See the [HLS example](../examples/hls.md).
 

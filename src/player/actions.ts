@@ -1,12 +1,11 @@
 import type { AudioPlayerStore } from '@videojs/html'
-import type { PlayerActions, PlayerStore } from './types'
 
 export type PlaybackActions = Pick<
   AudioPlayerStore,
   'play' | 'pause' | 'seek' | 'setVolume' | 'setMuted'
 >
 
-export type CommonPlayerActions = Pick<
+export type OnDemandPlayerActions = Pick<
   AudioPlayerStore,
   'play' | 'pause' | 'seek' | 'setVolume' | 'setMuted' | 'setPlaybackRate'
 >
@@ -50,48 +49,15 @@ export function createPlaybackActions(
 /**
  * Add on-demand playback speed commands to the shared playback actions.
  * @param {() => AudioPlayerStore | null} getStore - Reads the active on-demand store.
- * @returns {CommonPlayerActions} Shared on-demand playback commands.
+ * @returns {OnDemandPlayerActions} Shared on-demand playback commands.
  */
-export function createCommonPlayerActions(
+export function createOnDemandPlayerActions(
   getStore: () => AudioPlayerStore | null,
-): CommonPlayerActions {
+): OnDemandPlayerActions {
   return {
     ...createPlaybackActions(getStore),
     setPlaybackRate(rate) {
       return requirePlayerStore(getStore).setPlaybackRate(rate)
-    },
-  }
-}
-
-/**
- * Resolve on every call so actions cannot retain an unmounted player's store.
- * @param {() => PlayerStore | null} getStore - Reads the currently active store.
- * @returns {PlayerActions} Commands bound to the current player.
- */
-export function createPlayerActions(
-  getStore: () => PlayerStore | null,
-): PlayerActions {
-  const requireStore = () => requirePlayerStore(getStore)
-  return {
-    ...createCommonPlayerActions(getStore),
-
-    selectVideoRendition(id) {
-      return requireStore().selectVideoRendition(id)
-    },
-    selectAudioTrack(id) {
-      return requireStore().selectAudioTrack(id)
-    },
-    async requestFullscreen() {
-      return await requireStore().requestFullscreen()
-    },
-    async exitFullscreen() {
-      return await requireStore().exitFullscreen()
-    },
-    async requestPictureInPicture() {
-      return await requireStore().requestPictureInPicture()
-    },
-    async exitPictureInPicture() {
-      return await requireStore().exitPictureInPicture()
     },
   }
 }

@@ -1,5 +1,5 @@
 import { defineComponent, h, mergeProps } from 'vue'
-import { withSlot } from './withSlot'
+import { withSlot } from '../../player/withSlot'
 
 export function createVideoSkin(name: string, tag: string) {
   return defineComponent({

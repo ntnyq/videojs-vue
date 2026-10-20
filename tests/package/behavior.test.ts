@@ -7,20 +7,23 @@ import { AudioPlayerRoot, Audio } from 'videojs-vue/audio/core'
 import type { AudioPlayerHandle } from 'videojs-vue/audio/core'
 import { AudioPlayer as DefaultAudioPlayer } from 'videojs-vue/audio/default'
 import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
-import { usePlayerActions, usePlayerState } from 'videojs-vue/composables'
-import { PlayerRoot, Video } from 'videojs-vue/core'
-import type { PlayerHandle } from 'videojs-vue/core'
 import {
-  useLivePlayerActions,
-  useLivePlayerState,
+  useLiveVideoPlayerActions,
+  useLiveVideoPlayerState,
 } from 'videojs-vue/live/composables'
 import { LiveVideoPlayerRoot } from 'videojs-vue/live/core'
-import type { LivePlayerHandle } from 'videojs-vue/live/core'
+import type { LiveVideoPlayerHandle } from 'videojs-vue/live/core'
 import { LiveVideoPlayer as DefaultLiveVideoPlayer } from 'videojs-vue/live/default'
 import { LiveVideoPlayer as NeutralLiveVideoPlayer } from 'videojs-vue/live/neutral'
 import { MediaContainer } from 'videojs-vue/ui/container'
 import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
 import type { VideoMediaComponent } from 'videojs-vue/video/compat'
+import {
+  useVideoPlayerActions,
+  useVideoPlayerState,
+} from 'videojs-vue/video/composables'
+import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
+import type { VideoPlayerHandle } from 'videojs-vue/video/core'
 import { VideoPlayer as DefaultVideoPlayer } from 'videojs-vue/video/default'
 import { VideoPlayer as NeutralVideoPlayer } from 'videojs-vue/video/neutral'
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
@@ -34,12 +37,12 @@ describe('published package', () => {
 
   it('exposes selection actions from the built player and composables', async () => {
     expect.hasAssertions()
-    const player = shallowRef<PlayerHandle | null>(null)
-    let actions: ReturnType<typeof usePlayerActions> | undefined
+    const player = shallowRef<VideoPlayerHandle | null>(null)
+    let actions: ReturnType<typeof useVideoPlayerActions> | undefined
     const { container } = mount(
       defineComponent({
         setup() {
-          actions = usePlayerActions(player)
+          actions = useVideoPlayerActions(player)
           return () => h(VideoPlayer, { ref: player })
         },
       }),
@@ -80,12 +83,12 @@ describe('published package', () => {
     >().toEqualTypeOf<'compat' | undefined>()
     expectTypeOf<
       InstanceType<typeof CompatVideoPlayer>
-    >().toExtend<PlayerHandle>()
+    >().toExtend<VideoPlayerHandle>()
     // @ts-expect-error The fixed live player only includes its default skin.
     h(DefaultLiveVideoPlayer, { skin: 'neutral' })
     expectTypeOf<
       InstanceType<typeof DefaultLiveVideoPlayer>
-    >().toExtend<LivePlayerHandle>()
+    >().toExtend<LiveVideoPlayerHandle>()
     expectTypeOf<VideoMediaComponent>().toEqualTypeOf<typeof Video>()
     // @ts-expect-error A fixed default player cannot select a neutral skin.
     h(DefaultVideoPlayer, { skin: 'neutral' })
@@ -105,7 +108,7 @@ describe('published package', () => {
     >().toEqualTypeOf<'neutral' | undefined>()
     expectTypeOf<
       InstanceType<typeof DefaultVideoPlayer>
-    >().toExtend<PlayerHandle>()
+    >().toExtend<VideoPlayerHandle>()
     expectTypeOf<
       InstanceType<typeof DefaultAudioPlayer>
     >().toExtend<AudioPlayerHandle>()
@@ -116,27 +119,27 @@ describe('published package', () => {
     Root: Component
     Media: Component
     state:
-      | typeof usePlayerState
+      | typeof useVideoPlayerState
       | typeof useAudioPlayerState
-      | typeof useLivePlayerState
+      | typeof useLiveVideoPlayerState
     actions:
-      | typeof usePlayerActions
+      | typeof useVideoPlayerActions
       | typeof useAudioPlayerActions
-      | typeof useLivePlayerActions
+      | typeof useLiveVideoPlayerActions
   }>([
     {
       name: 'video',
-      Root: PlayerRoot,
+      Root: VideoPlayerRoot,
       Media: Video,
-      state: usePlayerState,
-      actions: usePlayerActions,
+      state: useVideoPlayerState,
+      actions: useVideoPlayerActions,
     },
     {
       name: 'live',
       Root: LiveVideoPlayerRoot,
       Media: Video,
-      state: useLivePlayerState,
-      actions: useLivePlayerActions,
+      state: useLiveVideoPlayerState,
+      actions: useLiveVideoPlayerActions,
     },
     {
       name: 'audio',
@@ -149,7 +152,7 @@ describe('published package', () => {
     it('shares injected state and commands with media binding and cleans up', async () => {
       expect.hasAssertions()
       const player = shallowRef<
-        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+        VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
       >(null)
       const Child = defineComponent({
         setup() {
@@ -224,7 +227,7 @@ describe('published package', () => {
     it('forwards events, props, slots and handles through KeepAlive and disposal', async () => {
       expect.hasAssertions()
       const player = shallowRef<
-        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+        VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
       >(null)
       const visible = shallowRef(true)
       const volume = shallowRef(0.4)

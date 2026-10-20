@@ -54,7 +54,7 @@ export default {
     },
     custom: {
       title: '自訂控制項',
-      description: '使用 PlayerRoot、Video 與獨立控制項組合播放器。',
+      description: '使用 VideoPlayerRoot、Video 與獨立控制項組合播放器。',
       hint: '下方控制項共用播放器上下文。播放器取得焦點時，按空白鍵 / K 切換播放，按左右方向鍵跳轉。',
     },
     captions: {
@@ -69,13 +69,13 @@ export default {
     },
     state: {
       title: '狀態訂閱',
-      description: '透過 usePlayerState 讀取響應式狀態快照。',
+      description: '透過 useVideoPlayerState 讀取響應式狀態快照。',
       hint: '即時狀態檢視訂閱上游 store。卸載播放器後，狀態將無法使用。',
     },
     actions: {
       title: '播放器操作',
       description: '傳入參數呼叫播放器方法，檢視執行結果。',
-      hint: '在操作面板切換 usePlayerActions 與元件 ref。全螢幕與子母畫面需要瀏覽器支援及使用者互動。',
+      hint: '在操作面板切換 useVideoPlayerActions 與元件 ref。全螢幕與子母畫面需要瀏覽器支援及使用者互動。',
     },
     lifecycle: {
       title: '掛載與卸載',

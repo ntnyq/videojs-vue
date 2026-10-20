@@ -1,15 +1,14 @@
+import type { AudioPlayerStore } from '@videojs/html'
 import { computed, inject, toValue } from 'vue'
 import type { InjectionKey, MaybeRefOrGetter } from 'vue'
-import type { AudioPlayerHandle } from '../audio/types'
 import type { MediaEventName } from '../media/events'
 import type { PlayerMedia } from '../media/types'
-import type { PlayerHandle, PlayerTarget } from './types'
 
 export type MediaSettingsStore = Pick<
-  NonNullable<AudioPlayerHandle['store']>,
+  AudioPlayerStore,
   'volume' | 'muted' | 'setVolume' | 'setMuted'
 > &
-  Partial<Pick<NonNullable<AudioPlayerHandle['store']>, 'setPlaybackRate'>>
+  Partial<Pick<AudioPlayerStore, 'setPlaybackRate'>>
 
 interface MediaContext {
   handle: {
@@ -21,10 +20,6 @@ interface MediaContext {
 }
 export const MEDIA_CONTEXT: InjectionKey<MediaContext> =
   Symbol('videojs-vue.media')
-export const PLAYER_CONTEXT: InjectionKey<PlayerHandle> =
-  Symbol('videojs-vue.player')
-export const AUDIO_PLAYER_CONTEXT: InjectionKey<AudioPlayerHandle> =
-  Symbol('videojs-vue.audio')
 
 export function useTarget<Handle>(
   key: InjectionKey<Handle>,
@@ -41,8 +36,4 @@ export function useTarget<Handle>(
     )
   }
   return computed(() => handle)
-}
-
-export function usePlayerTarget(target?: PlayerTarget) {
-  return useTarget(PLAYER_CONTEXT, 'PlayerRoot', target)
 }

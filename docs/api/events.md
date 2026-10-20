@@ -6,22 +6,22 @@ description: Player readiness, confirmed setting updates, and forwarded native m
 
 ## Player events
 
-`VideoPlayer` and `PlayerRoot` emit these events:
+`VideoPlayer` and `VideoPlayerRoot` emit these events:
 
-| Event                 | Payload        | When emitted                                            |
-| --------------------- | -------------- | ------------------------------------------------------- |
-| `ready`               | `PlayerHandle` | The mounted or reactivated root has acquired its store. |
-| `update:volume`       | `number`       | Media confirmation reports a changed volume.            |
-| `update:muted`        | `boolean`      | Media confirmation reports a changed mute setting.      |
-| `update:playbackRate` | `number`       | Media confirmation reports a changed playback rate.     |
+| Event                 | Payload             | When emitted                                            |
+| --------------------- | ------------------- | ------------------------------------------------------- |
+| `ready`               | `VideoPlayerHandle` | The mounted or reactivated root has acquired its store. |
+| `update:volume`       | `number`            | Media confirmation reports a changed volume.            |
+| `update:muted`        | `boolean`           | Media confirmation reports a changed mute setting.      |
+| `update:playbackRate` | `number`            | Media confirmation reports a changed playback rate.     |
 
 Setting confirmation runs after `volumechange` or `ratechange`, batches updates until Vue's next tick, and suppresses unchanged values. These events report the actual media settings; they are not a guaranteed initial snapshot on `ready`.
 
-Use `v-model:volume`, `v-model:muted`, and `v-model:playback-rate` on `VideoPlayer`. In composition mode, bind settings to the media component and listen for confirmations on `PlayerRoot`.
+Use `v-model:volume`, `v-model:muted`, and `v-model:playback-rate` on `VideoPlayer`. In composition mode, bind settings to the media component and listen for confirmations on `VideoPlayerRoot`.
 
 ## Media events
 
-`Video`, `HlsVideo`, `PlayerRoot`, and `VideoPlayer` forward the original `Event` object for every event listed below. Handlers can use the event's media target or a player handle to inspect the media element.
+`Video`, `HlsVideo`, `VideoPlayerRoot`, and `VideoPlayer` forward the original `Event` object for every event listed below. Handlers can use the event's media target or a player handle to inspect the media element.
 
 | Category           | Events                                                                     |
 | ------------------ | -------------------------------------------------------------------------- |
@@ -32,7 +32,7 @@ Use `v-model:volume`, `v-model:muted`, and `v-model:playback-rate` on `VideoPlay
 | Settings           | `volumechange`, `ratechange`                                               |
 | Picture-in-picture | `enterpictureinpicture`, `leavepictureinpicture`                           |
 
-There is no whole-state change event. Use [usePlayerState](./composables.md#useplayerstate) for reactive state rather than duplicating playback state in event handlers.
+There is no whole-state change event. Use [useVideoPlayerState](./composables.md#usevideoplayerstate) for reactive state rather than duplicating playback state in event handlers.
 
 ## Readiness milestones
 

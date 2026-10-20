@@ -1,4 +1,4 @@
-import type { MediaEventName, MediaProps } from 'videojs-vue'
+import type { MediaEventName, VideoMediaProps } from 'videojs-vue'
 
 export const MP4_SOURCE =
   'https://stream.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/highest.mp4'
@@ -77,7 +77,7 @@ export interface PlaygroundConfig {
   autoplay: boolean
   loop: boolean
   playsinline: boolean
-  preload: MediaProps['preload']
+  preload: VideoMediaProps['preload']
   crossorigin: 'anonymous' | 'use-credentials' | undefined
   hasCaptions: boolean
   trackSrc: string

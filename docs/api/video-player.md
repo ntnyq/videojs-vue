@@ -39,7 +39,7 @@ All props are optional. Provide a media source to play video.
 
 `undefined` settings leave the media setting under player control. Bind `v-model:volume`, `v-model:muted`, or `v-model:playback-rate` to receive confirmed updates; see [two-way settings](../guide/getting-started.md#two-way-settings).
 
-`VideoPlayer` forwards only the shared media props to its adapter. For HLS `source` configuration or additional media attributes, use [PlayerRoot with HlsVideo](../examples/hls.md#adapter-configuration).
+`VideoPlayer` forwards only the shared media props to its adapter. For HLS `source` configuration or additional media attributes, use [VideoPlayerRoot with HlsVideo](../examples/hls.md#adapter-configuration).
 
 ## Events
 
@@ -64,4 +64,4 @@ See [skins and styling](../guide/styling.md) for examples.
 
 ## Exposed ref
 
-The component exposes a [PlayerHandle](./composables.md#playerhandle): player actions and live `element`, `store`, and `media` getters. These getters return `null` while the player is unavailable or inactive.
+The component exposes a [VideoPlayerHandle](./composables.md#videoplayerhandle): player actions and live `element`, `store`, and `media` getters. These getters return `null` while the player is unavailable or inactive.

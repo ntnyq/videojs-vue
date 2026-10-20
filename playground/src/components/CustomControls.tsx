@@ -1,4 +1,3 @@
-import { usePlayerState } from 'videojs-vue/composables'
 import { CaptionsButton } from 'videojs-vue/ui/captions-button'
 import { MediaControls } from 'videojs-vue/ui/controls'
 import { MediaControlsContent } from 'videojs-vue/ui/controls-content'
@@ -14,14 +13,15 @@ import { SliderTrack } from 'videojs-vue/ui/slider-track'
 import { StatusAnnouncer } from 'videojs-vue/ui/status-announcer'
 import { Time } from 'videojs-vue/ui/time'
 import { TimeSlider } from 'videojs-vue/ui/time-slider'
+import { useVideoPlayerState } from 'videojs-vue/video/composables'
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export const CustomControls = defineComponent({
   setup() {
     const { t: translate } = useI18n()
-    const paused = usePlayerState(state => state.paused)
-    const muted = usePlayerState(state => state.muted)
+    const paused = useVideoPlayerState(state => state.paused)
+    const muted = useVideoPlayerState(state => state.muted)
     const buttonClass =
       'cursor-pointer rounded px-2 py-2 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-white'
     return () => (

@@ -57,7 +57,7 @@ export default {
     custom: {
       title: 'カスタムコントロール',
       description:
-        'PlayerRoot、Video、各コントロールでプレーヤーを構成します。',
+        'VideoPlayerRoot、Video、各コントロールでプレーヤーを構成します。',
       hint: '下のコントロールはプレーヤーのコンテキストを共有します。プレーヤーにフォーカスして、Space / K で再生を切り替え、左右の矢印キーでシークできます。',
     },
     captions: {
@@ -72,13 +72,13 @@ export default {
     },
     state: {
       title: '状態の購読',
-      description: 'usePlayerState でリアクティブな状態を取得します。',
+      description: 'useVideoPlayerState でリアクティブな状態を取得します。',
       hint: '状態ビューは基盤となるストアを購読します。プレーヤーをアンマウントすると値は利用できなくなります。',
     },
     actions: {
       title: 'プレーヤーの操作',
       description: '型付きの引数でメソッドを呼び出し、結果を確認します。',
-      hint: '操作タブで usePlayerActions とコンポーネント ref を切り替えられます。全画面とピクチャーインピクチャーにはブラウザーの対応とユーザー操作が必要です。',
+      hint: '操作タブで useVideoPlayerActions とコンポーネント ref を切り替えられます。全画面とピクチャーインピクチャーにはブラウザーの対応とユーザー操作が必要です。',
     },
     lifecycle: {
       title: 'マウントとアンマウント',

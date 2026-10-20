@@ -4,8 +4,8 @@ export default defineConfig({
   clean: true,
   copy: [
     {
-      from: 'src/skins/legacy.css',
-      to: 'dist/skins',
+      from: 'src/video/skins/legacy.css',
+      to: 'dist/video/skins',
     },
   ],
   deps: {

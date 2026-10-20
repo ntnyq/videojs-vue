@@ -9,6 +9,7 @@ export default defineConfig({
           environment: 'jsdom',
           include: [
             'tests/package/behavior.test.ts',
+            'tests/package/exports.test.ts',
             'tests/package/ssr.test.ts',
             'tests/package/legacy.test.ts',
           ],

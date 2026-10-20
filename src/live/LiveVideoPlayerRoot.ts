@@ -5,16 +5,16 @@ import type { MediaEventName } from '../media/events'
 import { createPlaybackEmits } from '../player/events'
 import { preservePlayerTree } from '../player/preservePlayerTree'
 import { usePlayerRoot } from '../player/usePlayerRoot'
-import { createLivePlayerActions } from './actions'
-import { LIVE_PLAYER_CONTEXT } from './context'
+import { createLiveVideoPlayerActions } from './actions'
+import { LIVE_VIDEO_PLAYER_CONTEXT } from './context'
 import type {
-  LivePlayerActions,
-  LivePlayerElement,
-  LivePlayerHandle,
+  LiveVideoPlayerActions,
+  LiveVideoPlayerElement,
+  LiveVideoPlayerHandle,
   LiveVideoPlayerStore,
 } from './types'
 
-export const livePlayerEmits = createPlaybackEmits<LivePlayerHandle>()
+export const liveVideoPlayerEmits = createPlaybackEmits<LiveVideoPlayerHandle>()
 
 const component = defineComponent({
   name: 'LiveVideoPlayerRoot',
@@ -23,20 +23,20 @@ const component = defineComponent({
     title: String as PropType<string | undefined>,
     poster: String as PropType<string | undefined>,
   },
-  emits: livePlayerEmits,
+  emits: liveVideoPlayerEmits,
   setup(props, { attrs, slots, emit, expose }) {
     const emitMedia = emit as (name: MediaEventName, event: Event) => void
     const { element, handle } = usePlayerRoot<
       LiveVideoPlayerStore,
-      LivePlayerElement,
-      LivePlayerActions
-    >(createLivePlayerActions, {
+      LiveVideoPlayerElement,
+      LiveVideoPlayerActions
+    >(createLiveVideoPlayerActions, {
       onReady: () => emit('ready', handle),
       onMediaEvent: emitMedia,
       onVolume: volume => emit('update:volume', volume),
       onMuted: muted => emit('update:muted', muted),
     })
-    provide(LIVE_PLAYER_CONTEXT, handle)
+    provide(LIVE_VIDEO_PLAYER_CONTEXT, handle)
     expose(handle)
     return () =>
       withDirectives(
@@ -59,5 +59,5 @@ const component = defineComponent({
  * Vue component ref exposes the player handle alongside the standard instance.
  */
 export const LiveVideoPlayerRoot = component as typeof component & {
-  new (): InstanceType<typeof component> & LivePlayerHandle
+  new (): InstanceType<typeof component> & LiveVideoPlayerHandle
 }

@@ -1,18 +1,22 @@
 ---
-description: PlayerRoot context, props, slots, and packaged skin components for composed players.
+description: VideoPlayerRoot context, props, slots, and packaged skin components for composed players.
 ---
 
 See [bundle size and imports](../guide/bundle-size.md) for lightweight core/composable entries, fixed skins, and individual controls. Existing aggregate imports remain supported.
 
-# PlayerRoot and skins
+# VideoPlayerRoot and skins
 
 Use these components to choose the media adapter and control layout explicitly.
 
 ```ts
-import { PlayerRoot, DefaultVideoSkin, NeutralVideoSkin } from 'videojs-vue'
+import {
+  VideoPlayerRoot,
+  DefaultVideoSkin,
+  NeutralVideoSkin,
+} from 'videojs-vue'
 ```
 
-## PlayerRoot
+## VideoPlayerRoot
 
 Renders the upstream `video-player` element and provides the player context to descendants. Render exactly one `Video` or `HlsVideo` inside each root.
 
@@ -31,9 +35,9 @@ The default slot contains the skin or composed interface. There are no scoped sl
 
 ### Events and ref
 
-Emits the same [player events](./events.md) as `VideoPlayer` and exposes the same [PlayerHandle](./composables.md#playerhandle).
+Emits the same [player events](./events.md) as `VideoPlayer` and exposes the same [VideoPlayerHandle](./composables.md#videoplayerhandle).
 
-Call composables without an explicit target only from a descendant component's setup. The component that renders `PlayerRoot` must pass a ref target, because the root's provided context is not available to its parent.
+Call composables without an explicit target only from a descendant component's setup. The component that renders `VideoPlayerRoot` must pass a ref target, because the root's provided context is not available to its parent.
 
 ## DefaultVideoSkin and NeutralVideoSkin
 
@@ -49,11 +53,11 @@ There are no declared Vue props or scoped slot props. Attributes and listeners t
 
 ```vue
 <script setup lang="ts">
-import { PlayerRoot, NeutralVideoSkin, Video } from 'videojs-vue'
+import { VideoPlayerRoot, NeutralVideoSkin, Video } from 'videojs-vue'
 </script>
 
 <template>
-  <PlayerRoot
+  <VideoPlayerRoot
     title="Lesson"
     poster="/poster.webp"
   >
@@ -63,7 +67,7 @@ import { PlayerRoot, NeutralVideoSkin, Video } from 'videojs-vue'
         poster="/poster.webp"
       />
     </NeutralVideoSkin>
-  </PlayerRoot>
+  </VideoPlayerRoot>
 </template>
 ```
 
@@ -71,6 +75,6 @@ Continue with [composition](../guide/composition.md) for a custom interface or [
 
 ## LegacyVideoSkin
 
-Import `LegacyVideoSkin` from `videojs-vue/skins/legacy` and its stylesheet from `videojs-vue/skins/legacy.css`. It requires a surrounding `PlayerRoot` and renders a fullscreen `media-container` with light-DOM controls. Attributes and listeners target that container, with the same default 16:9 sizing as the other skins.
+Import `LegacyVideoSkin` from `videojs-vue/video/skins/legacy` and its stylesheet from `videojs-vue/video/skins/legacy.css`. It requires a surrounding `VideoPlayerRoot` and renders a fullscreen `media-container` with light-DOM controls. Attributes and listeners target that container, with the same default 16:9 sizing as the other skins.
 
 The default slot contains one media component. The `poster` slot provides an overlay until playback starts; the `thumbnail` slot is not implemented. It accepts no additional Vue props. See [legacy mode](../guide/legacy.md) for the required polyfills, consumer build target, controls, and browser validation limits.

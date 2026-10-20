@@ -1,10 +1,10 @@
 import type { ExtractPropTypes } from 'vue'
-import { mediaProps } from '../media/props'
+import { videoMediaProps } from '../media/props'
 
-const { playbackRate: _playbackRate, ...props } = mediaProps
+const { playbackRate: _playbackRate, ...props } = videoMediaProps
 
 /**
  * Shared video settings supported by the live preset.
  */
-export const liveMediaProps = props
-export type LiveMediaProps = ExtractPropTypes<typeof liveMediaProps>
+export const liveVideoMediaProps = props
+export type LiveVideoMediaProps = ExtractPropTypes<typeof liveVideoMediaProps>

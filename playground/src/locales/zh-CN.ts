@@ -55,7 +55,7 @@ export default {
     },
     custom: {
       title: '自定义控件',
-      description: '使用 PlayerRoot、Video 和独立控件组合播放器。',
+      description: '使用 VideoPlayerRoot、Video 和独立控件组合播放器。',
       hint: '下方控件共享播放器上下文。播放器聚焦时，按空格 / K 切换播放，按左右方向键跳转。',
     },
     captions: {
@@ -70,13 +70,13 @@ export default {
     },
     state: {
       title: '状态订阅',
-      description: '通过 usePlayerState 读取响应式状态快照。',
+      description: '通过 useVideoPlayerState 读取响应式状态快照。',
       hint: '实时状态视图订阅上游 store。卸载播放器后，状态会变为不可用。',
     },
     actions: {
       title: '播放器操作',
       description: '传入参数调用播放器方法，查看执行结果。',
-      hint: '在 Actions 面板切换 usePlayerActions 和组件 ref。全屏与画中画需要浏览器支持和用户交互。',
+      hint: '在 Actions 面板切换 useVideoPlayerActions 和组件 ref。全屏与画中画需要浏览器支持和用户交互。',
     },
     lifecycle: {
       title: '挂载与销毁',

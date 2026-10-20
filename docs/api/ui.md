@@ -4,7 +4,7 @@ description: Exported layout components, buttons, sliders, hotkeys, and accessib
 
 # UI controls
 
-Import UI components from `videojs-vue/ui` and render them inside `PlayerRoot`.
+Import UI components from `videojs-vue/ui` and render them inside `VideoPlayerRoot`.
 
 ```ts
 import { MediaContainer, PlayButton, TimeSlider } from 'videojs-vue/ui'

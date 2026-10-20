@@ -25,7 +25,7 @@ features:
     details: Native video, packaged skins, captions and typed media events through VideoPlayer.
     link: /guide/getting-started
   - title: Compose your interface
-    details: PlayerRoot, media and upstream control bindings use one player store.
+    details: VideoPlayerRoot, media and upstream control bindings use one player store.
     link: /guide/composition
   - title: Read actual playback state
     details: Readonly selectors and explicit actions connect Vue to Video.js without duplicating state.

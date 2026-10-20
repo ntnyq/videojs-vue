@@ -1,6 +1,6 @@
 export { LiveVideoPlayerRoot } from './LiveVideoPlayerRoot'
 export { Video } from '../media/Video'
 export type * from './types'
-export type { LiveMediaProps } from './props'
+export type { LiveVideoMediaProps } from './props'
 export type { MediaEventName } from '../media/events'
 export type { MediaTrack, PlayerMedia } from '../media/types'

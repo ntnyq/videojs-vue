@@ -9,7 +9,7 @@ From the repository root, run `pnpm build`, then `pnpm play:dev`. Keep `pnpm dev
 - Start with the video player and use the Video / Audio tabs above the preview to switch to native audio playback. Switching back restores the last selected video example with its default settings. The sidebar also includes the audio example.
 - Explore native MP4, HLS, custom controls, captions, two-way bindings, reactive state, player actions and lifecycle examples.
 - Adjust props in the inspector. Media, poster and track URLs apply on submission; other controls update immediately. Reset restores the selected example and creates a fresh player.
-- Use Actions to call all ten public methods through either `usePlayerActions(player)` or the component ref. Browser-dependent actions show disabled controls when unsupported; rejected calls appear in the error panel and log.
+- Use Actions to call all ten public methods through either `useVideoPlayerActions(player)` or the component ref. Browser-dependent actions show disabled controls when unsupported; rejected calls appear in the error panel and log.
 - Switch between the preview, generated Vue example and upstream state without unmounting playback. Copy the example with its current configuration.
 - Filter logs by type or text, inspect JSON payloads, pause recording, clear history, or export the filtered entries. The buffer retains 500 entries. `timeupdate` and `progress` are opt-in.
 - Resize the desktop panels. On smaller screens, navigation and settings open in sheets and the log scrolls independently.

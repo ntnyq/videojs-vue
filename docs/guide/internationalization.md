@@ -35,7 +35,7 @@ const locale = shallowRef('zh-CN')
 </template>
 ```
 
-`MediaI18n` renders a `media-i18n` element. It can also wrap your application's `RouterView`, so players on different pages share one configuration. `VideoPlayer` does not create its own provider. Composed players using `PlayerRoot` and controls from `videojs-vue/ui` inherit the same language.
+`MediaI18n` renders a `media-i18n` element. It can also wrap your application's `RouterView`, so players on different pages share one configuration. `VideoPlayer` does not create its own provider. Composed players using `VideoPlayerRoot` and controls from `videojs-vue/ui` inherit the same language.
 
 If your application already uses `vue-i18n`, pass its reactive locale directly:
 
@@ -118,7 +118,7 @@ Use `MediaText` inside the same provider for visible text in your own controls:
 </PlayButton>
 ```
 
-Here `paused` is the selection returned by `usePlayerState(state => state.paused)` inside `PlayerRoot`.
+Here `paused` is the selection returned by `useVideoPlayerState(state => state.paused)` inside `VideoPlayerRoot`.
 
 `MediaText` accepts a `token` and a plain-text default slot containing the English fallback. Keep markup, icons, and other components outside this slot. Both the token and fallback can change reactively. A missing token or translation displays the fallback. Changing the fallback recreates only the underlying text element because Video.js captures its fallback when it first connects.
 

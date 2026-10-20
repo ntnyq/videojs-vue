@@ -11,12 +11,13 @@ import type { EmitFn, SetupContext } from 'vue'
 import { MEDIA_CONTEXT } from '../player/context'
 import { MEDIA_EVENTS } from './events'
 import type { mediaEmits, MediaEventName } from './events'
-import type { CommonMediaProps, MediaProps } from './props'
+import type { CommonMediaProps, VideoMediaProps } from './props'
 import type { PlayerMedia } from './types'
 
 interface MediaElementOptions {
   tag: string
-  props: CommonMediaProps & Partial<Pick<MediaProps, 'poster' | 'playsinline'>>
+  props: CommonMediaProps &
+    Partial<Pick<VideoMediaProps, 'poster' | 'playsinline'>>
   context: Pick<SetupContext, 'attrs' | 'slots' | 'expose'>
   emit: EmitFn<typeof mediaEmits>
   extraProps?: () => Record<string, unknown>

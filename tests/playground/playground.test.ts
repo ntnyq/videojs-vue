@@ -94,9 +94,9 @@ describe('copyable playground examples', () => {
     const code = createExampleCode('live', createConfig('live'), 'composable')
     expect(code).toContain("from 'videojs-vue/live'")
     expect(code).toContain('<LiveVideoPlayer')
-    expect(code).toContain('useLivePlayerActions(player)')
+    expect(code).toContain('useLiveVideoPlayerActions(player)')
     expect(code).toContain(
-      'useLivePlayerState(state => state.currentTime, player)',
+      'useLiveVideoPlayerState(state => state.currentTime, player)',
     )
     expect(code).toContain(':media="HlsVideo"')
     expect(code).not.toContain('playbackRate')

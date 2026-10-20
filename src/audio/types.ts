@@ -2,11 +2,11 @@ import type { AudioPlayerStore } from '@videojs/html'
 import type { AudioPlayerElement as UpstreamAudioPlayerElement } from '@videojs/html/audio'
 import type { MaybeRefOrGetter } from 'vue'
 import type { PlayerMedia } from '../media/types'
-import type { CommonPlayerActions } from '../player/actions'
+import type { OnDemandPlayerActions } from '../player/actions'
 
 export type { AudioPlayerStore } from '@videojs/html'
 export type AudioPlayerState = AudioPlayerStore['state']
-export type AudioPlayerActions = CommonPlayerActions
+export type AudioPlayerActions = OnDemandPlayerActions
 // Upstream 10.0.1's preset declaration loses the store type through its namespace.
 export type AudioPlayerElement = Omit<UpstreamAudioPlayerElement, 'store'> & {
   readonly store: AudioPlayerStore

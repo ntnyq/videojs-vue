@@ -4,7 +4,7 @@
 
 `videojs-vue` is a Vue 3.5+ component and composable library for Video.js 10. The root package publishes `dist/`; `playground/` and `docs/` are private pnpm workspace packages.
 
-- `src/`: public exports in `index.ts`, video assembly and presets in `video/`, audio components and presets in `audio/`, shared player lifecycle/context in `player/`, media adapters and shared media types in `media/`, reactive helpers in `composables/`, controls in `ui/`, and skins in `skins/`.
+- `src/`: public exports in `index.ts`, video components, types, composables, presets, and skins in `video/`, audio APIs in `audio/`, live video APIs in `live/`, shared player lifecycle/context in `player/`, media adapters and shared media types in `media/`, shared reactive helpers in `composables/`, and controls in `ui/`.
 - `tests/`: source behavior tests in `source/` (grouped by domain, with cross-player contracts in `source/contracts/`), published entry tests in `package/`, and demo tests in `playground/`. Shared helpers and browser mocks stay in `helpers.ts` and `setup.ts`.
 - `playground/src/`: Vue TSX demos; `playground/public/` holds static assets, including captions.
 - `docs/`: VitePress guides, API documentation, examples, and theme configuration.

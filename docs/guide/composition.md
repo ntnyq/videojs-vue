@@ -4,11 +4,11 @@ description: Build a player with a media adapter, custom controls, and fullscree
 
 # Compose a player
 
-`PlayerRoot` provides both the upstream player and Vue context. No separate Provider is required. Render exactly one media component per root.
+`VideoPlayerRoot` provides both the upstream player and Vue context. No separate Provider is required. Render exactly one media component per root.
 
 ```vue
 <script setup lang="ts">
-import { PlayerRoot, Video } from 'videojs-vue/core'
+import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
 import { MediaContainer } from 'videojs-vue/ui/container'
 import { MediaControls } from 'videojs-vue/ui/controls'
 import { MediaControlsContent } from 'videojs-vue/ui/controls-content'
@@ -18,7 +18,7 @@ import { FullscreenButton } from 'videojs-vue/ui/fullscreen-button'
 </script>
 
 <template>
-  <PlayerRoot
+  <VideoPlayerRoot
     title="Lesson"
     poster="/poster.webp"
   >
@@ -36,7 +36,7 @@ import { FullscreenButton } from 'videojs-vue/ui/fullscreen-button'
       </MediaControls>
       <div class="lesson-overlay">Lesson 1</div>
     </MediaContainer>
-  </PlayerRoot>
+  </VideoPlayerRoot>
 </template>
 
 <style scoped>
@@ -74,10 +74,13 @@ Business overlays must be descendants of `MediaContainer` to remain visible in f
 ## State inside a child component
 
 ```ts
-import { usePlayerState, usePlayerActions } from 'videojs-vue/composables'
+import {
+  useVideoPlayerState,
+  useVideoPlayerActions,
+} from 'videojs-vue/video/composables'
 
-const paused = usePlayerState(state => state.paused)
-const actions = usePlayerActions()
+const paused = useVideoPlayerState(state => state.paused)
+const actions = useVideoPlayerActions()
 
 async function start() {
   try {
@@ -92,7 +95,7 @@ Use these in a descendant component's setup, not in the component that creates t
 
 ## Packaged skins
 
-`DefaultVideoSkin` and `NeutralVideoSkin` can also be placed inside `PlayerRoot` with `Video` or `HlsVideo` as their default content. Their named `poster` and `thumbnail` slots map to the upstream slots. `VideoPlayer` exposes those same two named slots. It does not offer arbitrary controls or overlay slots inside packaged skins.
+`DefaultVideoSkin` and `NeutralVideoSkin` can also be placed inside `VideoPlayerRoot` with `Video` or `HlsVideo` as their default content. Their named `poster` and `thumbnail` slots map to the upstream slots. `VideoPlayer` exposes those same two named slots. It does not offer arbitrary controls or overlay slots inside packaged skins.
 
 Use the [official CSS variables](https://videojs.org/docs/framework/html/guides/customize-skins) for skin styling. Deep control layout changes belong in composition mode.
 

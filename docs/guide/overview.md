@@ -22,13 +22,13 @@ description: Understand the player architecture, supported features, and documen
 
 A player consists of three parts:
 
-- **PlayerRoot** owns the Video.js video preset and provides Vue context.
+- **VideoPlayerRoot** owns the Video.js video preset and provides Vue context.
 - **Video** or **HlsVideo** loads the source and forwards media events.
 - A **packaged skin** or **composed controls** presents the interface.
 
-`VideoPlayer` assembles these parts for you. Use `PlayerRoot` directly when you need to control their layout. Each root contains exactly one media component and has its own store.
+`VideoPlayer` assembles these parts for you. Use `VideoPlayerRoot` directly when you need to control their layout. Each root contains exactly one media component and has its own store.
 
-Read state with `usePlayerState` and change playback with `usePlayerActions`. Both use the same upstream store as the controls.
+Read state with `useVideoPlayerState` and change playback with `useVideoPlayerActions`. Both use the same upstream store as the controls.
 
 ## Requirements and scope
 
@@ -36,7 +36,7 @@ The package requires Vue 3.5+ and includes `@videojs/html@10.0.1`. HLS support r
 
 The current API covers on-demand native video and [audio](../api/audio.md), [HLS live video](../api/live.md), HLS on-demand video, default and neutral skins, custom controls, captions, internationalization, and server rendering. DVR timelines, live audio, YouTube/Mux adapters, persistence, and a plugin framework are outside the current API.
 
-The former provider/controller API and experimental component entry points have been removed. Use the [documented package entries](../api/overview.md#package-entries), `VideoPlayer` or `PlayerRoot`, and the two player composables.
+The former provider/controller API and experimental component entry points have been removed. Use the [documented package entries](../api/overview.md#package-entries), `VideoPlayer` or `VideoPlayerRoot`, and the two player composables.
 
 ## About Video.js
 

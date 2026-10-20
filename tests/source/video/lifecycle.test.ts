@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import type { Component } from 'vue'
 import { VideoPlayer } from '../../../src'
-import type { PlayerHandle } from '../../../src'
+import type { VideoPlayerHandle } from '../../../src'
 import { HlsVideo } from '../../../src/media/hls'
 import {
   mount,
@@ -18,7 +18,7 @@ describe('player lifecycle', () => {
   it('pauses and releases state while cached, then reconnects without autoplay', async () => {
     expect.hasAssertions()
     const isVisible = shallowRef(true)
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const ready = vi.fn()
     mount(
       defineComponent(

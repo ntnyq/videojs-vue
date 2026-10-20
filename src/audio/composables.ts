@@ -1,7 +1,8 @@
 import type { ComputedRef } from 'vue'
 import { useStoreSelection } from '../composables/useStoreSelection'
-import { createCommonPlayerActions } from '../player/actions'
-import { AUDIO_PLAYER_CONTEXT, useTarget } from '../player/context'
+import { createOnDemandPlayerActions } from '../player/actions'
+import { useTarget } from '../player/context'
+import { AUDIO_PLAYER_CONTEXT } from './context'
 import type {
   AudioPlayerActions,
   AudioPlayerState,
@@ -31,7 +32,7 @@ export function useAudioPlayerActions(
   target?: AudioPlayerTarget,
 ): AudioPlayerActions {
   const player = useTarget(AUDIO_PLAYER_CONTEXT, 'AudioPlayerRoot', target)
-  return createCommonPlayerActions(() => player.value?.store ?? null)
+  return createOnDemandPlayerActions(() => player.value?.store ?? null)
 }
 
 export type {

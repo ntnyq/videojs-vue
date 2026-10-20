@@ -2,11 +2,11 @@ import { defineComponent, h, shallowRef } from 'vue'
 import type { Component, PropType } from 'vue'
 import { MEDIA_EVENTS } from '../media/events'
 import type { MediaEventName } from '../media/events'
-import { mediaProps } from '../media/props'
+import { videoMediaProps } from '../media/props'
 import { Video } from '../media/Video'
-import { createPlayerActions } from '../player/actions'
-import { PlayerRoot, playerEmits } from '../player/PlayerRoot'
-import type { PlayerHandle } from '../player/types'
+import { createVideoPlayerActions } from './actions'
+import type { VideoPlayerHandle } from './types'
+import { VideoPlayerRoot, videoPlayerEmits } from './VideoPlayerRoot'
 
 /**
  * Supported media components share the Video props, events and context contract.
@@ -24,7 +24,7 @@ export function createVideoPlayer<Skin extends VideoSkin>(
     name: componentName,
     inheritAttrs: false,
     props: {
-      ...mediaProps,
+      ...videoMediaProps,
       title: String,
       media: {
         type: Object as PropType<VideoMediaComponent>,
@@ -35,11 +35,11 @@ export function createVideoPlayer<Skin extends VideoSkin>(
         default: initialSkin as VideoSkin,
       },
     },
-    emits: playerEmits,
+    emits: videoPlayerEmits,
     setup(props, { attrs, slots, emit, expose }) {
-      const root = shallowRef<PlayerHandle | null>(null)
+      const root = shallowRef<VideoPlayerHandle | null>(null)
 
-      const handle: PlayerHandle = {
+      const handle: VideoPlayerHandle = {
         get element() {
           return root.value?.element ?? null
         },
@@ -49,7 +49,7 @@ export function createVideoPlayer<Skin extends VideoSkin>(
         get media() {
           return root.value?.media ?? null
         },
-        ...createPlayerActions(() => root.value?.store ?? null),
+        ...createVideoPlayerActions(() => root.value?.store ?? null),
       }
 
       expose(handle)
@@ -64,7 +64,7 @@ export function createVideoPlayer<Skin extends VideoSkin>(
       )
       return () =>
         h(
-          PlayerRoot,
+          VideoPlayerRoot,
           {
             ...listeners,
             ref: root,
@@ -104,7 +104,7 @@ export function createVideoPlayer<Skin extends VideoSkin>(
 
   // Vue cannot infer generic runtime props or expose() handles.
   // Replace the constructor signature so callers see only bound skin keys.
-  type Instance = InstanceType<typeof component> & PlayerHandle
+  type Instance = InstanceType<typeof component> & VideoPlayerHandle
   return component as unknown as Omit<typeof component, never> & {
     new (): Instance & { $props: { skin?: Skin } }
   }

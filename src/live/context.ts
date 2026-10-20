@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue'
-import type { LivePlayerHandle } from './types'
+import type { LiveVideoPlayerHandle } from './types'
 
-export const LIVE_PLAYER_CONTEXT: InjectionKey<LivePlayerHandle> =
+export const LIVE_VIDEO_PLAYER_CONTEXT: InjectionKey<LiveVideoPlayerHandle> =
   Symbol('videojs-vue.live')

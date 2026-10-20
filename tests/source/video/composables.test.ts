@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, shallowRef, watch } from 'vue'
-import { VideoPlayer, usePlayerActions, usePlayerState } from '../../../src'
-import type { PlayerHandle } from '../../../src'
+import {
+  VideoPlayer,
+  useVideoPlayerActions,
+  useVideoPlayerState,
+} from '../../../src'
+import type { VideoPlayerHandle } from '../../../src'
 import { mount, settle, cleanup, disposals } from '../../helpers'
 
 describe('player composables', () => {
@@ -9,13 +13,13 @@ describe('player composables', () => {
 
   it('isolates players and only notifies consumers when the selected field changes', async () => {
     expect.hasAssertions()
-    const first = shallowRef<PlayerHandle | null>(null)
-    const second = shallowRef<PlayerHandle | null>(null)
+    const first = shallowRef<VideoPlayerHandle | null>(null)
+    const second = shallowRef<VideoPlayerHandle | null>(null)
     const changed = vi.fn()
     mount(
       defineComponent({
         setup() {
-          const paused = usePlayerState(state => state.paused, first)
+          const paused = useVideoPlayerState(state => state.paused, first)
           expect(paused.value).toBeUndefined()
           watch(paused, changed, { flush: 'sync' })
           return () =>
@@ -37,15 +41,15 @@ describe('player composables', () => {
 
   it('tracks external ref replacement and releases old store subscriptions', async () => {
     expect.hasAssertions()
-    const first = shallowRef<PlayerHandle | null>(null)
-    const second = shallowRef<PlayerHandle | null>(null)
-    const selected = shallowRef<PlayerHandle | null>(null)
+    const first = shallowRef<VideoPlayerHandle | null>(null)
+    const second = shallowRef<VideoPlayerHandle | null>(null)
+    const selected = shallowRef<VideoPlayerHandle | null>(null)
     let readPaused: () => boolean | undefined = () =>
       selected.value?.store?.paused
     const { unmount } = mount(
       defineComponent({
         setup() {
-          const paused = usePlayerState(state => state.paused, selected)
+          const paused = useVideoPlayerState(state => state.paused, selected)
           readPaused = () => paused.value
           return () =>
             h('div', [
@@ -86,12 +90,12 @@ describe('player composables', () => {
 
   it('preserves command rejection causes and never replays an unready request', async () => {
     expect.hasAssertions()
-    const target = shallowRef<PlayerHandle | null>(null)
-    let actions: ReturnType<typeof usePlayerActions> | undefined
+    const target = shallowRef<VideoPlayerHandle | null>(null)
+    let actions: ReturnType<typeof useVideoPlayerActions> | undefined
     mount(
       defineComponent({
         setup() {
-          actions = usePlayerActions(target)
+          actions = useVideoPlayerActions(target)
           return () => h(VideoPlayer, { ref: target })
         },
       }),
@@ -110,8 +114,8 @@ describe('player composables', () => {
     mount(
       defineComponent({
         setup() {
-          expect(() => usePlayerState(state => state.paused)).toThrow(
-            'inside PlayerRoot',
+          expect(() => useVideoPlayerState(state => state.paused)).toThrow(
+            'inside VideoPlayerRoot',
           )
           return () => null
         },

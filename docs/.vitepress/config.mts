@@ -37,6 +37,7 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/guide/overview' },
           { text: 'Installation and usage', link: '/guide/getting-started' },
+          { text: 'Migrate player API names', link: '/guide/migration' },
         ],
       },
       {
@@ -60,7 +61,7 @@ export default defineConfig({
           { text: 'Live video', link: '/api/live' },
           { text: 'Audio players', link: '/api/audio' },
           { text: 'VideoPlayer', link: '/api/video-player' },
-          { text: 'PlayerRoot and skins', link: '/api/player-root' },
+          { text: 'VideoPlayerRoot and skins', link: '/api/player-root' },
           { text: 'Media adapters', link: '/api/media' },
           { text: 'Composables and handles', link: '/api/composables' },
           { text: 'Events', link: '/api/events' },

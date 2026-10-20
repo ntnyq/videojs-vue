@@ -55,7 +55,8 @@ export default {
     },
     custom: {
       title: '사용자 지정 컨트롤',
-      description: 'PlayerRoot, Video, 개별 컨트롤로 플레이어를 구성합니다.',
+      description:
+        'VideoPlayerRoot, Video, 개별 컨트롤로 플레이어를 구성합니다.',
       hint: '아래 컨트롤은 플레이어 컨텍스트를 공유합니다. 플레이어에 초점을 맞춘 후 Space / K로 재생을 전환하고 방향키로 탐색하세요.',
     },
     captions: {
@@ -70,13 +71,13 @@ export default {
     },
     state: {
       title: '상태 구독',
-      description: 'usePlayerState로 반응형 상태 스냅샷을 읽습니다.',
+      description: 'useVideoPlayerState로 반응형 상태 스냅샷을 읽습니다.',
       hint: '실시간 상태 보기는 기반 스토어를 구독합니다. 플레이어를 마운트 해제하면 상태 값을 사용할 수 없습니다.',
     },
     actions: {
       title: '플레이어 동작',
       description: '타입이 지정된 인수로 메서드를 호출하고 결과를 확인합니다.',
-      hint: '동작 탭에서 usePlayerActions와 컴포넌트 ref를 전환할 수 있습니다. 전체 화면과 화면 속 화면은 브라우저 지원 및 사용자 조작이 필요합니다.',
+      hint: '동작 탭에서 useVideoPlayerActions와 컴포넌트 ref를 전환할 수 있습니다. 전체 화면과 화면 속 화면은 브라우저 지원 및 사용자 조작이 필요합니다.',
     },
     lifecycle: {
       title: '마운트와 마운트 해제',

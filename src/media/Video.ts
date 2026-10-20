@@ -1,12 +1,12 @@
 import { defineComponent } from 'vue'
 import { mediaEmits } from './events'
-import { mediaProps } from './props'
+import { videoMediaProps } from './props'
 import { useMediaElement } from './useMediaElement'
 
 export const Video = defineComponent({
   name: 'Video',
   inheritAttrs: false,
-  props: mediaProps,
+  props: videoMediaProps,
   emits: mediaEmits,
   setup(props, context) {
     return useMediaElement({

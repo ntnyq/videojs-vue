@@ -2,7 +2,7 @@ import '@videojs/html/i18n/locales/zh-CN/register'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createSSRApp, defineComponent, h, shallowRef } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { PlayerRoot, Video, VideoPlayer } from '../../../src'
+import { VideoPlayerRoot, Video, VideoPlayer } from '../../../src'
 import {
   MediaI18n,
   MediaText,
@@ -36,7 +36,7 @@ describe('internationalization', () => {
                   skin: 'neutral',
                   onReady: ready,
                 }),
-                h(PlayerRoot, null, {
+                h(VideoPlayerRoot, null, {
                   default: () =>
                     h(MediaContainer, null, {
                       default: () => [h(Video), h(PlayButton)],

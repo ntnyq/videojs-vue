@@ -3,10 +3,10 @@ import type { ExampleId, PlaygroundConfig } from '../data'
 const EXAMPLE_APIS = {
   video: {
     entry: 'videojs-vue',
-    imports: 'VideoPlayer, usePlayerActions, usePlayerState',
-    handleType: 'PlayerHandle',
-    actionsHook: 'usePlayerActions',
-    stateHook: 'usePlayerState',
+    imports: 'VideoPlayer, useVideoPlayerActions, useVideoPlayerState',
+    handleType: 'VideoPlayerHandle',
+    actionsHook: 'useVideoPlayerActions',
+    stateHook: 'useVideoPlayerState',
     componentName: 'VideoPlayer',
   },
   audio: {
@@ -19,10 +19,11 @@ const EXAMPLE_APIS = {
   },
   live: {
     entry: 'videojs-vue/live',
-    imports: 'LiveVideoPlayer, useLivePlayerActions, useLivePlayerState',
-    handleType: 'LivePlayerHandle',
-    actionsHook: 'useLivePlayerActions',
-    stateHook: 'useLivePlayerState',
+    imports:
+      'LiveVideoPlayer, useLiveVideoPlayerActions, useLiveVideoPlayerState',
+    handleType: 'LiveVideoPlayerHandle',
+    actionsHook: 'useLiveVideoPlayerActions',
+    stateHook: 'useLiveVideoPlayerState',
     componentName: 'LiveVideoPlayer',
   },
 } as const
@@ -76,7 +77,7 @@ export function createExampleCode(
   const api = EXAMPLE_APIS[resolveExampleMode(example)]
   const { entry, handleType, actionsHook, stateHook, componentName } = api
   const imports = isCustom
-    ? 'PlayerRoot, Video, usePlayerActions, usePlayerState'
+    ? 'VideoPlayerRoot, Video, useVideoPlayerActions, useVideoPlayerState'
     : api.imports
   const methodTarget = actionTarget === 'ref' ? 'player.value?' : 'actions'
   return `<script setup lang="ts">
@@ -97,7 +98,7 @@ ${isLive ? '' : 'const playbackRate = ref<number>(options.playbackRate)'}
 }
 const actions = ${actionsHook}(player)
 const currentTime = ${stateHook}(state => state.currentTime, player)
-${isCustom ? 'const paused = usePlayerState(state => state.paused, player)' : ''}
+${isCustom ? 'const paused = useVideoPlayerState(state => state.paused, player)' : ''}
 const failure = ref('')
 
 async function play() {
@@ -139,7 +140,7 @@ async function run(command: keyof typeof commands) {
 <template>
 ${
   isCustom
-    ? `  <PlayerRoot v-if="isMounted" ref="player" :title="options.title">
+    ? `  <VideoPlayerRoot v-if="isMounted" ref="player" :title="options.title">
     <MediaContainer class="relative block aspect-video bg-black text-white">
       <Video v-bind="options" class="h-full w-full" />
       <div class="absolute inset-x-0 bottom-0 flex items-center gap-4 bg-black/70 p-4">
@@ -149,7 +150,7 @@ ${
         <FullscreenButton>Fullscreen</FullscreenButton>
       </div>
     </MediaContainer>
-  </PlayerRoot>`
+  </VideoPlayerRoot>`
     : `  <${componentName}
     v-if="isMounted"
     ref="player"

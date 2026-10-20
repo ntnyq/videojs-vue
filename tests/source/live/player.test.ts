@@ -3,14 +3,14 @@ import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import {
   LiveVideoPlayer,
   LiveVideoPlayerRoot,
-  LiveVideoSkin,
-  useLivePlayerActions,
-  useLivePlayerState,
+  DefaultLiveVideoSkin,
+  useLiveVideoPlayerActions,
+  useLiveVideoPlayerState,
 } from '../../../src/live'
 import type {
-  LivePlayerActions,
-  LivePlayerHandle,
-  LivePlayerState,
+  LiveVideoPlayerActions,
+  LiveVideoPlayerHandle,
+  LiveVideoPlayerState,
 } from '../../../src/live'
 import { HlsVideo } from '../../../src/media/hls'
 import { LiveButton } from '../../../src/ui/live-button'
@@ -57,12 +57,20 @@ describe('live video player', () => {
     expect.assertions(0)
     expectTypeOf<
       InstanceType<typeof LiveVideoPlayer>
-    >().toExtend<LivePlayerHandle>()
-    expectTypeOf<LivePlayerState['liveEdgeStart']>().toEqualTypeOf<number>()
-    expectTypeOf<LivePlayerState['targetLiveWindow']>().toEqualTypeOf<number>()
-    expectTypeOf<LivePlayerActions>().not.toHaveProperty('setPlaybackRate')
-    expectTypeOf<LivePlayerActions>().not.toHaveProperty('selectVideoRendition')
-    expectTypeOf<LivePlayerActions>().not.toHaveProperty('selectAudioTrack')
+    >().toExtend<LiveVideoPlayerHandle>()
+    expectTypeOf<
+      LiveVideoPlayerState['liveEdgeStart']
+    >().toEqualTypeOf<number>()
+    expectTypeOf<
+      LiveVideoPlayerState['targetLiveWindow']
+    >().toEqualTypeOf<number>()
+    expectTypeOf<LiveVideoPlayerActions>().not.toHaveProperty('setPlaybackRate')
+    expectTypeOf<LiveVideoPlayerActions>().not.toHaveProperty(
+      'selectVideoRendition',
+    )
+    expectTypeOf<LiveVideoPlayerActions>().not.toHaveProperty(
+      'selectAudioTrack',
+    )
     expectTypeOf<
       InstanceType<typeof LiveVideoPlayer>['$props']
     >().not.toHaveProperty('playbackRate')
@@ -72,7 +80,7 @@ describe('live video player', () => {
     'connects HLS to the %s live skin and synchronizes settings',
     async skin => {
       expect.hasAssertions()
-      const player = shallowRef<LivePlayerHandle | null>(null)
+      const player = shallowRef<LiveVideoPlayerHandle | null>(null)
       const volume = shallowRef(0.4)
       const muted = shallowRef(true)
       const ready = vi.fn()
@@ -127,13 +135,13 @@ describe('live video player', () => {
 
   it('subscribes to live state and returns to the latest seekable end after the window moves', async () => {
     expect.hasAssertions()
-    const player = shallowRef<LivePlayerHandle | null>(null)
+    const player = shallowRef<LiveVideoPlayerHandle | null>(null)
     let readWindow: () => number | undefined = () =>
       player.value?.store?.targetLiveWindow
     const Probe = defineComponent({
       setup() {
-        const window = useLivePlayerState(state => state.targetLiveWindow)
-        const actions = useLivePlayerActions()
+        const window = useLiveVideoPlayerState(state => state.targetLiveWindow)
+        const actions = useLiveVideoPlayerActions()
         readWindow = () => window.value
         return () => h('button', { onClick: () => actions.pause() }, 'Pause')
       },
@@ -146,7 +154,7 @@ describe('live video player', () => {
             { ref: player },
             {
               default: () =>
-                h(LiveVideoSkin, null, {
+                h(DefaultLiveVideoSkin, null, {
                   default: () => [
                     h(HlsVideo),
                     h(LiveButton, { class: 'jump' }),
@@ -198,7 +206,7 @@ describe('live video player', () => {
 
   it('retains cached HLS, releases subscriptions while inactive, and destroys it on eviction', async () => {
     expect.hasAssertions()
-    const player = shallowRef<LivePlayerHandle | null>(null)
+    const player = shallowRef<LiveVideoPlayerHandle | null>(null)
     const visible = shallowRef(true)
     let readWindow: () => number | undefined = () =>
       player.value?.store?.targetLiveWindow
@@ -210,7 +218,7 @@ describe('live video player', () => {
     const { container, unmount } = mount(
       defineComponent({
         setup() {
-          const window = useLivePlayerState(
+          const window = useLiveVideoPlayerState(
             state => state.targetLiveWindow,
             player,
           )
@@ -271,17 +279,17 @@ describe('live video player', () => {
 
   it('rebinds external action and state targets and preserves playback rejection causes', async () => {
     expect.hasAssertions()
-    const first = shallowRef<LivePlayerHandle | null>(null)
-    const second = shallowRef<LivePlayerHandle | null>(null)
-    const target = shallowRef<LivePlayerHandle | null>(null)
-    let actions: LivePlayerActions | undefined
+    const first = shallowRef<LiveVideoPlayerHandle | null>(null)
+    const second = shallowRef<LiveVideoPlayerHandle | null>(null)
+    const target = shallowRef<LiveVideoPlayerHandle | null>(null)
+    let actions: LiveVideoPlayerActions | undefined
     let readPaused: () => boolean | undefined = () =>
       target.value?.store?.paused
     mount(
       defineComponent({
         setup() {
-          actions = useLivePlayerActions(target)
-          const paused = useLivePlayerState(state => state.paused, target)
+          actions = useLiveVideoPlayerActions(target)
+          const paused = useLiveVideoPlayerState(state => state.paused, target)
           readPaused = () => paused.value
           return () =>
             h('div', [

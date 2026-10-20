@@ -1,5 +1,5 @@
 import { defineComponent, h, mergeProps } from 'vue'
-import { withSlot } from '../../skins/withSlot'
+import { withSlot } from '../../player/withSlot'
 
 export function createAudioSkin(name: string, tag: string) {
   return defineComponent({

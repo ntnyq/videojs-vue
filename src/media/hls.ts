@@ -3,7 +3,7 @@ import { HlsJsVideoElement } from '@videojs/html/media/hlsjs-video'
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import { mediaEmits } from './events'
-import { mediaProps } from './props'
+import { videoMediaProps } from './props'
 import { useMediaElement } from './useMediaElement'
 
 export type { HlsSource, HlsEngineConfig } from '@videojs/hlsjs-video'
@@ -15,7 +15,7 @@ export const HlsVideo = defineComponent({
   name: 'HlsVideo',
   inheritAttrs: false,
   props: {
-    ...mediaProps,
+    ...videoMediaProps,
     source: Object as PropType<HlsSource>,
   },
   emits: mediaEmits,

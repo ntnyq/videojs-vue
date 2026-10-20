@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import { HlsVideo } from '../../../src/media/hls'
-import type { PlayerHandle } from '../../../src/player/types'
 import { VideoPlayer } from '../../../src/video/legacy'
+import type { VideoPlayerHandle } from '../../../src/video/types'
 import {
   cleanup,
   disposals,
@@ -22,14 +22,16 @@ describe('legacy video player', () => {
     expectTypeOf<
       InstanceType<typeof VideoPlayer>['$props']['skin']
     >().toEqualTypeOf<'legacy' | undefined>()
-    expectTypeOf<InstanceType<typeof VideoPlayer>>().toExtend<PlayerHandle>()
+    expectTypeOf<
+      InstanceType<typeof VideoPlayer>
+    >().toExtend<VideoPlayerHandle>()
     // @ts-expect-error This entry cannot select a modern skin.
     h(VideoPlayer, { skin: 'default' })
   })
 
   it('plays, mutes and changes speed through light-DOM controls and forwards settings', async () => {
     expect.hasAssertions()
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const played = vi.fn()
     const changed = vi.fn()
     const { container } = mount(
@@ -113,7 +115,7 @@ describe('legacy video player', () => {
       },
     )
     const visible = shallowRef(true)
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const { container, unmount } = mount(
       defineComponent(
         () => () =>
@@ -163,7 +165,7 @@ describe('legacy video player', () => {
 
   it('supports the optional HLS media adapter', async () => {
     expect.hasAssertions()
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const { container } = mount(
       defineComponent(
         () => () =>

@@ -3,7 +3,7 @@ import type { Component, PropType } from 'vue'
 import { MEDIA_EVENTS } from '../media/events'
 import type { MediaEventName } from '../media/events'
 import { commonMediaProps } from '../media/props'
-import { createCommonPlayerActions } from '../player/actions'
+import { createOnDemandPlayerActions } from '../player/actions'
 import { Audio } from './Audio'
 import { AudioPlayerRoot, audioPlayerEmits } from './AudioPlayerRoot'
 import type { AudioPlayerHandle } from './types'
@@ -48,7 +48,7 @@ export function createAudioPlayer<Skin extends 'default' | 'neutral'>(
         get media() {
           return root.value?.media ?? null
         },
-        ...createCommonPlayerActions(() => root.value?.store ?? null),
+        ...createOnDemandPlayerActions(() => root.value?.store ?? null),
       }
 
       expose(handle)

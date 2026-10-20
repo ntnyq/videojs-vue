@@ -46,20 +46,20 @@ import { VideoPlayer } from 'videojs-vue/video/compat'
 
 The entry registers `video-compat-skin` and shares the other fixed players' props, events, slots, exposed handle, and optional HLS adapter. Omit `skin`; if supplied, it must be `'compat'`. The aggregate `videojs-vue` player still selects only default or neutral.
 
-For composition, import the standalone wrapper with `PlayerRoot` and `Video`:
+For composition, import the standalone wrapper with `VideoPlayerRoot` and `Video`:
 
 ```vue
 <script setup lang="ts">
-import { PlayerRoot, Video } from 'videojs-vue/core'
-import { CompatVideoSkin } from 'videojs-vue/skins/compat'
+import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
+import { CompatVideoSkin } from 'videojs-vue/video/skins/compat'
 </script>
 
 <template>
-  <PlayerRoot>
+  <VideoPlayerRoot>
     <CompatVideoSkin>
       <Video src="/demo.mp4" />
     </CompatVideoSkin>
-  </PlayerRoot>
+  </VideoPlayerRoot>
 </template>
 ```
 
@@ -101,9 +101,9 @@ import { VideoPlayer } from 'videojs-vue'
 | Component                                                 | Attribute destination          |
 | --------------------------------------------------------- | ------------------------------ |
 | `VideoPlayer`                                             | Visible skin element.          |
-| `PlayerRoot`                                              | Outer `video-player` element.  |
+| `VideoPlayerRoot`                                         | Outer `video-player` element.  |
 | `DefaultVideoSkin`, `NeutralVideoSkin`, `CompatVideoSkin` | Skin element.                  |
 | `Video`, `HlsVideo`                                       | Media element.                 |
 | Components from `videojs-vue/ui`                          | Corresponding control element. |
 
-Use `PlayerRoot` with a media component when you need media-specific attributes not declared by `VideoPlayer`. Arbitrary controls and overlays are not slots on `VideoPlayer`; place them inside `MediaContainer` in a composed player so they remain in the fullscreen container.
+Use `VideoPlayerRoot` with a media component when you need media-specific attributes not declared by `VideoPlayer`. Arbitrary controls and overlays are not slots on `VideoPlayer`; place them inside `MediaContainer` in a composed player so they remain in the fullscreen container.

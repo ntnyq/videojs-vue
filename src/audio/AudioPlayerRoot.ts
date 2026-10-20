@@ -2,11 +2,11 @@ import '../register/audio/player'
 import { defineComponent, h, provide, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { MediaEventName } from '../media/events'
-import { createCommonPlayerActions } from '../player/actions'
-import { AUDIO_PLAYER_CONTEXT } from '../player/context'
-import { createPlayerEmits } from '../player/events'
+import { createOnDemandPlayerActions } from '../player/actions'
+import { createOnDemandPlayerEmits } from '../player/events'
 import { preservePlayerTree } from '../player/preservePlayerTree'
 import { usePlayerRoot } from '../player/usePlayerRoot'
+import { AUDIO_PLAYER_CONTEXT } from './context'
 import type {
   AudioPlayerActions,
   AudioPlayerElement,
@@ -14,7 +14,7 @@ import type {
   AudioPlayerStore,
 } from './types'
 
-export const audioPlayerEmits = createPlayerEmits<AudioPlayerHandle>()
+export const audioPlayerEmits = createOnDemandPlayerEmits<AudioPlayerHandle>()
 
 const component = defineComponent({
   name: 'AudioPlayerRoot',
@@ -30,7 +30,7 @@ const component = defineComponent({
       AudioPlayerStore,
       AudioPlayerElement,
       AudioPlayerActions
-    >(createCommonPlayerActions, {
+    >(createOnDemandPlayerActions, {
       onReady: () => emit('ready', handle),
       onMediaEvent: emitMedia,
       onVolume: volume => emit('update:volume', volume),

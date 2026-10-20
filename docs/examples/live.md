@@ -39,7 +39,7 @@ The high-level player forwards shared media props. Configure engine options by c
 ```vue
 <script setup lang="ts">
 import { LiveVideoPlayerRoot } from 'videojs-vue/live/core'
-import { LiveVideoSkin } from 'videojs-vue/live/skins/default'
+import { DefaultLiveVideoSkin } from 'videojs-vue/live/skins/default'
 import { HlsVideo } from 'videojs-vue/media/hls'
 import type { HlsSource } from 'videojs-vue/media/hls'
 
@@ -56,12 +56,12 @@ const source: HlsSource = {
 
 <template>
   <LiveVideoPlayerRoot title="Live event">
-    <LiveVideoSkin>
+    <DefaultLiveVideoSkin>
       <HlsVideo
         :source="source"
         muted
       />
-    </LiveVideoSkin>
+    </DefaultLiveVideoSkin>
   </LiveVideoPlayerRoot>
 </template>
 ```

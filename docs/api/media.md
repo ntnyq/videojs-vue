@@ -4,7 +4,7 @@ description: Shared media props, native Video, optional HlsVideo configuration, 
 
 # Media adapters
 
-Media adapters connect a media element to the nearest `PlayerRoot`. Each root must contain exactly one adapter.
+Media adapters connect a media element to the nearest player root: `VideoPlayerRoot`, `AudioPlayerRoot`, or `LiveVideoPlayerRoot`. Each root must contain exactly one adapter.
 
 ## Video
 
@@ -43,9 +43,9 @@ Use `:media="HlsVideo"` on `VideoPlayer` for a URL-only source. Use composition 
 
 Both adapters render `tracks` first, followed by their default slot. The slot can contain native media children such as `<track>` elements. Do not duplicate the same track through both mechanisms.
 
-Both emit the original [media events](./events.md#media-events). `ready` and `update:*` setting events belong to `PlayerRoot` and `VideoPlayer`, not the media components.
+Both emit the original [media events](./events.md#media-events). `ready` and `update:*` setting events belong to `VideoPlayerRoot` and `VideoPlayer`, not the media components.
 
-A media component ref exposes an `element` getter for its underlying media element. Use the root's `PlayerHandle` for store access, actions, and active lifecycle state.
+A media component ref exposes an `element` getter for its underlying media element. Use the root's `VideoPlayerHandle` for store access, actions, and active lifecycle state.
 
 ## MediaTrack
 

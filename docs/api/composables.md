@@ -1,5 +1,5 @@
 ---
-description: Reactive player selectors, action methods, target resolution, and the exposed PlayerHandle.
+description: Reactive player selectors, action methods, target resolution, and the exposed VideoPlayerHandle.
 ---
 
 See [bundle size and imports](../guide/bundle-size.md) for lightweight core/composable entries, fixed skins, and individual controls. Existing aggregate imports remain supported.
@@ -7,32 +7,32 @@ See [bundle size and imports](../guide/bundle-size.md) for lightweight core/comp
 # Composables and handles
 
 ```ts
-import { usePlayerState, usePlayerActions } from 'videojs-vue'
-import type { PlayerHandle, PlayerTarget } from 'videojs-vue'
+import { useVideoPlayerState, useVideoPlayerActions } from 'videojs-vue'
+import type { VideoPlayerHandle, VideoPlayerTarget } from 'videojs-vue'
 ```
 
 Call composables during component setup or within an active Vue effect scope so Vue can dispose their subscriptions.
 
-## PlayerTarget
+## VideoPlayerTarget
 
 ```ts
-type PlayerTarget = MaybeRefOrGetter<PlayerHandle | null | undefined>
+type VideoPlayerTarget = MaybeRefOrGetter<VideoPlayerHandle | null | undefined>
 ```
 
 Both composables accept an optional target:
 
-- Omit it to use context from the nearest ancestor `PlayerRoot`.
+- Omit it to use context from the nearest ancestor `VideoPlayerRoot`.
 - Pass a component ref or reactive getter to follow a player outside that context.
 - Pass a handle directly when the target does not change.
 
 Omitting the target without an ancestor root throws a descriptive context error during setup. An explicit ref or getter may return `null` or `undefined` while the player is unavailable.
 
-## usePlayerState
+## useVideoPlayerState
 
 ```ts
-function usePlayerState<Selected>(
-  selector: (state: PlayerState) => Selected,
-  target?: PlayerTarget,
+function useVideoPlayerState<Selected>(
+  selector: (state: VideoPlayerState) => Selected,
+  target?: VideoPlayerTarget,
 ): ComputedRef<Selected | undefined>
 ```
 
@@ -42,13 +42,13 @@ The selector runs when the store updates. Consumers are notified only when `Obje
 
 Subscriptions follow reactive target/store replacement. Old subscriptions are removed on replacement, deactivation, or scope disposal.
 
-## usePlayerActions
+## useVideoPlayerActions
 
 ```ts
-function usePlayerActions(target?: PlayerTarget): PlayerActions
+function useVideoPlayerActions(target?: VideoPlayerTarget): VideoPlayerActions
 ```
 
-Returns actions that resolve the current store on every call. The same methods are exposed on `PlayerHandle`.
+Returns actions that resolve the current store on every call. The same methods are exposed on `VideoPlayerHandle`.
 
 | Method                      | Return type       | Purpose                                    |
 | --------------------------- | ----------------- | ------------------------------------------ |
@@ -69,17 +69,17 @@ Commands are never queued. If the player is unavailable, asynchronous methods re
 
 Actions delegate directly to Video.js. The shared media props' normalization rules are not an additional validation layer for action arguments. For example, the upstream volume action can unmute media; set mute explicitly when your application needs to preserve it.
 
-For video quality and alternate audio, select `videoRenditionList`, `activeVideoRendition`, and `audioTrackList` with `usePlayerState`. Renditions use `selected` for manual selection; tracks use `enabled`. IDs are source-specific. Unknown IDs and unsupported capabilities follow upstream no-op behavior. See [quality and audio selection](../examples/media-selection.md) for complete examples.
+For video quality and alternate audio, select `videoRenditionList`, `activeVideoRendition`, and `audioTrackList` with `useVideoPlayerState`. Renditions use `selected` for manual selection; tracks use `enabled`. IDs are source-specific. Unknown IDs and unsupported capabilities follow upstream no-op behavior. See [quality and audio selection](../examples/media-selection.md) for complete examples.
 
-## PlayerHandle
+## VideoPlayerHandle
 
-`VideoPlayer` and `PlayerRoot` expose a `PlayerHandle` through their component refs and `ready` event.
+`VideoPlayer` and `VideoPlayerRoot` expose a `VideoPlayerHandle` through their component refs and `ready` event.
 
-| Getter    | Type                    | Meaning                                            |
-| --------- | ----------------------- | -------------------------------------------------- |
-| `element` | `PlayerElement \| null` | Active upstream player element.                    |
-| `store`   | `PlayerStore \| null`   | Video.js video preset store.                       |
-| `media`   | `PlayerMedia \| null`   | Registered media element while the root is active. |
+| Getter    | Type                         | Meaning                                            |
+| --------- | ---------------------------- | -------------------------------------------------- |
+| `element` | `VideoPlayerElement \| null` | Active upstream player element.                    |
+| `store`   | `VideoPlayerStore \| null`   | Video.js video preset store.                       |
+| `media`   | `PlayerMedia \| null`        | Registered media element while the root is active. |
 
 These are live getters. Access them when needed instead of storing a destructured value across lifecycle changes. They return `null` when inactive or unmounted. Use selectors for reactive UI and narrow `media` to an adapter element before accessing adapter-specific APIs.
 

@@ -49,8 +49,10 @@ export function usePlayerRoot<
   const element: ShallowRef<Element | null> = shallowRef(null)
   const store: ShallowRef<Store | null> = shallowRef(null)
   const media = shallowRef<PlayerMedia | null>(null)
+
   let isActive = true
   let activation = 0
+
   const handle = {
     get element() {
       return store.value ? element.value : null
@@ -67,6 +69,7 @@ export function usePlayerRoot<
   let confirmedSettings:
     | { volume: number; muted: boolean; playbackRate: number }
     | undefined
+
   function confirmSettings() {
     if (isSettingsSyncPending) {
       return
@@ -97,6 +100,7 @@ export function usePlayerRoot<
       confirmedSettings = actual
     })
   }
+
   provide(MEDIA_CONTEXT, {
     handle,
     setMedia(next) {
@@ -136,10 +140,15 @@ export function usePlayerRoot<
     media.value?.pause()
     store.value = null
   }
+
   onMounted(activate)
   onActivated(activate)
   onDeactivated(deactivate)
   onBeforeUnmount(deactivate)
 
-  return { element, handle }
+  return {
+    element,
+
+    handle,
+  }
 }

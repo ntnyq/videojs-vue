@@ -2,11 +2,14 @@ export { LiveVideoPlayer } from './LiveVideoPlayer'
 export type { LiveVideoMediaComponent } from './createLiveVideoPlayer'
 export { LiveVideoPlayerRoot } from './LiveVideoPlayerRoot'
 export { Video } from '../media/Video'
-export { LiveVideoSkin } from './skins/default'
+export { DefaultLiveVideoSkin } from './skins/default'
 export { NeutralLiveVideoSkin } from './skins/neutral'
 export { LiveButton } from '../ui/live-button'
-export { useLivePlayerActions, useLivePlayerState } from './composables'
+export {
+  useLiveVideoPlayerActions,
+  useLiveVideoPlayerState,
+} from './composables'
 export type * from './types'
-export type { LiveMediaProps } from './props'
+export type { LiveVideoMediaProps } from './props'
 export type { MediaEventName } from '../media/events'
 export type { MediaTrack, PlayerMedia } from '../media/types'

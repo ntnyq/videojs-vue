@@ -26,8 +26,10 @@ interface BundleReport {
 
 const isBaseline = process.argv.includes('--baseline')
 const shouldCheck = process.argv.includes('--check')
-const videoCore = isBaseline ? 'videojs-vue' : 'videojs-vue/core'
-const videoComposables = isBaseline ? 'videojs-vue' : 'videojs-vue/composables'
+const videoCore = isBaseline ? 'videojs-vue' : 'videojs-vue/video/core'
+const videoComposables = isBaseline
+  ? 'videojs-vue'
+  : 'videojs-vue/video/composables'
 const audioCore = isBaseline ? 'videojs-vue/audio' : 'videojs-vue/audio/core'
 const audioComposables = isBaseline
   ? 'videojs-vue/audio'
@@ -35,9 +37,9 @@ const audioComposables = isBaseline
 const video = isBaseline ? 'videojs-vue' : 'videojs-vue/video/default'
 const audio = isBaseline ? 'videojs-vue/audio' : 'videojs-vue/audio/default'
 const cases = {
-  videoState: `export { usePlayerState } from '${videoComposables}'`,
+  videoState: `export { useVideoPlayerState } from '${videoComposables}'`,
   audioState: `export { useAudioPlayerState } from '${audioComposables}'`,
-  videoCore: `export { PlayerRoot, Video } from '${videoCore}'; export { usePlayerState, usePlayerActions } from '${videoComposables}'`,
+  videoCore: `export { VideoPlayerRoot, Video } from '${videoCore}'; export { useVideoPlayerState, useVideoPlayerActions } from '${videoComposables}'`,
   audioCore: `export { AudioPlayerRoot, Audio } from '${audioCore}'; export { useAudioPlayerState, useAudioPlayerActions } from '${audioComposables}'`,
   videoDefault: `export { VideoPlayer } from '${video}'`,
   audioDefault: `export { AudioPlayer } from '${audio}'`,
@@ -50,9 +52,9 @@ const cases = {
   i18n: "export { MediaI18n, MediaText, registerI18n } from 'videojs-vue/i18n'",
   ...(!isBaseline && {
     liveState:
-      "export { useLivePlayerState } from 'videojs-vue/live/composables'",
+      "export { useLiveVideoPlayerState } from 'videojs-vue/live/composables'",
     liveCore:
-      "export { LiveVideoPlayerRoot, Video } from 'videojs-vue/live/core'; export { useLivePlayerState, useLivePlayerActions } from 'videojs-vue/live/composables'",
+      "export { LiveVideoPlayerRoot, Video } from 'videojs-vue/live/core'; export { useLiveVideoPlayerState, useLiveVideoPlayerActions } from 'videojs-vue/live/composables'",
     liveDefault: "export { LiveVideoPlayer } from 'videojs-vue/live/default'",
     liveNeutral: "export { LiveVideoPlayer } from 'videojs-vue/live/neutral'",
     liveButton: "export { LiveButton } from 'videojs-vue/ui/live-button'",

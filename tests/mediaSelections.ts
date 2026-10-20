@@ -1,4 +1,4 @@
-import type { PlayerState } from '../src/player/types'
+import type { VideoPlayerState } from '../src/video/types'
 
 class MockMediaList<Item> extends EventTarget {
   public readonly items: Item[]
@@ -19,7 +19,7 @@ class MockMediaList<Item> extends EventTarget {
  * @returns {object} Mutable lists for source changes and selection assertions.
  */
 export function installMediaSelections(media: HTMLMediaElement) {
-  const renditions: PlayerState['videoRenditionList'] = [
+  const renditions: VideoPlayerState['videoRenditionList'] = [
     { id: '720p', width: 1280, height: 720, selected: false },
     { id: '1080p', width: 1920, height: 1080, selected: false },
   ]
@@ -37,7 +37,7 @@ export function installMediaSelections(media: HTMLMediaElement) {
       videoRenditions.dispatchEvent(new Event('change'))
     },
   })
-  const tracks: PlayerState['audioTrackList'] = []
+  const tracks: VideoPlayerState['audioTrackList'] = []
   const audioTracks = new MockMediaList(tracks)
   tracks.push(
     ...['en', 'zh'].map((language, index) => {

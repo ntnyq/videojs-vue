@@ -1,14 +1,14 @@
 import { createPlaybackActions, requirePlayerStore } from '../player/actions'
-import type { LivePlayerActions, LiveVideoPlayerStore } from './types'
+import type { LiveVideoPlayerActions, LiveVideoPlayerStore } from './types'
 
 /**
  * Resolve live commands against the currently active store on every call.
  * @param {() => LiveVideoPlayerStore | null} getStore - Reads the active live store.
- * @returns {LivePlayerActions} Commands that resolve the active player.
+ * @returns {LiveVideoPlayerActions} Commands that resolve the active player.
  */
-export function createLivePlayerActions(
+export function createLiveVideoPlayerActions(
   getStore: () => LiveVideoPlayerStore | null,
-): LivePlayerActions {
+): LiveVideoPlayerActions {
   const requireStore = () => requirePlayerStore(getStore)
   return {
     ...createPlaybackActions(getStore),

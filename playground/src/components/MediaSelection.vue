@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePlayerState } from 'videojs-vue/composables'
+import { useVideoPlayerState } from 'videojs-vue/video/composables'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { Playground } from '../composables/usePlayground'
@@ -13,8 +13,11 @@ const player = computed(() => {
   return handle && 'selectVideoRendition' in handle ? handle : null
 })
 
-const renditions = usePlayerState(state => state.videoRenditionList, player)
-const tracks = usePlayerState(state => state.audioTrackList, player)
+const renditions = useVideoPlayerState(
+  state => state.videoRenditionList,
+  player,
+)
+const tracks = useVideoPlayerState(state => state.audioTrackList, player)
 const quality = computed({
   get: () => renditions.value?.find(item => item.selected)?.id ?? 'auto',
   set: (id: string) => {

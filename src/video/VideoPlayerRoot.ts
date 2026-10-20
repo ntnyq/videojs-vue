@@ -2,42 +2,42 @@ import '../register/video/player'
 import { defineComponent, h, provide, withDirectives } from 'vue'
 import type { PropType } from 'vue'
 import type { MediaEventName } from '../media/events'
-import { createPlayerActions } from './actions'
-import { PLAYER_CONTEXT } from './context'
-import { createPlayerEmits } from './events'
-import { preservePlayerTree } from './preservePlayerTree'
+import { createOnDemandPlayerEmits } from '../player/events'
+import { preservePlayerTree } from '../player/preservePlayerTree'
+import { usePlayerRoot } from '../player/usePlayerRoot'
+import { createVideoPlayerActions } from './actions'
+import { VIDEO_PLAYER_CONTEXT } from './context'
 import type {
-  PlayerActions,
-  PlayerElement,
-  PlayerHandle,
-  PlayerStore,
+  VideoPlayerActions,
+  VideoPlayerElement,
+  VideoPlayerHandle,
+  VideoPlayerStore,
 } from './types'
-import { usePlayerRoot } from './usePlayerRoot'
 
-export const playerEmits = createPlayerEmits<PlayerHandle>()
+export const videoPlayerEmits = createOnDemandPlayerEmits<VideoPlayerHandle>()
 
 const component = defineComponent({
-  name: 'PlayerRoot',
+  name: 'VideoPlayerRoot',
   inheritAttrs: false,
   props: {
     title: String as PropType<string | undefined>,
     poster: String as PropType<string | undefined>,
   },
-  emits: playerEmits,
+  emits: videoPlayerEmits,
   setup(props, { attrs, slots, emit, expose }) {
     const emitMedia = emit as (name: MediaEventName, event: Event) => void
     const { element, handle } = usePlayerRoot<
-      PlayerStore,
-      PlayerElement,
-      PlayerActions
-    >(createPlayerActions, {
+      VideoPlayerStore,
+      VideoPlayerElement,
+      VideoPlayerActions
+    >(createVideoPlayerActions, {
       onReady: () => emit('ready', handle),
       onMediaEvent: emitMedia,
       onVolume: volume => emit('update:volume', volume),
       onMuted: muted => emit('update:muted', muted),
       onPlaybackRate: rate => emit('update:playbackRate', rate),
     })
-    provide(PLAYER_CONTEXT, handle)
+    provide(VIDEO_PLAYER_CONTEXT, handle)
     expose(handle)
     return () =>
       withDirectives(
@@ -59,6 +59,6 @@ const component = defineComponent({
 /**
  * Vue component ref exposes the player handle alongside the standard instance.
  */
-export const PlayerRoot = component as typeof component & {
-  new (): InstanceType<typeof component> & PlayerHandle
+export const VideoPlayerRoot = component as typeof component & {
+  new (): InstanceType<typeof component> & VideoPlayerHandle
 }

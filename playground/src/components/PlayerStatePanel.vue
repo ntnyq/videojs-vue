@@ -25,8 +25,8 @@ const fields = computed(() =>
           lab.example === 'audio'
             ? 'useAudioPlayerState'
             : lab.example === 'live'
-              ? 'useLivePlayerState'
-              : 'usePlayerState'
+              ? 'useLiveVideoPlayerState'
+              : 'useVideoPlayerState'
         }}(state =&gt; state, player)</code
       >
     </p>

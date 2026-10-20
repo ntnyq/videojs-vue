@@ -40,8 +40,8 @@
     "./src/media/hls.ts",
     "./src/polyfills.ts",
     "./dist/polyfills.js",
-    "./src/skins/legacy.css",
-    "./dist/skins/legacy.css",
+    "./src/video/skins/legacy.css",
+    "./dist/video/skins/legacy.css",
     "./src/live/index.ts",
     "./dist/live/index.js"
   ],
@@ -69,13 +69,13 @@
       "types": "./dist/audio/index.d.ts",
       "default": "./dist/audio/index.js"
     },
-    "./core": {
-      "types": "./dist/core/index.d.ts",
-      "default": "./dist/core/index.js"
+    "./video/core": {
+      "types": "./dist/video/core.d.ts",
+      "default": "./dist/video/core.js"
     },
-    "./composables": {
-      "types": "./dist/composables/index.d.ts",
-      "default": "./dist/composables/index.js"
+    "./video/composables": {
+      "types": "./dist/video/composables.d.ts",
+      "default": "./dist/video/composables.js"
     },
     "./audio/core": {
       "types": "./dist/audio/core.d.ts",
@@ -85,17 +85,17 @@
       "types": "./dist/audio/composables.d.ts",
       "default": "./dist/audio/composables.js"
     },
-    "./skins/compat": {
-      "types": "./dist/skins/compat.d.ts",
-      "default": "./dist/skins/compat.js"
+    "./video/skins/compat": {
+      "types": "./dist/video/skins/compat.d.ts",
+      "default": "./dist/video/skins/compat.js"
     },
-    "./skins/default": {
-      "types": "./dist/skins/default.d.ts",
-      "default": "./dist/skins/default.js"
+    "./video/skins/default": {
+      "types": "./dist/video/skins/default.d.ts",
+      "default": "./dist/video/skins/default.js"
     },
-    "./skins/neutral": {
-      "types": "./dist/skins/neutral.d.ts",
-      "default": "./dist/skins/neutral.js"
+    "./video/skins/neutral": {
+      "types": "./dist/video/skins/neutral.d.ts",
+      "default": "./dist/video/skins/neutral.js"
     },
     "./audio/skins/default": {
       "types": "./dist/audio/skins/default.d.ts",
@@ -209,15 +209,15 @@
       "types": "./dist/video/legacy.d.ts",
       "default": "./dist/video/legacy.js"
     },
-    "./skins/legacy": {
-      "types": "./dist/skins/legacy.d.ts",
-      "default": "./dist/skins/legacy.js"
+    "./video/skins/legacy": {
+      "types": "./dist/video/skins/legacy.d.ts",
+      "default": "./dist/video/skins/legacy.js"
     },
     "./polyfills": {
       "types": "./dist/polyfills.d.ts",
       "default": "./dist/polyfills.js"
     },
-    "./skins/legacy.css": "./dist/skins/legacy.css",
+    "./video/skins/legacy.css": "./dist/video/skins/legacy.css",
     "./ui/menu": {
       "types": "./dist/ui/menu.d.ts",
       "default": "./dist/ui/menu.js"

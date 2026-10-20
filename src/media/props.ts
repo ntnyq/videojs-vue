@@ -17,10 +17,10 @@ export const commonMediaProps = {
   muted: { type: Boolean as PropType<boolean | undefined>, default: undefined },
   playbackRate: Number as PropType<number | undefined>,
 } as const
-export const mediaProps = {
+export const videoMediaProps = {
   ...commonMediaProps,
   poster: String as PropType<string | undefined>,
   playsinline: { type: Boolean, default: true },
 } as const
 export type CommonMediaProps = ExtractPropTypes<typeof commonMediaProps>
-export type MediaProps = ExtractPropTypes<typeof mediaProps>
+export type VideoMediaProps = ExtractPropTypes<typeof videoMediaProps>

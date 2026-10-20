@@ -1,7 +1,7 @@
 import '../../register/live/skin'
-import { createVideoSkin } from '../../skins/createVideoSkin'
+import { createVideoSkin } from '../../video/skins/createVideoSkin'
 
-export const LiveVideoSkin = /* @__PURE__ */ createVideoSkin(
-  'LiveVideoSkin',
+export const DefaultLiveVideoSkin = /* @__PURE__ */ createVideoSkin(
+  'DefaultLiveVideoSkin',
   'live-video-skin',
 )

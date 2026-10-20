@@ -7,6 +7,8 @@
 
 Vue 3 components and composables for Video.js 10, with video and audio players, packaged skins, reactive playback state, and optional HLS support.
 
+Upgrading from the previous player API? See the [breaking change migration guide](https://videojs-vue-docs.vercel.app/guide/migration) for renamed APIs and video import paths.
+
 [Documentation](https://videojs-vue-docs.vercel.app) · [Playground](https://videojs-vue-playground.vercel.app)
 
 ## Installation
@@ -37,7 +39,7 @@ Serve your video and poster at the URLs above. Component registration and skin s
 
 To use the upstream Compat skin, change the import to `videojs-vue/video/compat`. This entry loads only that skin and keeps the same player API. It does not include polyfills or guarantee a lower minimum browser version; see [Compat skin](https://videojs-vue-docs.vercel.app/guide/styling#compat-skin).
 
-For Chrome 90+, use `videojs-vue/video/legacy` with `videojs-vue/skins/legacy.css`, opt-in `videojs-vue/polyfills`, and a consumer build targeting `chrome90`. See [legacy mode](https://videojs-vue-docs.vercel.app/guide/legacy) for setup and validation limits.
+For Chrome 90+, use `videojs-vue/video/legacy` with `videojs-vue/video/skins/legacy.css`, opt-in `videojs-vue/polyfills`, and a consumer build targeting `chrome90`. See [legacy mode](https://videojs-vue-docs.vercel.app/guide/legacy) for setup and validation limits.
 
 `core-js` is an optional peer dependency. Install it with `pnpm add core-js@^3.50.0` before importing `videojs-vue/polyfills`. Other entries do not require it. If your target browsers or application already provide `Array.prototype.at` and `Object.hasOwn`, omit both the polyfill import and the `core-js` installation, including when using the legacy skin.
 
@@ -60,14 +62,6 @@ import { AudioPlayer } from 'videojs-vue/audio/default'
 
 The fixed audio entry loads only the default audio skin. Use `videojs-vue/audio` when switching between both skins at runtime. Lightweight `core`, `composables`, and individual control entries are also available; see [bundle size and imports](https://videojs-vue-docs.vercel.app/guide/bundle-size). See the [audio API](https://videojs-vue-docs.vercel.app/api/audio).
 
-## Credits
-
-Built on [Video.js](https://videojs.org), which provides the player, media adapters, and controls. Thanks to the [Video.js contributors](https://github.com/videojs/video.js).
-
-## License
-
-[MIT](LICENSE)
-
 ## HLS Live
 
 Use the independent live preset with the optional HLS adapter:
@@ -87,3 +81,11 @@ import { HlsVideo } from 'videojs-vue/media/hls'
 ```
 
 Install `@videojs/hlsjs-video@10.0.1` separately. The live preset provides default and neutral skins, live-state composables, and a return-to-live button. See the [live API](https://videojs-vue-docs.vercel.app/api/live) and [HLS Live example](https://videojs-vue-docs.vercel.app/examples/live). A dedicated DVR timeline is outside this initial live release.
+
+## Credits
+
+Built on [Video.js](https://videojs.org), which provides the player, media adapters, and controls. Thanks to the [Video.js contributors](https://github.com/videojs/video.js).
+
+## License
+
+[MIT](LICENSE)

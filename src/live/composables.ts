@@ -1,44 +1,52 @@
 import type { ComputedRef } from 'vue'
 import { useStoreSelection } from '../composables/useStoreSelection'
 import { useTarget } from '../player/context'
-import { createLivePlayerActions } from './actions'
-import { LIVE_PLAYER_CONTEXT } from './context'
+import { createLiveVideoPlayerActions } from './actions'
+import { LIVE_VIDEO_PLAYER_CONTEXT } from './context'
 import type {
-  LivePlayerActions,
-  LivePlayerState,
-  LivePlayerTarget,
+  LiveVideoPlayerActions,
+  LiveVideoPlayerState,
+  LiveVideoPlayerTarget,
 } from './types'
 
 /**
  * Subscribe to a live snapshot selection; unavailable players yield undefined.
- * @param {(state: LivePlayerState) => Selected} selector - Selects from the immutable upstream live snapshot.
- * @param {LivePlayerTarget} target - Explicit player target, or injected live context when omitted.
+ * @param {(state: LiveVideoPlayerState) => Selected} selector - Selects from the immutable upstream live snapshot.
+ * @param {LiveVideoPlayerTarget} target - Explicit player target, or injected live context when omitted.
  * @returns {ComputedRef<Selected | undefined>} A readonly selection, undefined while unavailable.
  */
-export function useLivePlayerState<Selected>(
-  selector: (state: LivePlayerState) => Selected,
-  target?: LivePlayerTarget,
+export function useLiveVideoPlayerState<Selected>(
+  selector: (state: LiveVideoPlayerState) => Selected,
+  target?: LiveVideoPlayerTarget,
 ): ComputedRef<Selected | undefined> {
-  const player = useTarget(LIVE_PLAYER_CONTEXT, 'LiveVideoPlayerRoot', target)
+  const player = useTarget(
+    LIVE_VIDEO_PLAYER_CONTEXT,
+    'LiveVideoPlayerRoot',
+    target,
+  )
   return useStoreSelection(() => player.value?.store, selector)
 }
 
 /**
  * Resolve the current live player on each call. Unready actions are never queued.
- * @param {LivePlayerTarget} target - Explicit player target, or injected live context when omitted.
- * @returns {LivePlayerActions} Playback commands bound to the current player.
+ * @param {LiveVideoPlayerTarget} target - Explicit player target, or injected live context when omitted.
+ * @returns {LiveVideoPlayerActions} Playback commands bound to the current player.
  */
-export function useLivePlayerActions(
-  target?: LivePlayerTarget,
-): LivePlayerActions {
-  const player = useTarget(LIVE_PLAYER_CONTEXT, 'LiveVideoPlayerRoot', target)
-  return createLivePlayerActions(() => player.value?.store ?? null)
+export function useLiveVideoPlayerActions(
+  target?: LiveVideoPlayerTarget,
+): LiveVideoPlayerActions {
+  const player = useTarget(
+    LIVE_VIDEO_PLAYER_CONTEXT,
+    'LiveVideoPlayerRoot',
+    target,
+  )
+  return createLiveVideoPlayerActions(() => player.value?.store ?? null)
 }
 
 export type {
-  LivePlayerActions,
-  LivePlayerHandle,
-  LivePlayerState,
+  LiveVideoPlayerActions,
+  LiveVideoPlayerHandle,
+  LiveVideoPlayerState,
   LiveVideoPlayerStore,
-  LivePlayerTarget,
+  LiveVideoPlayerTarget,
 } from './types'

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { defineComponent, h, shallowRef } from 'vue'
 import { VideoPlayer } from '../../../src'
-import type { PlayerHandle, PlayerState } from '../../../src'
+import type { VideoPlayerHandle, VideoPlayerState } from '../../../src'
 import { mount, settle, cleanup } from '../../helpers'
 
 describe('video player component', () => {
@@ -9,14 +9,16 @@ describe('video player component', () => {
 
   it('keeps real upstream state types', () => {
     expect.assertions(0)
-    expectTypeOf<InstanceType<typeof VideoPlayer>>().toExtend<PlayerHandle>()
-    expectTypeOf<PlayerState['paused']>().toEqualTypeOf<boolean>()
-    expectTypeOf<PlayerState['currentTime']>().toEqualTypeOf<number>()
+    expectTypeOf<
+      InstanceType<typeof VideoPlayer>
+    >().toExtend<VideoPlayerHandle>()
+    expectTypeOf<VideoPlayerState['paused']>().toEqualTypeOf<boolean>()
+    expectTypeOf<VideoPlayerState['currentTime']>().toEqualTypeOf<number>()
   })
 
   it('registers elements, attaches native media, forwards original events and exposes actions', async () => {
     expect.hasAssertions()
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const ready = vi.fn()
     const played = vi.fn()
     const { container } = mount(

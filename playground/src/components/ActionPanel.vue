@@ -28,9 +28,9 @@ const actionsHook = computed(() => {
     return 'useAudioPlayerActions'
   }
   if (props.lab.example === 'live') {
-    return 'useLivePlayerActions'
+    return 'useLiveVideoPlayerActions'
   }
-  return 'usePlayerActions'
+  return 'useVideoPlayerActions'
 })
 const targets = computed(() => [
   {

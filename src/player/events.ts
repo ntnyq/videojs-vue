@@ -9,7 +9,7 @@ export function createPlaybackEmits<Handle>() {
   }
 }
 
-export function createPlayerEmits<Handle>() {
+export function createOnDemandPlayerEmits<Handle>() {
   return {
     ...createPlaybackEmits<Handle>(),
     'update:playbackRate': (_rate: number) => true,

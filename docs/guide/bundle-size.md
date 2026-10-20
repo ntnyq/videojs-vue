@@ -8,17 +8,17 @@ Choose the smallest entry that supplies the components you use. Every component 
 
 | Use case                 | Import path                                                            | Exports                                                                   |
 | ------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| Video without a skin     | `videojs-vue/core`                                                     | `PlayerRoot`, `Video`, video types                                        |
-| Video state and commands | `videojs-vue/composables`                                              | `usePlayerState`, `usePlayerActions`, handle/state/action types           |
+| Video without a skin     | `videojs-vue/video/core`                                               | `VideoPlayerRoot`, `Video`, video types                                   |
+| Video state and commands | `videojs-vue/video/composables`                                        | `useVideoPlayerState`, `useVideoPlayerActions`, handle/state/action types |
 | Audio without a skin     | `videojs-vue/audio/core`                                               | `AudioPlayerRoot`, `Audio`, audio types                                   |
 | Audio state and commands | `videojs-vue/audio/composables`                                        | `useAudioPlayerState`, `useAudioPlayerActions`, handle/state/action types |
 | Default video player     | `videojs-vue/video/default`                                            | `VideoPlayer`, video types, `VideoMediaComponent`                         |
 | Neutral video player     | `videojs-vue/video/neutral`                                            | `VideoPlayer`, video types, `VideoMediaComponent`                         |
 | Compat video player      | `videojs-vue/video/compat`                                             | `VideoPlayer`, video types, `VideoMediaComponent`                         |
-| Compat video skin        | `videojs-vue/skins/compat`                                             | `CompatVideoSkin`                                                         |
+| Compat video skin        | `videojs-vue/video/skins/compat`                                       | `CompatVideoSkin`                                                         |
 | Default audio player     | `videojs-vue/audio/default`                                            | `AudioPlayer`, audio types, `AudioMediaComponent`                         |
 | Neutral audio player     | `videojs-vue/audio/neutral`                                            | `AudioPlayer`, audio types, `AudioMediaComponent`                         |
-| One video skin           | `videojs-vue/skins/default` or `videojs-vue/skins/neutral`             | `DefaultVideoSkin` or `NeutralVideoSkin`                                  |
+| One video skin           | `videojs-vue/video/skins/default` or `videojs-vue/video/skins/neutral` | `DefaultVideoSkin` or `NeutralVideoSkin`                                  |
 | One audio skin           | `videojs-vue/audio/skins/default` or `videojs-vue/audio/skins/neutral` | `DefaultAudioSkin` or `NeutralAudioSkin`                                  |
 | One control              | `videojs-vue/ui/play-button`, etc.                                     | The corresponding [UI component](../api/ui.md)                            |
 
@@ -28,11 +28,11 @@ The fixed player entries share the aggregate players' media props, events, expos
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { VideoPlayer } from 'videojs-vue/video/default'
-import type { PlayerHandle } from 'videojs-vue/core'
-import { usePlayerState } from 'videojs-vue/composables'
+import type { VideoPlayerHandle } from 'videojs-vue/video/core'
+import { useVideoPlayerState } from 'videojs-vue/video/composables'
 
-const player = shallowRef<PlayerHandle | null>(null)
-const paused = usePlayerState(state => state.paused, player)
+const player = shallowRef<VideoPlayerHandle | null>(null)
+const paused = useVideoPlayerState(state => state.paused, player)
 </script>
 
 <template>

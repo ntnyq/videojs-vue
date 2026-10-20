@@ -2,13 +2,13 @@ import type { MenuElement } from '@videojs/html'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, shallowRef } from 'vue'
 import {
-  PlayerRoot,
+  VideoPlayerRoot,
   Video,
   VideoPlayer,
-  usePlayerActions,
-  usePlayerState,
+  useVideoPlayerActions,
+  useVideoPlayerState,
 } from '../../../src'
-import type { PlayerHandle } from '../../../src'
+import type { VideoPlayerHandle } from '../../../src'
 import {
   AudioTrackRadioGroup,
   MediaContainer,
@@ -54,7 +54,7 @@ describe('media selection', () => {
     const { container } = mount(
       defineComponent(
         () => () =>
-          h(PlayerRoot, null, {
+          h(VideoPlayerRoot, null, {
             default: () =>
               h(MediaContainer, null, {
                 default: () => [
@@ -103,7 +103,7 @@ describe('media selection', () => {
 
   it('selects quality, auto and audio tracks through generated accessible menu items', async () => {
     expect.hasAssertions()
-    const player = shallowRef<PlayerHandle | null>(null)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
     const onChange = vi.fn()
     const formatRendition = vi.fn(
       (rendition: { id: string }) => `Quality ${rendition.id}`,
@@ -112,7 +112,7 @@ describe('media selection', () => {
       defineComponent(
         () => () =>
           h(
-            PlayerRoot,
+            VideoPlayerRoot,
             { ref: player },
             {
               default: () =>
@@ -198,17 +198,17 @@ describe('media selection', () => {
 
   it('resolves selection actions against the current target and stops after unmount', async () => {
     expect.hasAssertions()
-    const first = shallowRef<PlayerHandle | null>(null)
-    const second = shallowRef<PlayerHandle | null>(null)
-    const target = shallowRef<PlayerHandle | null>(null)
-    let actions: ReturnType<typeof usePlayerActions> | undefined
+    const first = shallowRef<VideoPlayerHandle | null>(null)
+    const second = shallowRef<VideoPlayerHandle | null>(null)
+    const target = shallowRef<VideoPlayerHandle | null>(null)
+    let actions: ReturnType<typeof useVideoPlayerActions> | undefined
     let readSelected = () =>
       target.value?.store?.videoRenditionList.find(item => item.selected)?.id
     const { container, unmount } = mount(
       defineComponent({
         setup() {
-          actions = usePlayerActions(target)
-          const selected = usePlayerState(
+          actions = useVideoPlayerActions(target)
+          const selected = useVideoPlayerState(
             state => state.videoRenditionList.find(item => item.selected)?.id,
             target,
           )
