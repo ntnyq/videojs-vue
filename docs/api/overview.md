@@ -57,3 +57,5 @@ Use [VideoPlayer](./video-player.md) for a complete player. Use [PlayerRoot and 
 `PlayerStore` and `PlayerState` follow the upstream Video.js video preset. `PlayerMedia` describes the common native and adapter media surface; narrow the element type before using adapter-specific APIs.
 
 Audio types are exported separately from `videojs-vue/audio`; see [audio types and handles](./audio.md#state-actions-and-types).
+
+Live video has an independent [live API](./live.md), including packaged players, roots, skins, composables, and return-to-live controls.

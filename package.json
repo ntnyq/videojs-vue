@@ -41,7 +41,9 @@
     "./src/polyfills.ts",
     "./dist/polyfills.js",
     "./src/skins/legacy.css",
-    "./dist/skins/legacy.css"
+    "./dist/skins/legacy.css",
+    "./src/live/index.ts",
+    "./dist/live/index.js"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -231,6 +233,38 @@
     "./ui/audio-track-radio-group": {
       "types": "./dist/ui/audio-track-radio-group.d.ts",
       "default": "./dist/ui/audio-track-radio-group.js"
+    },
+    "./live": {
+      "types": "./dist/live/index.d.ts",
+      "default": "./dist/live/index.js"
+    },
+    "./live/core": {
+      "types": "./dist/live/core.d.ts",
+      "default": "./dist/live/core.js"
+    },
+    "./live/composables": {
+      "types": "./dist/live/composables.d.ts",
+      "default": "./dist/live/composables.js"
+    },
+    "./live/default": {
+      "types": "./dist/live/default.d.ts",
+      "default": "./dist/live/default.js"
+    },
+    "./live/neutral": {
+      "types": "./dist/live/neutral.d.ts",
+      "default": "./dist/live/neutral.js"
+    },
+    "./live/skins/default": {
+      "types": "./dist/live/skins/default.d.ts",
+      "default": "./dist/live/skins/default.js"
+    },
+    "./live/skins/neutral": {
+      "types": "./dist/live/skins/neutral.d.ts",
+      "default": "./dist/live/skins/neutral.js"
+    },
+    "./ui/live-button": {
+      "types": "./dist/ui/live-button.d.ts",
+      "default": "./dist/ui/live-button.js"
     }
   },
   "publishConfig": {

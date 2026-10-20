@@ -10,6 +10,14 @@ import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
 import { usePlayerActions, usePlayerState } from 'videojs-vue/composables'
 import { PlayerRoot, Video } from 'videojs-vue/core'
 import type { PlayerHandle } from 'videojs-vue/core'
+import {
+  useLivePlayerActions,
+  useLivePlayerState,
+} from 'videojs-vue/live/composables'
+import { LiveVideoPlayerRoot } from 'videojs-vue/live/core'
+import type { LivePlayerHandle } from 'videojs-vue/live/core'
+import { LiveVideoPlayer as DefaultLiveVideoPlayer } from 'videojs-vue/live/default'
+import { LiveVideoPlayer as NeutralLiveVideoPlayer } from 'videojs-vue/live/neutral'
 import { MediaContainer } from 'videojs-vue/ui/container'
 import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
 import type { VideoMediaComponent } from 'videojs-vue/video/compat'
@@ -73,6 +81,11 @@ describe('published package', () => {
     expectTypeOf<
       InstanceType<typeof CompatVideoPlayer>
     >().toExtend<PlayerHandle>()
+    // @ts-expect-error The fixed live player only includes its default skin.
+    h(DefaultLiveVideoPlayer, { skin: 'neutral' })
+    expectTypeOf<
+      InstanceType<typeof DefaultLiveVideoPlayer>
+    >().toExtend<LivePlayerHandle>()
     expectTypeOf<VideoMediaComponent>().toEqualTypeOf<typeof Video>()
     // @ts-expect-error A fixed default player cannot select a neutral skin.
     h(DefaultVideoPlayer, { skin: 'neutral' })
@@ -98,13 +111,32 @@ describe('published package', () => {
     >().toExtend<AudioPlayerHandle>()
   })
 
-  describe.each([
+  describe.each<{
+    name: string
+    Root: Component
+    Media: Component
+    state:
+      | typeof usePlayerState
+      | typeof useAudioPlayerState
+      | typeof useLivePlayerState
+    actions:
+      | typeof usePlayerActions
+      | typeof useAudioPlayerActions
+      | typeof useLivePlayerActions
+  }>([
     {
       name: 'video',
       Root: PlayerRoot,
       Media: Video,
       state: usePlayerState,
       actions: usePlayerActions,
+    },
+    {
+      name: 'live',
+      Root: LiveVideoPlayerRoot,
+      Media: Video,
+      state: useLivePlayerState,
+      actions: useLivePlayerActions,
     },
     {
       name: 'audio',
@@ -116,7 +148,9 @@ describe('published package', () => {
   ])('$name cross-entry context', ({ Root, Media, state, actions }) => {
     it('shares injected state and commands with media binding and cleans up', async () => {
       expect.hasAssertions()
-      const player = shallowRef<PlayerHandle | AudioPlayerHandle | null>(null)
+      const player = shallowRef<
+        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+      >(null)
       const Child = defineComponent({
         setup() {
           const paused = state(snapshot => snapshot.paused)
@@ -170,6 +204,16 @@ describe('published package', () => {
       Player: NeutralVideoPlayer,
       tag: 'video-neutral-skin',
     },
+    {
+      name: 'default live',
+      Player: DefaultLiveVideoPlayer,
+      tag: 'live-video-skin',
+    },
+    {
+      name: 'neutral live',
+      Player: NeutralLiveVideoPlayer,
+      tag: 'live-video-neutral-skin',
+    },
     { name: 'default audio', Player: DefaultAudioPlayer, tag: 'audio-skin' },
     {
       name: 'neutral audio',
@@ -179,7 +223,9 @@ describe('published package', () => {
   ])('$name published component', ({ Player, tag }) => {
     it('forwards events, props, slots and handles through KeepAlive and disposal', async () => {
       expect.hasAssertions()
-      const player = shallowRef<PlayerHandle | AudioPlayerHandle | null>(null)
+      const player = shallowRef<
+        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+      >(null)
       const visible = shallowRef(true)
       const volume = shallowRef(0.4)
       const played = vi.fn()

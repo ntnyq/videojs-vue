@@ -269,6 +269,7 @@ const booleanProps = computed(() =>
                   />
                 </div>
                 <NumberField
+                  v-if="lab.example !== 'live'"
                   id="playback-rate"
                   v-model="rate"
                   label="playbackRate"

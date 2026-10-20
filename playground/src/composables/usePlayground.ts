@@ -5,6 +5,11 @@ import {
   useAudioPlayerState,
 } from 'videojs-vue/audio/composables'
 import { usePlayerActions, usePlayerState } from 'videojs-vue/composables'
+import {
+  useLivePlayerActions,
+  useLivePlayerState,
+} from 'videojs-vue/live/composables'
+import type { LivePlayerHandle } from 'videojs-vue/live/core'
 import { computed, reactive, shallowRef } from 'vue'
 import { createConfig, MEDIA_EVENTS } from '../data'
 import type { ExampleId, PlaygroundConfig, PlayerType } from '../data'
@@ -18,7 +23,9 @@ export function usePlayground() {
     example.value === 'audio' ? 'audio' : 'video',
   )
   const config = reactive(createConfig())
-  const player = shallowRef<PlayerHandle | AudioPlayerHandle | null>(null)
+  const player = shallowRef<
+    PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+  >(null)
   const isMounted = shallowRef(true)
   const generation = shallowRef(0)
   const failure = shallowRef('')
@@ -29,29 +36,48 @@ export function usePlayground() {
   const log = reactive(useEventLog())
   const videoPlayer = computed(() => {
     const handle = player.value
-    return handle && 'requestFullscreen' in handle ? handle : null
+    return handle && 'selectVideoRendition' in handle ? handle : null
   })
   const audioPlayer = computed(() => {
     const handle = player.value
     return handle && !('requestFullscreen' in handle) ? handle : null
   })
+  const livePlayer = computed(() => {
+    const handle = player.value
+    return handle &&
+      'requestFullscreen' in handle &&
+      !('selectVideoRendition' in handle)
+      ? handle
+      : null
+  })
+  const liveActions = useLivePlayerActions(livePlayer)
+  const liveSnapshot = useLivePlayerState(state => state, livePlayer)
   const actions = usePlayerActions(videoPlayer)
   const audioActions = useAudioPlayerActions(audioPlayer)
   const videoSnapshot = usePlayerState(state => state, videoPlayer)
   const audioSnapshot = useAudioPlayerState(state => state, audioPlayer)
-  const snapshot = computed(() =>
-    example.value === 'audio' ? audioSnapshot.value : videoSnapshot.value,
+  const snapshot = computed(() => {
+    if (example.value === 'audio') {
+      return audioSnapshot.value
+    }
+    if (example.value === 'live') {
+      return liveSnapshot.value
+    }
+    return videoSnapshot.value
+  })
+  const videoCapabilities = computed(
+    () => liveSnapshot.value ?? videoSnapshot.value,
   )
   const isReady = computed(() => Boolean(player.value?.store))
   const canFullscreen = computed(
     () =>
       isReady.value &&
-      videoSnapshot.value?.fullscreenAvailability === 'available',
+      videoCapabilities.value?.fullscreenAvailability === 'available',
   )
   const canPip = computed(
     () =>
       isReady.value &&
-      videoSnapshot.value?.pictureInPictureAvailability === 'available',
+      videoCapabilities.value?.pictureInPictureAvailability === 'available',
   )
   const mediaProps = computed(() => {
     const {
@@ -81,7 +107,9 @@ export function usePlayground() {
   const code = computed(() =>
     createExampleCode(example.value, config, actionTarget.value),
   )
-  function setPlayer(handle: PlayerHandle | AudioPlayerHandle | null) {
+  function setPlayer(
+    handle: PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null,
+  ) {
     player.value = handle
   }
   function reset() {
@@ -144,7 +172,13 @@ export function usePlayground() {
   ) {
     const instance = player.value
     const token = generation.value
-    const currentActions = example.value === 'audio' ? audioActions : actions
+    let currentActions: Partial<PlayerActions> = actions
+    if (example.value === 'audio') {
+      currentActions = audioActions
+    }
+    if (example.value === 'live') {
+      currentActions = liveActions
+    }
     const target: Partial<PlayerActions> | null =
       actionTarget.value === 'ref' ? instance : currentActions
     log.record('action', `${name}()`, { args, target: actionTarget.value })

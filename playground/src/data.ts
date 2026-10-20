@@ -6,6 +6,8 @@ export const AUDIO_SOURCE =
   'https://stream.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/audio.m4a'
 export const HLS_SOURCE =
   'https://stream.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM.m3u8'
+export const LIVE_SOURCE =
+  'https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8'
 export const POSTER =
   'https://image.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/thumbnail.jpg'
 export const EXAMPLES = [
@@ -21,6 +23,11 @@ export const EXAMPLES = [
   },
   {
     id: 'hls',
+    group: 'playback',
+    icon: 'radio',
+  },
+  {
+    id: 'live',
     group: 'playback',
     icon: 'radio',
   },
@@ -81,10 +88,11 @@ export function createConfig(example: ExampleId = 'basic'): PlaygroundConfig {
   const sources: Partial<Record<ExampleId, string>> = {
     audio: AUDIO_SOURCE,
     hls: HLS_SOURCE,
+    live: LIVE_SOURCE,
   }
   return {
     src: sources[example] ?? MP4_SOURCE,
-    poster: POSTER,
+    poster: example === 'live' ? '' : POSTER,
     title: example === 'audio' ? 'Audio demo' : 'Video.js demo',
     skin: 'default',
     volume: 0.7,

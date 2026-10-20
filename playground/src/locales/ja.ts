@@ -43,6 +43,11 @@ export default {
       description: 'パラメーターを調整して、状態とイベントを確認できます。',
       hint: 'VideoPlayer はメディアアダプターとスキンを組み合わせます。パラメーターの変更はプレーヤーに即座に反映されます。',
     },
+    live: {
+      title: 'HLS ライブ',
+      description: 'HLS ライブ配信とライブ位置を確認します。',
+      hint: 'Live ボタンでライブ位置へ戻れます。liveEdgeStart、targetLiveWindow、seekable を確認できます。DVR タイムラインは別の機能です。',
+    },
     hls: {
       title: 'HLS ストリーミング',
       description:

@@ -22,7 +22,11 @@ const fields = computed(() =>
       {{ translate('state.hint') }}
       <code
         >{{
-          lab.example === 'audio' ? 'useAudioPlayerState' : 'usePlayerState'
+          lab.example === 'audio'
+            ? 'useAudioPlayerState'
+            : lab.example === 'live'
+              ? 'useLivePlayerState'
+              : 'usePlayerState'
         }}(state =&gt; state, player)</code
       >
     </p>

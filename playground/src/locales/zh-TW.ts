@@ -42,6 +42,11 @@ export default {
       description: '調整參數，觀察播放器狀態與事件。',
       hint: 'VideoPlayer 結合媒體適配器與外觀。參數面板的變更會即時套用至播放器。',
     },
+    live: {
+      title: 'HLS 直播',
+      description: '播放 HLS 直播串流並追蹤直播邊緣。',
+      hint: '使用 Live 按鈕回到直播。狀態包含 liveEdgeStart、targetLiveWindow 和 seekable；DVR 時間軸後續獨立實作。',
+    },
     hls: {
       title: 'HLS 串流',
       description: '使用選用的 HLS 適配器播放自適應串流。',

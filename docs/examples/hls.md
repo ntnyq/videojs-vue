@@ -66,7 +66,7 @@ const source: HlsSource = {
 
 Use `engine.hlsJs` for hls.js options and `engine.nativeHls` for native HLS options. Each playback path reads only its own options.
 
-The upstream adapter decides native/MSE playback support and handles adaptive streaming. Autoplay and fullscreen remain subject to browser policy. A live URL may play, but this wrapper's preset and UI are for on-demand video; dedicated live APIs are outside this release.
+The upstream adapter decides native/MSE playback support and handles adaptive streaming. Autoplay and fullscreen remain subject to browser policy. For live streams, use the dedicated [HLS Live player](./live.md) with live-edge tracking and a return-to-live button.
 
 Replace the `source` object to update its options. Avoid providing both `src` and `source.src` on `HlsVideo`.
 

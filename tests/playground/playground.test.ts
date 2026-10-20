@@ -89,6 +89,20 @@ describe('copyable playground examples', () => {
     expect(code).not.toContain('requestFullscreen')
   })
 
+  it('generates live APIs and omits unsupported playback speed bindings', () => {
+    expect.hasAssertions()
+    const code = createExampleCode('live', createConfig('live'), 'composable')
+    expect(code).toContain("from 'videojs-vue/live'")
+    expect(code).toContain('<LiveVideoPlayer')
+    expect(code).toContain('useLivePlayerActions(player)')
+    expect(code).toContain(
+      'useLivePlayerState(state => state.currentTime, player)',
+    )
+    expect(code).toContain(':media="HlsVideo"')
+    expect(code).not.toContain('playbackRate')
+    expect(code).not.toContain('playback-rate')
+  })
+
   it('escapes user-provided script delimiters and reflects the selected action target', () => {
     expect.hasAssertions()
     const config = createConfig('hls')

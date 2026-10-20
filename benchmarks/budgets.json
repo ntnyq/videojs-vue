@@ -78,5 +78,30 @@
     "initial": 61700,
     "async": 0,
     "total": 61700
+  },
+  "liveState": {
+    "initial": 500,
+    "async": 0,
+    "total": 500
+  },
+  "liveCore": {
+    "initial": 14400,
+    "async": 0,
+    "total": 14400
+  },
+  "liveDefault": {
+    "initial": 67000,
+    "async": 0,
+    "total": 67000
+  },
+  "liveNeutral": {
+    "initial": 67000,
+    "async": 0,
+    "total": 67000
+  },
+  "liveButton": {
+    "initial": 12000,
+    "async": 0,
+    "total": 12000
   }
 }

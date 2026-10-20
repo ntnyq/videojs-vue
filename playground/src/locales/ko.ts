@@ -43,6 +43,11 @@ export default {
       description: '매개변수를 조정하고 플레이어 상태와 이벤트를 확인합니다.',
       hint: 'VideoPlayer는 미디어 어댑터와 스킨을 결합합니다. 매개변수 패널의 변경 사항은 플레이어에 즉시 적용됩니다.',
     },
+    live: {
+      title: 'HLS 라이브',
+      description: 'HLS 라이브 스트림과 라이브 위치를 확인합니다.',
+      hint: 'Live 버튼으로 라이브 위치로 돌아갑니다. liveEdgeStart, targetLiveWindow, seekable 상태를 확인할 수 있습니다. DVR 타임라인은 별도 기능입니다。',
+    },
     hls: {
       title: 'HLS 스트리밍',
       description: '선택 사항인 HLS 어댑터로 적응형 스트림을 재생합니다.',

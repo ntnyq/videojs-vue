@@ -71,4 +71,6 @@ pnpm size:play
 
 The Compat entry measured 77,616 initial gzip bytes and 61,889 asynchronous gzip bytes (139,505 total) with `@videojs/html@10.0.1`, excluding Vue. Its new budget allows approximately 5% headroom. The dependency graph check requires Compat registration and excludes default/neutral skins; existing entry checks also reject accidental Compat imports.
 
-`test:package` checks isolated entry registration, cross-entry injection, media binding, events, slots, KeepAlive, cleanup, and SSR. `size:play` follows the Vite manifest's static imports for the default page and confirms that audio, custom controls, and HLS remain asynchronous. Unlike library measurements, the playground report includes Vue and the demo UI.
+`test:package` checks isolated entry registration, cross-entry injection, media binding, events, slots, KeepAlive, cleanup, and SSR. `size:play` follows the Vite manifest's static imports for the default page and confirms that audio, live video, custom controls, and HLS remain asynchronous. Unlike library measurements, the playground report includes Vue and the demo UI.
+
+Live video has matching granular entries: `videojs-vue/live/core`, `videojs-vue/live/composables`, `videojs-vue/live/default`, and `videojs-vue/live/neutral`. Size checks verify that live imports exclude hls.js and on-demand presets, and that existing video/audio entries exclude the live preset. Live state selectors load no upstream runtime; the HLS engine is loaded only through `videojs-vue/media/hls`.

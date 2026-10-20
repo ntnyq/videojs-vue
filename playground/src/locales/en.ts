@@ -42,6 +42,11 @@ const en = {
       description: 'Adjust parameters. Inspect player state and events.',
       hint: 'VideoPlayer combines a media adapter and a skin. Changes in the inspector apply to the player.',
     },
+    live: {
+      title: 'HLS Live',
+      description: 'Play a live HLS stream with live-edge tracking.',
+      hint: 'Use the Live button to return to the edge. Live state includes liveEdgeStart, targetLiveWindow and seekable. DVR timeline controls are a separate feature.',
+    },
     hls: {
       title: 'HLS streaming',
       description: 'Play an adaptive stream with the optional HLS adapter.',

@@ -1,12 +1,17 @@
 import type { AudioPlayerStore } from '@videojs/html'
 import type { PlayerActions, PlayerStore } from './types'
 
+export type PlaybackActions = Pick<
+  AudioPlayerStore,
+  'play' | 'pause' | 'seek' | 'setVolume' | 'setMuted'
+>
+
 export type CommonPlayerActions = Pick<
   AudioPlayerStore,
   'play' | 'pause' | 'seek' | 'setVolume' | 'setMuted' | 'setPlaybackRate'
 >
 
-function requirePlayerStore<Store>(getStore: () => Store | null): Store {
+export function requirePlayerStore<Store>(getStore: () => Store | null): Store {
   const store = getStore()
   if (!store) {
     throw new Error('[videojs-vue] Player is not ready or is inactive.')
@@ -16,12 +21,12 @@ function requirePlayerStore<Store>(getStore: () => Store | null): Store {
 
 /**
  * Resolve shared playback commands against the active store on every call.
- * @param {() => AudioPlayerStore | null} getStore - Reads the currently active audio or video store.
- * @returns {CommonPlayerActions} Commands bound to the current player.
+ * @param {() => PlaybackActions | null} getStore - Reads the active playback commands.
+ * @returns {PlaybackActions} Commands bound to the current player.
  */
-export function createCommonPlayerActions(
-  getStore: () => AudioPlayerStore | null,
-): CommonPlayerActions {
+export function createPlaybackActions(
+  getStore: () => PlaybackActions | null,
+): PlaybackActions {
   const requireStore = () => requirePlayerStore(getStore)
   return {
     async play() {
@@ -39,8 +44,21 @@ export function createCommonPlayerActions(
     setMuted(muted) {
       return requireStore().setMuted(muted)
     },
+  }
+}
+
+/**
+ * Add on-demand playback speed commands to the shared playback actions.
+ * @param {() => AudioPlayerStore | null} getStore - Reads the active on-demand store.
+ * @returns {CommonPlayerActions} Shared on-demand playback commands.
+ */
+export function createCommonPlayerActions(
+  getStore: () => AudioPlayerStore | null,
+): CommonPlayerActions {
+  return {
+    ...createPlaybackActions(getStore),
     setPlaybackRate(rate) {
-      return requireStore().setPlaybackRate(rate)
+      return requirePlayerStore(getStore).setPlaybackRate(rate)
     },
   }
 }

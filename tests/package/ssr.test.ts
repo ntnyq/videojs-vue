@@ -1,5 +1,8 @@
 import { AudioPlayer as DefaultAudioPlayer } from 'videojs-vue/audio/default'
 import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
+import { LiveVideoPlayer } from 'videojs-vue/live'
+import { LiveVideoPlayer as DefaultLiveVideoPlayer } from 'videojs-vue/live/default'
+import { LiveVideoPlayer as NeutralLiveVideoPlayer } from 'videojs-vue/live/neutral'
 import { AudioTrackRadioGroup } from 'videojs-vue/ui/audio-track-radio-group'
 import { MediaMenu } from 'videojs-vue/ui/menu'
 import { MediaMenuContent } from 'videojs-vue/ui/menu-content'
@@ -21,6 +24,9 @@ describe('published package', () => {
     [DefaultVideoPlayer, 'video-skin'],
     [NeutralVideoPlayer, 'video-neutral-skin'],
     [DefaultAudioPlayer, 'audio-skin'],
+    [LiveVideoPlayer, 'live-video-skin'],
+    [DefaultLiveVideoPlayer, 'live-video-skin'],
+    [NeutralLiveVideoPlayer, 'live-video-neutral-skin'],
     [NeutralAudioPlayer, 'audio-neutral-skin'],
     [QualityRadioGroup, 'media-quality-radio-group'],
     [AudioTrackRadioGroup, 'media-audio-track-radio-group'],

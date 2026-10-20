@@ -23,13 +23,19 @@ const volume = shallowRef(DEFAULT_ACTION_VOLUME)
 const muted = shallowRef(true)
 const rate = shallowRef(DEFAULT_ACTION_RATE)
 
+const actionsHook = computed(() => {
+  if (props.lab.example === 'audio') {
+    return 'useAudioPlayerActions'
+  }
+  if (props.lab.example === 'live') {
+    return 'useLivePlayerActions'
+  }
+  return 'usePlayerActions'
+})
 const targets = computed(() => [
   {
     value: 'composable',
-    label:
-      props.lab.example === 'audio'
-        ? 'useAudioPlayerActions(player)'
-        : 'usePlayerActions(player)',
+    label: `${actionsHook.value}(player)`,
   },
   { value: 'ref', label: 'player.value' },
 ])
@@ -91,7 +97,7 @@ const methods = computed(() =>
     </div>
     <Separator />
     <MediaSelection
-      v-if="lab.playerType === 'video'"
+      v-if="lab.playerType === 'video' && lab.example !== 'live'"
       :lab="lab"
     />
     <NumberField
@@ -127,6 +133,7 @@ const methods = computed(() =>
       >setVolume({{ volume }})</Button
     >
     <NumberField
+      v-if="lab.example !== 'live'"
       id="action-rate"
       v-model="rate"
       :label="translate('settings.rate')"
@@ -138,6 +145,7 @@ const methods = computed(() =>
       class="w-full"
       variant="outline"
       :disabled="!lab.isReady"
+      v-if="lab.example !== 'live'"
       @click="lab.run('setPlaybackRate', rate)"
       >setPlaybackRate({{ rate }})</Button
     >

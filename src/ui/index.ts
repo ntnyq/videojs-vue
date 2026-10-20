@@ -1,3 +1,4 @@
+import '../register/ui/live-button'
 import '../register/ui/captions-button'
 import '../register/ui/audio-track-radio-group'
 import '../register/ui/quality-radio-group'
@@ -47,3 +48,5 @@ export { SliderThumb } from './slider-thumb'
 export { Poster } from './poster'
 export { StatusAnnouncer } from './status-announcer'
 export { Hotkey } from './hotkey'
+
+export { LiveButton } from './live-button'

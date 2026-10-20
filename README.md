@@ -67,3 +67,23 @@ Built on [Video.js](https://videojs.org), which provides the player, media adapt
 ## License
 
 [MIT](LICENSE)
+
+## HLS Live
+
+Use the independent live preset with the optional HLS adapter:
+
+```vue
+<script setup lang="ts">
+import { LiveVideoPlayer } from 'videojs-vue/live'
+import { HlsVideo } from 'videojs-vue/media/hls'
+</script>
+
+<template>
+  <LiveVideoPlayer
+    :media="HlsVideo"
+    src="/live.m3u8"
+  />
+</template>
+```
+
+Install `@videojs/hlsjs-video@10.0.1` separately. The live preset provides default and neutral skins, live-state composables, and a return-to-live button. See the [live API](https://videojs-vue-docs.vercel.app/api/live) and [HLS Live example](https://videojs-vue-docs.vercel.app/examples/live). A dedicated DVR timeline is outside this initial live release.

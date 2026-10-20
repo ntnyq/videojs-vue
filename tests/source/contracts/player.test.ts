@@ -13,6 +13,8 @@ import { PlayerRoot, Video, VideoPlayer } from '../../../src'
 import type { PlayerHandle } from '../../../src'
 import { Audio, AudioPlayer, AudioPlayerRoot } from '../../../src/audio'
 import type { AudioPlayerHandle } from '../../../src/audio'
+import { LiveVideoPlayer, LiveVideoPlayerRoot } from '../../../src/live'
+import type { LivePlayerHandle } from '../../../src/live'
 import { HlsVideo } from '../../../src/media/hls'
 import { MediaContainer, PlayButton } from '../../../src/ui'
 import {
@@ -34,13 +36,26 @@ async function flushDestruction() {
 describe('player contracts', () => {
   afterEach(cleanup)
 
-  describe.each([
+  describe.each<{
+    name: string
+    Player: Component
+    Root: Component
+    Media: Component
+    tag: string
+  }>([
     {
       name: 'video',
       Player: VideoPlayer,
       Root: PlayerRoot,
       Media: Video,
       tag: 'video-skin',
+    },
+    {
+      name: 'live',
+      Player: LiveVideoPlayer,
+      Root: LiveVideoPlayerRoot,
+      Media: Video,
+      tag: 'live-video-skin',
     },
     {
       name: 'audio',
@@ -56,7 +71,9 @@ describe('player contracts', () => {
         expect.hasAssertions()
         const visible = shallowRef(true)
         const title = shallowRef('Before')
-        const player = shallowRef<PlayerHandle | AudioPlayerHandle | null>(null)
+        const player = shallowRef<
+          PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+        >(null)
         const ready = vi.fn()
         const Cached = defineComponent(
           () => () =>
@@ -125,7 +142,9 @@ describe('player contracts', () => {
     it('preserves mute when relinquishing the binding, then accepts explicit values', async () => {
       expect.hasAssertions()
       const muted = shallowRef<boolean | undefined>(true)
-      const player = shallowRef<PlayerHandle | AudioPlayerHandle | null>(null)
+      const player = shallowRef<
+        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+      >(null)
       const updated = vi.fn()
       mount(
         defineComponent(
@@ -186,7 +205,9 @@ describe('player contracts', () => {
     it('hydrates muted media and fragment posters without losing their state', async () => {
       expect.hasAssertions()
       const muted = shallowRef<boolean | undefined>(true)
-      const player = shallowRef<PlayerHandle | AudioPlayerHandle | null>(null)
+      const player = shallowRef<
+        PlayerHandle | AudioPlayerHandle | LivePlayerHandle | null
+      >(null)
       const Fixture = defineComponent(
         () => () =>
           h(

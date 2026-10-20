@@ -73,7 +73,7 @@ export function useMediaElement({
       props.playbackRate > 0
     ) {
       if (store) {
-        store.setPlaybackRate(props.playbackRate)
+        store.setPlaybackRate?.(props.playbackRate)
       } else if (media.playbackRate !== props.playbackRate) {
         media.playbackRate = props.playbackRate
       }

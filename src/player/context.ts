@@ -5,8 +5,17 @@ import type { MediaEventName } from '../media/events'
 import type { PlayerMedia } from '../media/types'
 import type { PlayerHandle, PlayerTarget } from './types'
 
+export type MediaSettingsStore = Pick<
+  NonNullable<AudioPlayerHandle['store']>,
+  'volume' | 'muted' | 'setVolume' | 'setMuted'
+> &
+  Partial<Pick<NonNullable<AudioPlayerHandle['store']>, 'setPlaybackRate'>>
+
 interface MediaContext {
-  handle: Pick<AudioPlayerHandle, 'media' | 'store'>
+  handle: {
+    readonly media: PlayerMedia | null
+    readonly store: MediaSettingsStore | null
+  }
   setMedia: (media: PlayerMedia | null) => void
   onMediaEvent: (name: MediaEventName, event: Event) => void
 }

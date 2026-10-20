@@ -43,6 +43,11 @@ export default {
       description: '调整参数，观察播放器状态与事件。',
       hint: 'VideoPlayer 组合了媒体适配器与皮肤。右侧参数会实时应用到播放器。',
     },
+    live: {
+      title: 'HLS 直播',
+      description: '播放 HLS 直播流并跟踪直播边缘。',
+      hint: '使用 Live 按钮回到直播。状态包含 liveEdgeStart、targetLiveWindow 和 seekable；DVR 时间轴后续单独实现。',
+    },
     hls: {
       title: 'HLS 流媒体',
       description: '使用可选的 HLS 适配器播放自适应流。',

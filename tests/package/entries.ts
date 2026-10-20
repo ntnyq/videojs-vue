@@ -1,5 +1,16 @@
 export const registrationEntries: Record<string, string[]> = {
   core: ['video-player'],
+  live: [
+    'live-video-player',
+    'live-video-skin',
+    'live-video-neutral-skin',
+    'media-live-button',
+  ],
+  'live/core': ['live-video-player'],
+  'live/default': ['live-video-player', 'live-video-skin'],
+  'live/neutral': ['live-video-player', 'live-video-neutral-skin'],
+  'live/skins/default': ['live-video-skin'],
+  'live/skins/neutral': ['live-video-neutral-skin'],
   'video/legacy': [
     'video-player',
     'media-container',
@@ -37,6 +48,7 @@ export const registrationEntries: Record<string, string[]> = {
       'controls-content',
       'controls-group',
       'play-button',
+      'live-button',
       'mute-button',
       'fullscreen-button',
       'pip-button',

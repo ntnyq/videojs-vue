@@ -49,6 +49,13 @@ const cases = {
   hlsDynamic: `export { VideoPlayer } from '${video}'; export const loadHls = () => import('videojs-vue/media/hls')`,
   i18n: "export { MediaI18n, MediaText, registerI18n } from 'videojs-vue/i18n'",
   ...(!isBaseline && {
+    liveState:
+      "export { useLivePlayerState } from 'videojs-vue/live/composables'",
+    liveCore:
+      "export { LiveVideoPlayerRoot, Video } from 'videojs-vue/live/core'; export { useLivePlayerState, useLivePlayerActions } from 'videojs-vue/live/composables'",
+    liveDefault: "export { LiveVideoPlayer } from 'videojs-vue/live/default'",
+    liveNeutral: "export { LiveVideoPlayer } from 'videojs-vue/live/neutral'",
+    liveButton: "export { LiveButton } from 'videojs-vue/ui/live-button'",
     videoCompat: "export { VideoPlayer } from 'videojs-vue/video/compat'",
     videoNeutral: "export { VideoPlayer } from 'videojs-vue/video/neutral'",
     audioNeutral: "export { AudioPlayer } from 'videojs-vue/audio/neutral'",
@@ -140,13 +147,21 @@ for (const [name, code] of Object.entries(cases)) {
       if (name.startsWith('audio') && !name.endsWith('State')) {
         required.push('audio/player')
       }
+      if (name.startsWith('live') && /(?:Core|Default|Neutral)$/u.test(name)) {
+        required.push('live-video/player')
+      }
+      let preset = 'audio'
+      if (name.startsWith('video')) {
+        preset = 'video'
+      }
+      if (name.startsWith('live')) {
+        preset = 'live-video'
+      }
       if (name.endsWith('Default')) {
-        required.push(`${name.startsWith('video') ? 'video' : 'audio'}/skin`)
+        required.push(`${preset}/skin`)
       }
       if (name.endsWith('Neutral')) {
-        required.push(
-          `${name.startsWith('video') ? 'video' : 'audio'}/neutral-skin`,
-        )
+        required.push(`${preset}/neutral-skin`)
       }
       if (name === 'videoCompat') {
         required.push('video/compat-skin')
@@ -157,6 +172,9 @@ for (const [name, code] of Object.entries(cases)) {
       }
       if (name === 'playButton') {
         required.push('ui/play-button')
+      }
+      if (name === 'liveButton') {
+        required.push('ui/live-button')
       }
       if (name === 'mixed') {
         required.push(
@@ -220,6 +238,20 @@ for (const [name, code] of Object.entries(cases)) {
           `${name} includes upstream runtime`,
         )
       }
+      if (!name.startsWith('live')) {
+        assert.ok(
+          !allModules.some(id => /@videojs\/html\/.*\/live-video\//u.test(id)),
+          `${name} includes live video`,
+        )
+      }
+      if (name.startsWith('live')) {
+        assert.ok(
+          !allModules.some(id =>
+            /@videojs\/html\/.*\/(?:video|audio)\//u.test(id),
+          ),
+          `${name} includes on-demand presets`,
+        )
+      }
       if (name.startsWith('video')) {
         assert.ok(
           !allModules.some(id => /@videojs\/html\/.*\/audio\//u.test(id)),
@@ -240,7 +272,9 @@ for (const [name, code] of Object.entries(cases)) {
       }
       if (name.endsWith('Neutral') || name === 'videoCompat') {
         assert.ok(
-          !allModules.some(id => /\/(?:video|audio)\/skin\//u.test(id)),
+          !allModules.some(id =>
+            /\/(?:live-video|video|audio)\/skin(?:\/|\.)/u.test(id),
+          ),
           `${name} includes default skin`,
         )
       }

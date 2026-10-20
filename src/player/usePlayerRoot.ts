@@ -1,4 +1,3 @@
-import type { AudioPlayerStore } from '@videojs/html'
 import {
   nextTick,
   onActivated,
@@ -11,15 +10,16 @@ import {
 import type { ShallowRef } from 'vue'
 import type { MediaEventName } from '../media/events'
 import type { PlayerMedia } from '../media/types'
-import type { CommonPlayerActions } from './actions'
+import type { PlaybackActions } from './actions'
 import { MEDIA_CONTEXT } from './context'
+import type { MediaSettingsStore } from './context'
 
 interface RootCallbacks {
   onReady: () => void
   onMediaEvent: (name: MediaEventName, event: Event) => void
   onVolume: (volume: number) => void
   onMuted: (muted: boolean) => void
-  onPlaybackRate: (rate: number) => void
+  onPlaybackRate?: (rate: number) => void
 }
 
 /**
@@ -29,12 +29,12 @@ interface RootCallbacks {
  * @returns {object} The root element ref and live player handle.
  */
 export function usePlayerRoot<
-  Store extends AudioPlayerStore,
+  Store extends PlaybackActions & MediaSettingsStore,
   Element extends HTMLElement & {
     readonly store: Store
     readonly updateComplete: Promise<boolean>
   },
-  Actions extends CommonPlayerActions,
+  Actions extends PlaybackActions,
 >(
   createActions: (getStore: () => Store | null) => Actions,
   callbacks: RootCallbacks,
@@ -92,7 +92,7 @@ export function usePlayerRoot<
         callbacks.onMuted(actual.muted)
       }
       if (actual.playbackRate !== confirmedSettings?.playbackRate) {
-        callbacks.onPlaybackRate(actual.playbackRate)
+        callbacks.onPlaybackRate?.(actual.playbackRate)
       }
       confirmedSettings = actual
     })

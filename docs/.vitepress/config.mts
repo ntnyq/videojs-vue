@@ -57,6 +57,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'Overview', link: '/api/overview' },
+          { text: 'Live video', link: '/api/live' },
           { text: 'Audio players', link: '/api/audio' },
           { text: 'VideoPlayer', link: '/api/video-player' },
           { text: 'PlayerRoot and skins', link: '/api/player-root' },
@@ -72,6 +73,7 @@ export default defineConfig({
         items: [
           { text: 'Native video and captions', link: '/examples/basic-video' },
           { text: 'Native audio', link: '/examples/audio' },
+          { text: 'HLS Live', link: '/examples/live' },
           { text: 'HLS', link: '/examples/hls' },
           {
             text: 'Quality and audio selection',

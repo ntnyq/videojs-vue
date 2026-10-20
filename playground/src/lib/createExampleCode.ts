@@ -1,17 +1,49 @@
 import type { ExampleId, PlaygroundConfig } from '../data'
 
-export function createExampleCode(
-  example: ExampleId,
-  config: PlaygroundConfig,
-  actionTarget: string,
-) {
+const EXAMPLE_APIS = {
+  video: {
+    entry: 'videojs-vue',
+    imports: 'VideoPlayer, usePlayerActions, usePlayerState',
+    handleType: 'PlayerHandle',
+    actionsHook: 'usePlayerActions',
+    stateHook: 'usePlayerState',
+    componentName: 'VideoPlayer',
+  },
+  audio: {
+    entry: 'videojs-vue/audio',
+    imports: 'AudioPlayer, useAudioPlayerActions, useAudioPlayerState',
+    handleType: 'AudioPlayerHandle',
+    actionsHook: 'useAudioPlayerActions',
+    stateHook: 'useAudioPlayerState',
+    componentName: 'AudioPlayer',
+  },
+  live: {
+    entry: 'videojs-vue/live',
+    imports: 'LiveVideoPlayer, useLivePlayerActions, useLivePlayerState',
+    handleType: 'LivePlayerHandle',
+    actionsHook: 'useLivePlayerActions',
+    stateHook: 'useLivePlayerState',
+    componentName: 'LiveVideoPlayer',
+  },
+} as const
+
+function resolveExampleMode(example: ExampleId) {
+  if (example === 'audio' || example === 'live') {
+    return example
+  }
+  return 'video'
+}
+
+function createExampleOptions(example: ExampleId, config: PlaygroundConfig) {
   const { hasCaptions, trackSrc, trackLanguage, trackLabel, ...options } =
     config
+  const isLive = example === 'live'
   const isAudio = example === 'audio'
   const { playsinline, ...audioOptions } = options
+  const { playbackRate: _rate, ...liveOptions } = audioOptions
   const props = {
     ...(isAudio ? {} : { playsinline }),
-    ...audioOptions,
+    ...(isLive ? liveOptions : audioOptions),
     tracks:
       !isAudio && hasCaptions
         ? [
@@ -25,28 +57,33 @@ export function createExampleCode(
           ]
         : [],
   }
+  return props
+}
+
+export function createExampleCode(
+  example: ExampleId,
+  config: PlaygroundConfig,
+  actionTarget: string,
+) {
+  const isLive = example === 'live'
+  const props = createExampleOptions(example, config)
   // Escape HTML delimiters so arbitrary URLs cannot terminate a copied SFC script.
   const serialized = JSON.stringify(props, null, 2).replaceAll(
     '<',
     String.raw`\u003c`,
   )
   const isCustom = example === 'custom'
-  let imports = 'VideoPlayer, usePlayerActions, usePlayerState'
-  if (isCustom) {
-    imports = 'PlayerRoot, Video, usePlayerActions, usePlayerState'
-  } else if (isAudio) {
-    imports = 'AudioPlayer, useAudioPlayerActions, useAudioPlayerState'
-  }
-  const entry = isAudio ? 'videojs-vue/audio' : 'videojs-vue'
-  const handleType = isAudio ? 'AudioPlayerHandle' : 'PlayerHandle'
-  const actionsHook = isAudio ? 'useAudioPlayerActions' : 'usePlayerActions'
-  const stateHook = isAudio ? 'useAudioPlayerState' : 'usePlayerState'
+  const api = EXAMPLE_APIS[resolveExampleMode(example)]
+  const { entry, handleType, actionsHook, stateHook, componentName } = api
+  const imports = isCustom
+    ? 'PlayerRoot, Video, usePlayerActions, usePlayerState'
+    : api.imports
   const methodTarget = actionTarget === 'ref' ? 'player.value?' : 'actions'
   return `<script setup lang="ts">
 import { ref, shallowRef } from 'vue'
 import { ${imports} } from '${entry}'
 import type { ${handleType} } from '${entry}'
-${example === 'hls' ? "import { HlsVideo } from 'videojs-vue/media/hls'\n" : ''}${isCustom ? "import { MediaContainer, PlayButton, MuteButton, Time, FullscreenButton } from 'videojs-vue/ui'\n" : ''}
+${example === 'hls' || isLive ? "import { HlsVideo } from 'videojs-vue/media/hls'\n" : ''}${isCustom ? "import { MediaContainer, PlayButton, MuteButton, Time, FullscreenButton } from 'videojs-vue/ui'\n" : ''}
 const player = shallowRef<${handleType} | null>(null)
 const isMounted = ref(true)
 const options = ${serialized} as const
@@ -55,7 +92,7 @@ ${
     ? ''
     : `const volume = ref<number>(options.volume)
 const muted = ref<boolean>(options.muted)
-const playbackRate = ref<number>(options.playbackRate)
+${isLive ? '' : 'const playbackRate = ref<number>(options.playbackRate)'}
 `
 }
 const actions = ${actionsHook}(player)
@@ -113,13 +150,13 @@ ${
       </div>
     </MediaContainer>
   </PlayerRoot>`
-    : `  <${isAudio ? 'AudioPlayer' : 'VideoPlayer'}
+    : `  <${componentName}
     v-if="isMounted"
     ref="player"
-    v-bind="options"${example === 'hls' ? '\n    :media="HlsVideo"' : ''}
+    v-bind="options"${example === 'hls' || isLive ? '\n    :media="HlsVideo"' : ''}
     v-model:volume="volume"
     v-model:muted="muted"
-    v-model:playback-rate="playbackRate"
+${isLive ? '' : '    v-model:playback-rate="playbackRate"'}
     @ready="() => console.log('ready')"
     @play="() => console.log('play')"
   />`
