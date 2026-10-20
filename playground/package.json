@@ -11,17 +11,17 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@lucide/vue": "^1.55.0",
+    "@lucide/vue": "^1.59.0",
     "@videojs/hlsjs-video": "10.0.1",
     "@vueuse/core": "^15.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "core-js": "^3.50.0",
+    "core-js": "^3.51.0",
     "reka-ui": "^2.11.0",
     "tailwind-merge": "^3.7.0",
     "videojs-vue": "workspace:*",
-    "vue": "^3.5.43",
-    "vue-i18n": "^11.4.14"
+    "vue": "^3.5.44",
+    "vue-i18n": "^11.4.16"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
