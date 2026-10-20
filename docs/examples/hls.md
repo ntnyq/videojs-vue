@@ -6,7 +6,7 @@ description: Install the optional HLS adapter, play a stream, and configure type
 
 For independent quality/audio menus and programmatic selection, see [quality and audio selection](./media-selection.md).
 
-Use the optional `HlsVideo` adapter to play an HLS source. Try it in the [Playground](https://videojs-vue-playground.vercel.app).
+Use the optional `HlsVideo` adapter to play an HLS source. Try it in the [Playground](https://videojs-vue-playground.ntnyq.dev).
 
 ## Install the adapter
 

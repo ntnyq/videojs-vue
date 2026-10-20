@@ -16,7 +16,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: Open Playground
-      link: https://videojs-vue-playground.vercel.app
+      link: https://videojs-vue-playground.ntnyq.dev
     - theme: alt
       text: API reference
       link: /api/overview

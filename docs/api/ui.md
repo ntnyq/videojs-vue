@@ -100,7 +100,7 @@ All props are optional. Accepted action and target values follow the installed u
 
 The wrappers preserve upstream keyboard behavior, accessible labels, and state attributes. Keep visible focus styles, give custom controls understandable text, and include `StatusAnnouncer` when assembling a complete interface.
 
-See the [composition guide](../guide/composition.md) for a working layout, the [Playground](https://videojs-vue-playground.vercel.app) for a composed slider, and the [Video.js UI guide](https://videojs.org/docs/framework/html/guides/ui-components) for upstream state attributes and styling.
+See the [composition guide](../guide/composition.md) for a working layout, the [Playground](https://videojs-vue-playground.ntnyq.dev) for a composed slider, and the [Video.js UI guide](https://videojs.org/docs/framework/html/guides/ui-components) for upstream state attributes and styling.
 
 ## Individual entries
 

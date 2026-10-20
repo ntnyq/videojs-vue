@@ -240,6 +240,18 @@ importers:
       '@lucide/vue':
         specifier: ^1.59.0
         version: 1.59.0(vue@3.5.44(typescript@6.0.3))
+      '@shikijs/core':
+        specifier: ^4.5.0
+        version: 4.5.0
+      '@shikijs/engine-javascript':
+        specifier: ^4.5.0
+        version: 4.5.0
+      '@shikijs/langs':
+        specifier: ^4.5.0
+        version: 4.5.0
+      '@shikijs/themes':
+        specifier: ^4.5.0
+        version: 4.5.0
       '@videojs/hlsjs-video':
         specifier: 10.0.1
         version: 10.0.1

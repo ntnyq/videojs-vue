@@ -67,7 +67,7 @@ import { FullscreenButton } from 'videojs-vue/ui/fullscreen-button'
 </style>
 ```
 
-Controls are unstyled upstream components. They retain upstream keyboard behavior, accessibility labels and state attributes. Supply their content and CSS; use `Hotkey` and `StatusAnnouncer` when building a complete custom skin. The [Playground](https://videojs-vue-playground.vercel.app) includes a time slider assembled from `SliderTrack`, `SliderBuffer`, `SliderFill`, and `SliderThumb`.
+Controls are unstyled upstream components. They retain upstream keyboard behavior, accessibility labels and state attributes. Supply their content and CSS; use `Hotkey` and `StatusAnnouncer` when building a complete custom skin. The [Playground](https://videojs-vue-playground.ntnyq.dev) includes a time slider assembled from `SliderTrack`, `SliderBuffer`, `SliderFill`, and `SliderThumb`.
 
 Business overlays must be descendants of `MediaContainer` to remain visible in fullscreen.
 

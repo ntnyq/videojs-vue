@@ -154,4 +154,4 @@ const quality = computed(
 
 The same methods are exposed on the component ref. They throw while the player is unavailable, preserve upstream errors, and never queue selections. Unknown IDs and unsupported media capabilities follow upstream no-op behavior. Requested quality can take time to become active as buffered segments finish playing.
 
-Try the HLS example's Actions tab in the [Playground](https://videojs-vue-playground.vercel.app), or see the upstream [quality selector guide](https://videojs.org/docs/framework/html/guides/quality-selector).
+Try the HLS example's Actions tab in the [Playground](https://videojs-vue-playground.ntnyq.dev), or see the upstream [quality selector guide](https://videojs.org/docs/framework/html/guides/quality-selector).

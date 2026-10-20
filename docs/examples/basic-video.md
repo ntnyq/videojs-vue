@@ -14,7 +14,7 @@ import { VideoPlayer } from 'videojs-vue'
   title="Video.js demo"
 />
 
-This player uses a public demo source. For source switching, settings, and event inspection, open the [Playground](https://videojs-vue-playground.vercel.app).
+This player uses a public demo source. For source switching, settings, and event inspection, open the [Playground](https://videojs-vue-playground.ntnyq.dev).
 
 ## Add captions
 

@@ -28,7 +28,7 @@ import { HlsVideo } from 'videojs-vue/media/hls'
 </template>
 ```
 
-Replace `/live.m3u8` with an accessible live manifest. Segments, keys, and cross-origin requests must also be accessible. Use the HLS Live example in the [Playground](https://videojs-vue-playground.vercel.app) to inspect the live store, pause playback, and return to the edge with the Live button. Its public demo stream can be replaced with your own URL.
+Replace `/live.m3u8` with an accessible live manifest. Segments, keys, and cross-origin requests must also be accessible. Use the HLS Live example in the [Playground](https://videojs-vue-playground.ntnyq.dev) to inspect the live store, pause playback, and return to the edge with the Live button. Its public demo stream can be replaced with your own URL.
 
 Use `skin="neutral"` for the alternative packaged skin. Playback starts through user interaction unless you opt into `autoplay`; browser policy may still reject playback.
 

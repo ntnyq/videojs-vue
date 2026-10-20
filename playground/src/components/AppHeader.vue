@@ -62,7 +62,7 @@ const languageLabel = computed(
         size="sm"
         class="hidden sm:inline-flex"
         ><a
-          href="https://github.com/ntnyq/videojs-vue/tree/main/docs"
+          href="https://videojs-vue.ntnyq.dev"
           target="_blank"
           rel="noreferrer"
           ><BookOpen />{{ translate('app.docs') }}</a

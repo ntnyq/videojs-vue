@@ -30,7 +30,7 @@ const currentTime = useAudioPlayerState(state => state.currentTime, player)
 </template>
 ```
 
-Use `skin="default"` for the other packaged skin. Both use natural height. Try the audio example in the [playground](https://videojs-vue-playground.vercel.app).
+Use `skin="default"` for the other packaged skin. Both use natural height. Try the audio example in the [playground](https://videojs-vue-playground.ntnyq.dev).
 
 ## Native controls and source candidates
 

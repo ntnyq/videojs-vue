@@ -1,8 +1,7 @@
 import { defineComponent, h } from 'vue'
 import { LegacyPreview } from './LegacyPreview'
 
-const GUIDE_URL =
-  'https://github.com/ntnyq/videojs-vue/blob/main/docs/guide/legacy.md'
+const GUIDE_URL = 'https://videojs-vue.ntnyq.dev/guide/legacy'
 
 export const LegacyDemo = defineComponent({
   name: 'LegacyDemo',

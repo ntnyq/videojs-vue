@@ -4,7 +4,7 @@ description: Explore the hosted videojs-vue playground and its interactive playb
 
 # Playground
 
-[Open the Playground](https://videojs-vue-playground.vercel.app) to try the library without setting up a local project.
+[Open the Playground](https://videojs-vue-playground.ntnyq.dev) to try the library without setting up a local project.
 
 ## What to try
 

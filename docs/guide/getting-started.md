@@ -80,7 +80,7 @@ For lightweight core, composable, and control imports, see [bundle size and impo
 
 ## Next steps
 
-- Try native video, HLS, and custom controls in the [Playground](https://videojs-vue-playground.vercel.app).
+- Try native video, HLS, and custom controls in the [Playground](https://videojs-vue-playground.ntnyq.dev).
 - Add [captions and a poster](../examples/basic-video.md).
 - Connect application UI with [state and actions](./state-and-actions.md).
 - Look up all [VideoPlayer props, events, and slots](../api/video-player.md).

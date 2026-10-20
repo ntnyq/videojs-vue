@@ -8,15 +8,15 @@ description: Understand the player architecture, supported features, and documen
 
 ## Choose a starting point
 
-| Goal                                 | Start here                                              |
-| ------------------------------------ | ------------------------------------------------------- |
-| Add a player with controls           | [Getting started](./getting-started.md)                 |
-| Build a custom control layout        | [Compose a player](./composition.md)                    |
-| Read playback state or call commands | [State and actions](./state-and-actions.md)             |
-| Play an HLS stream                   | [HLS example](../examples/hls.md)                       |
-| Translate player labels              | [Internationalization](./internationalization.md)       |
-| Look up a prop, event, or export     | [API overview](../api/overview.md)                      |
-| Try the library in a browser         | [Playground](https://videojs-vue-playground.vercel.app) |
+| Goal                                 | Start here                                             |
+| ------------------------------------ | ------------------------------------------------------ |
+| Add a player with controls           | [Getting started](./getting-started.md)                |
+| Build a custom control layout        | [Compose a player](./composition.md)                   |
+| Read playback state or call commands | [State and actions](./state-and-actions.md)            |
+| Play an HLS stream                   | [HLS example](../examples/hls.md)                      |
+| Translate player labels              | [Internationalization](./internationalization.md)      |
+| Look up a prop, event, or export     | [API overview](../api/overview.md)                     |
+| Try the library in a browser         | [Playground](https://videojs-vue-playground.ntnyq.dev) |
 
 ## Player architecture
 

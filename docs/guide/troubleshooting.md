@@ -4,7 +4,7 @@ description: Diagnose context errors, unavailable players, HLS setup, captions, 
 
 # Troubleshooting
 
-Start by reproducing the issue in the [Playground](https://videojs-vue-playground.vercel.app), then compare your component structure and configuration with the examples.
+Start by reproducing the issue in the [Playground](https://videojs-vue-playground.ntnyq.dev), then compare your component structure and configuration with the examples.
 
 ## “Use this composable inside VideoPlayerRoot or pass a player ref”
 

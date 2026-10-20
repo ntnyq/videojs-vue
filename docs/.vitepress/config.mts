@@ -13,7 +13,7 @@ export default defineConfig({
   ],
   cleanUrls: true,
   lastUpdated: true,
-  sitemap: { hostname: 'https://videojs-vue-docs.vercel.app' },
+  sitemap: { hostname: 'https://videojs-vue.ntnyq.dev' },
   vite: {
     ssr: {
       noExternal: ['videojs-vue'],
@@ -29,7 +29,7 @@ export default defineConfig({
         link: '/examples/basic-video',
         activeMatch: '/examples/',
       },
-      { text: 'Playground', link: 'https://videojs-vue-playground.vercel.app' },
+      { text: 'Playground', link: 'https://videojs-vue-playground.ntnyq.dev' },
     ],
     sidebar: [
       {
@@ -82,7 +82,7 @@ export default defineConfig({
           },
           {
             text: 'Playground',
-            link: 'https://videojs-vue-playground.vercel.app',
+            link: 'https://videojs-vue-playground.ntnyq.dev',
           },
         ],
       },

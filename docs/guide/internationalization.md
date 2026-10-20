@@ -132,4 +132,4 @@ Use the same locale on server and client. Pre-register supported packs before mo
 
 See the [Video.js internationalization guide](https://videojs.org/docs/framework/html/guides/internationalization) for upstream fallback and locale-pack details.
 
-See the [internationalization API](../api/i18n.md) for the complete export list, or try locale switching in the [Playground](https://videojs-vue-playground.vercel.app).
+See the [internationalization API](../api/i18n.md) for the complete export list, or try locale switching in the [Playground](https://videojs-vue-playground.ntnyq.dev).

@@ -15,7 +15,7 @@ The [repository](https://github.com/ntnyq/videojs-vue) contains the publishable 
 | `playground/` | Interactive Vue examples that consume the built library.             |
 | `docs/`       | VitePress guides, API reference, and examples.                       |
 
-The hosted sites are the [documentation](https://videojs-vue-docs.vercel.app) and [Playground](https://videojs-vue-playground.vercel.app).
+The hosted sites are the [documentation](https://videojs-vue.ntnyq.dev) and [Playground](https://videojs-vue-playground.ntnyq.dev).
 
 ## Local development
 
@@ -60,7 +60,7 @@ Keep pages focused on a reader's task:
 
 Use English prose, descriptive headings, and a frontmatter description. Write Vue examples with `<script setup lang="ts">`, explicit imports, and available public exports. Explain placeholder assets and required optional dependencies.
 
-Keep existing page URLs when reorganizing content, update navigation in `.vitepress/config.mts`, and check cross-links. Direct Playground links should use `https://videojs-vue-playground.vercel.app`.
+Keep existing page URLs when reorganizing content, update navigation in `.vitepress/config.mts`, and check cross-links. Direct Playground links should use `https://videojs-vue-playground.ntnyq.dev`.
 
 ## Validate changes
 
