@@ -1,6 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>ntnyq/configs//packages/renovate-config/default.json"],
-  "ignoreDeps": ["typescript"],
+  "packageRules": [
+    {
+      "description": "Keep the documentation TypeScript version compatible with TypeDoc",
+      "matchFileNames": ["docs/package.json"],
+      "matchPackageNames": ["typescript"],
+      "enabled": false
+    }
+  ],
   "automerge": true
 }
