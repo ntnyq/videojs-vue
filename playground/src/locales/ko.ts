@@ -32,6 +32,11 @@ export default {
     close: '닫기',
   },
   examples: {
+    'media-export': {
+      title: '스크린샷 및 다운로드',
+      description: '네이티브 동영상의 현재 프레임이나 MP4 파일을 저장합니다.',
+      hint: '재생하거나 탐색하여 프레임을 로드한 뒤 PNG로 저장하세요. 다운로드는 전체 파일을 메모리에 읽으며 CORS 허용이 필요합니다. 취소하거나 소스를 변경하면 진행 중인 작업을 무시합니다.',
+    },
     playlist: {
       title: '재생 목록',
       description:
@@ -99,6 +104,12 @@ export default {
     loading: '주소 확인 중…',
     retry: '항목 재시도',
     cancel: '취소',
+  },
+  mediaExport: {
+    capture: '현재 프레임 저장',
+    download: 'MP4 다운로드',
+    cancel: '취소',
+    busy: '다운로드 준비 중…',
   },
   player: {
     quality: '화질',

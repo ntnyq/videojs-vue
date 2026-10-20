@@ -108,6 +108,10 @@ export default defineConfig({
             },
             { text: 'Native audio', link: '/examples/audio' },
             { text: 'Playlists', link: '/examples/playlist' },
+            {
+              text: 'Screenshots and downloads',
+              link: '/examples/media-export',
+            },
             { text: 'HLS Live', link: '/examples/live' },
             { text: 'HLS', link: '/examples/hls' },
             {

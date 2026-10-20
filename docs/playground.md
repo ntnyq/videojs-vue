@@ -8,16 +8,17 @@ description: Explore the hosted videojs-vue playground and its interactive playb
 
 ## What to try
 
-| Scenario             | What it demonstrates                                                  |
-| -------------------- | --------------------------------------------------------------------- |
-| Native video         | Default and neutral skins, captions, and settings.                    |
-| Playlists            | Item selection, continuous playback, cancellation, and list repeat.   |
-| HLS                  | Playback through the optional `HlsVideo` adapter.                     |
-| Internationalization | English and Simplified Chinese labels, including custom control text. |
-| Composed controls    | Keyboard shortcuts, a seek slider, and an in-container overlay.       |
-| Reactive settings    | Source, volume, mute, and speed updates alongside actual store state. |
-| Lifecycle            | Play, pause, seek, unmount, and remount.                              |
-| Events and failures  | Media events and command errors beside the player.                    |
+| Scenario                  | What it demonstrates                                                  |
+| ------------------------- | --------------------------------------------------------------------- |
+| Native video              | Default and neutral skins, captions, and settings.                    |
+| Playlists                 | Item selection, continuous playback, cancellation, and list repeat.   |
+| Screenshots and downloads | Native video frame capture and cancellable MP4 file downloads.        |
+| HLS                       | Playback through the optional `HlsVideo` adapter.                     |
+| Internationalization      | English and Simplified Chinese labels, including custom control text. |
+| Composed controls         | Keyboard shortcuts, a seek slider, and an in-container overlay.       |
+| Reactive settings         | Source, volume, mute, and speed updates alongside actual store state. |
+| Lifecycle                 | Play, pause, seek, unmount, and remount.                              |
+| Events and failures       | Media events and command errors beside the player.                    |
 
 Playback depends on the browser's media capabilities and the availability of demo URLs.
 
@@ -25,6 +26,7 @@ Playback depends on the browser's media capabilities and the availability of dem
 
 - [Native video example](./examples/basic-video.md)
 - [Playlist example](./examples/playlist.md)
+- [Screenshots and downloads](./examples/media-export.md)
 - [HLS example](./examples/hls.md)
 - [Compose a player](./guide/composition.md)
 - [State and actions](./guide/state-and-actions.md)

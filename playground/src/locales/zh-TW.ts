@@ -32,6 +32,11 @@ export default {
     close: '關閉',
   },
   examples: {
+    'media-export': {
+      title: '截圖與下載',
+      description: '儲存原生影片目前畫面或下載 MP4 檔案。',
+      hint: '播放或跳轉以載入畫面，再儲存為 PNG。下載會將整個檔案讀取到記憶體，並要求伺服器允許 CORS。取消或切換來源會捨棄尚未完成的工作。',
+    },
     playlist: {
       title: '播放清單',
       description: '在同一播放器中切換資源，播放結束後接續下一項。',
@@ -95,6 +100,12 @@ export default {
     loading: '正在解析網址…',
     retry: '重試目前項目',
     cancel: '取消',
+  },
+  mediaExport: {
+    capture: '儲存目前畫面',
+    download: '下載 MP4',
+    cancel: '取消',
+    busy: '正在準備下載…',
   },
   player: {
     quality: '畫質',

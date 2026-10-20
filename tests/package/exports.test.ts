@@ -10,6 +10,8 @@ import * as live from 'videojs-vue/live'
 import * as liveComposables from 'videojs-vue/live/composables'
 import * as liveCore from 'videojs-vue/live/core'
 import { DefaultLiveVideoSkin } from 'videojs-vue/live/skins/default'
+import { captureVideoFrame, downloadMedia } from 'videojs-vue/media/utils'
+import type { VideoFrameOptions } from 'videojs-vue/media/utils'
 import * as videoComposables from 'videojs-vue/video/composables'
 import * as videoCore from 'videojs-vue/video/core'
 import { DefaultVideoSkin } from 'videojs-vue/video/skins/default'
@@ -18,6 +20,20 @@ import { describe, expect, expectTypeOf, it } from 'vitest'
 const require = createRequire(import.meta.url)
 
 describe('published API names and paths', () => {
+  it('exports SSR-safe media utilities from their standalone entry', async () => {
+    expect.hasAssertions()
+    expect(globalThis).not.toHaveProperty('document')
+    expect(downloadMedia).toBeTypeOf('function')
+    await expect(captureVideoFrame(null)).rejects.toThrow('native video')
+    expect(() => downloadMedia('/video.mp4', 'video.mp4')).toThrow(
+      'browser document',
+    )
+    expectTypeOf(captureVideoFrame).returns.toEqualTypeOf<Promise<Blob>>()
+    expectTypeOf<VideoFrameOptions['quality']>().toEqualTypeOf<
+      number | undefined
+    >()
+  })
+
   it('shares the explicit video and live APIs across aggregate and granular entries', () => {
     expect.hasAssertions()
     expect(video.VideoPlayerRoot).toBe(videoCore.VideoPlayerRoot)

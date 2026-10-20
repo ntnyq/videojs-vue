@@ -17,6 +17,11 @@ const PlaylistDemo = defineAsyncComponent(async () => {
   return module.PlaylistDemo
 })
 
+const MediaExportDemo = defineAsyncComponent(async () => {
+  const module = await import('./MediaExportDemo')
+  return module.MediaExportDemo
+})
+
 const AudioDemo = defineAsyncComponent(async () => {
   const module = await import('./AudioDemo')
   return module.AudioDemo
@@ -53,6 +58,15 @@ export const PlayerDemo = defineComponent({
       if (lab.example === 'playlist') {
         return (
           <PlaylistDemo
+            key={lab.generation}
+            lab={lab}
+            {...listeners}
+          />
+        )
+      }
+      if (lab.example === 'media-export') {
+        return (
+          <MediaExportDemo
             key={lab.generation}
             lab={lab}
             {...listeners}

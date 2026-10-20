@@ -17,6 +17,7 @@ Use the entries below as the public package interface. All components register t
 | `videojs-vue`                        | `VideoPlayer`, `VideoPlayerRoot`, `Video`, `DefaultVideoSkin`, `NeutralVideoSkin`, `useVideoPlayerState`, `useVideoPlayerActions` | [Player](./video-player.md), [composition](./player-root.md), [media](./media.md), [composables](./composables.md) |
 | `videojs-vue/audio`                  | `AudioPlayer`, `AudioPlayerRoot`, `Audio`, `DefaultAudioSkin`, `NeutralAudioSkin`, `useAudioPlayerState`, `useAudioPlayerActions` | [Audio players](./audio.md)                                                                                        |
 | `videojs-vue/media/hls`              | `HlsVideo`                                                                                                                        | [Media adapters](./media.md#hlsvideo)                                                                              |
+| `videojs-vue/media/utils`            | `captureVideoFrame`, `downloadMedia`                                                                                              | [Screenshots and downloads](../examples/media-export.md)                                                           |
 | `videojs-vue/ui`                     | Layout, buttons, sliders, quality/audio menus, poster, hotkeys, and status announcer                                              | [UI controls](./ui.md)                                                                                             |
 | `videojs-vue/i18n`                   | `MediaI18n`, `MediaText`, and translation registry functions                                                                      | [Internationalization](./i18n.md)                                                                                  |
 | `videojs-vue/video/legacy`           | `VideoPlayer` fixed to the legacy skin                                                                                            | [Chrome 90+ legacy mode](../guide/legacy.md)                                                                       |
@@ -52,11 +53,12 @@ Use [VideoPlayer](./video-player.md) for a complete player. Use [VideoPlayerRoot
 
 ## Type exports
 
-| Entry                   | Exported types                                                                                                                                                                                                        |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `videojs-vue`           | `VideoMediaComponent`, `MediaEventName`, `VideoMediaProps`, `MediaTrack`, `VideoPlayerActions`, `VideoPlayerHandle`, `VideoPlayerElement`, `PlayerMedia`, `VideoPlayerState`, `VideoPlayerStore`, `VideoPlayerTarget` |
-| `videojs-vue/media/hls` | `HlsSource`, `HlsEngineConfig`                                                                                                                                                                                        |
-| `videojs-vue/i18n`      | `Translations`, `FlatTranslations`, `Locale`                                                                                                                                                                          |
+| Entry                     | Exported types                                                                                                                                                                                                        |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `videojs-vue`             | `VideoMediaComponent`, `MediaEventName`, `VideoMediaProps`, `MediaTrack`, `VideoPlayerActions`, `VideoPlayerHandle`, `VideoPlayerElement`, `PlayerMedia`, `VideoPlayerState`, `VideoPlayerStore`, `VideoPlayerTarget` |
+| `videojs-vue/media/hls`   | `HlsSource`, `HlsEngineConfig`                                                                                                                                                                                        |
+| `videojs-vue/media/utils` | `VideoFrameOptions`                                                                                                                                                                                                   |
+| `videojs-vue/i18n`        | `Translations`, `FlatTranslations`, `Locale`                                                                                                                                                                          |
 
 `VideoPlayerStore` and `VideoPlayerState` follow the upstream Video.js video preset. `PlayerMedia` describes the common native and adapter media surface; narrow the element type before using adapter-specific APIs.
 

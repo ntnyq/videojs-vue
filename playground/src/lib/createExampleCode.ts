@@ -1,4 +1,5 @@
 import type { ExampleId, PlaygroundConfig } from '../data'
+import mediaExportExample from '../media-export/MediaExportExample.vue?raw'
 import playlistExample from '../playlist/PlaylistExample.vue?raw'
 
 const EXAMPLE_APIS = {
@@ -69,6 +70,9 @@ export function createExampleCode(
 ) {
   if (example === 'playlist') {
     return playlistExample
+  }
+  if (example === 'media-export') {
+    return mediaExportExample
   }
   const isLive = example === 'live'
   const props = createExampleOptions(example, config)

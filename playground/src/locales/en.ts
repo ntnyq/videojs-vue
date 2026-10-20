@@ -30,6 +30,11 @@ const en = {
     close: 'Close',
   },
   examples: {
+    'media-export': {
+      title: 'Screenshots & downloads',
+      description: 'Save a native video frame or download the MP4 file.',
+      hint: 'Play or seek to load a frame, then save it as PNG. Downloads fetch the entire file into memory and require CORS. Cancel or switch sources to discard pending work.',
+    },
     playlist: {
       title: 'Playlists',
       description:
@@ -98,6 +103,12 @@ const en = {
     loading: 'Resolving source…',
     retry: 'Retry item',
     cancel: 'Cancel',
+  },
+  mediaExport: {
+    capture: 'Save current frame',
+    download: 'Download MP4',
+    cancel: 'Cancel',
+    busy: 'Preparing download…',
   },
   player: {
     quality: 'Quality',

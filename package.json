@@ -61,6 +61,10 @@
       "types": "./dist/media/hls.d.ts",
       "default": "./dist/media/hls.js"
     },
+    "./media/utils": {
+      "types": "./dist/media/utils.d.ts",
+      "default": "./dist/media/utils.js"
+    },
     "./ui": {
       "types": "./dist/ui/index.d.ts",
       "default": "./dist/ui/index.js"

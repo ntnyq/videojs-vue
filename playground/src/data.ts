@@ -27,6 +27,11 @@ export const EXAMPLES = [
     icon: 'play',
   },
   {
+    id: 'media-export',
+    group: 'api',
+    icon: 'settings',
+  },
+  {
     id: 'hls',
     group: 'playback',
     icon: 'radio',

@@ -33,6 +33,12 @@ export default {
     close: '閉じる',
   },
   examples: {
+    'media-export': {
+      title: 'スクリーンショットとダウンロード',
+      description:
+        'ネイティブ動画の現在のフレームや MP4 ファイルを保存します。',
+      hint: '再生またはシークしてフレームを読み込み、PNG として保存します。ダウンロードはファイル全体をメモリに読み込むため、CORS の許可が必要です。キャンセルやソース切り替えで処理を破棄します。',
+    },
     playlist: {
       title: 'プレイリスト',
       description:
@@ -100,6 +106,12 @@ export default {
     loading: 'URL を取得中…',
     retry: '項目を再試行',
     cancel: 'キャンセル',
+  },
+  mediaExport: {
+    capture: '現在のフレームを保存',
+    download: 'MP4 をダウンロード',
+    cancel: 'キャンセル',
+    busy: 'ダウンロードを準備中…',
   },
   player: {
     quality: '画質',

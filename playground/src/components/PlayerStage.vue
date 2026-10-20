@@ -11,6 +11,8 @@ import {
 import { useI18n } from 'vue-i18n'
 import type { Playground } from '../composables/usePlayground'
 // oxlint-disable-next-line import/default -- Vite's raw loader exports the source text.
+import mediaExportController from '../media-export/useMediaExport.ts?raw'
+// oxlint-disable-next-line import/default -- Vite's raw loader exports the source text.
 import playlistController from '../playlist/usePlaylist.ts?raw'
 import CodePanel from './CodePanel.vue'
 import { PlayerDemo } from './PlayerDemo'
@@ -137,7 +139,11 @@ function setSeek(lab: Playground, value: string | number) {
             class="mt-4"
             :code="lab.code"
             :filename="
-              lab.example === 'playlist' ? 'PlaylistExample.vue' : 'Example.vue'
+              lab.example === 'playlist'
+                ? 'PlaylistExample.vue'
+                : lab.example === 'media-export'
+                  ? 'MediaExportExample.vue'
+                  : 'Example.vue'
             "
           />
           <CodePanel
@@ -145,6 +151,12 @@ function setSeek(lab: Playground, value: string | number) {
             class="mt-4"
             :code="playlistController"
             filename="usePlaylist.ts"
+          />
+          <CodePanel
+            v-if="lab.example === 'media-export'"
+            class="mt-4"
+            :code="mediaExportController"
+            filename="useMediaExport.ts"
           />
         </TabsContent>
         <TabsContent value="state"
