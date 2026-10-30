@@ -1,16 +1,18 @@
 import type { PlayerMedia } from 'videojs-vue'
-import { computed, onScopeDispose, shallowRef } from 'vue'
+import { computed, onScopeDispose, shallowRef, watch } from 'vue'
 
 export interface PlaylistItem {
   id: string
   title: string
   src: string
   poster?: string
+  duration?: number
 }
 
 interface PlaylistOptions {
   items: readonly PlaylistItem[]
   getMedia: () => PlayerMedia | null
+  advanceDelay?: number
   resolveSource?: (
     item: PlaylistItem,
     signal: AbortSignal,
@@ -25,6 +27,10 @@ interface PlaylistOptions {
 export function usePlaylist(options: PlaylistOptions) {
   const index = shallowRef(-1)
   const repeat = shallowRef(false)
+  const shuffle = shallowRef(false)
+  const autoAdvance = shallowRef(true)
+  const countdown = shallowRef<number | null>(null)
+  const order = shallowRef(options.items.map((_, itemIndex) => itemIndex))
   const isLoading = shallowRef(false)
   const failure = shallowRef('')
   const session = shallowRef<{
@@ -32,32 +38,72 @@ export function usePlaylist(options: PlaylistOptions) {
     item: PlaylistItem
     src: string
   } | null>(null)
-  const canPrevious = computed(() => index.value > 0)
+  const position = computed(() => order.value.indexOf(index.value))
+  const canPrevious = computed(() => position.value > 0)
   const canNext = computed(
     () =>
       options.items.length > 0 &&
-      (repeat.value || index.value < options.items.length - 1),
+      (repeat.value || position.value < options.items.length - 1),
+  )
+  const nextIndex = computed(() =>
+    canNext.value
+      ? order.value[(position.value + 1) % order.value.length]
+      : undefined,
   )
   let version = 0
   let request: AbortController | undefined
   let shouldResume = false
   let hasMetadata = false
+  let hasEnded = false
   let isDisposed = false
+  let timer: ReturnType<typeof setInterval> | undefined
+
+  function cancelAdvance() {
+    clearInterval(timer)
+    timer = undefined
+    countdown.value = null
+  }
+
+  // Keep the selected item first when shuffling, then visit every other item once.
+  watch(
+    shuffle,
+    enabled => {
+      cancelAdvance()
+      const indexes = options.items.map((_, itemIndex) => itemIndex)
+      if (enabled) {
+        const remaining = indexes.filter(itemIndex => itemIndex !== index.value)
+        for (let cursor = remaining.length - 1; cursor > 0; cursor--) {
+          const target = Math.floor(Math.random() * (cursor + 1))
+          ;[remaining[cursor], remaining[target]] = [
+            remaining[target]!,
+            remaining[cursor]!,
+          ]
+        }
+        order.value = index.value < 0 ? remaining : [index.value, ...remaining]
+        return
+      }
+      order.value = indexes
+    },
+    { flush: 'sync' },
+  )
+  watch([autoAdvance, repeat], cancelAdvance, { flush: 'sync' })
 
   function cancel() {
+    cancelAdvance()
     version++
     request?.abort()
     request = undefined
     shouldResume = false
     hasMetadata = false
+    hasEnded = false
     isLoading.value = false
     options.getMedia()?.pause()
     session.value = null
   }
 
-  async function select(nextIndex: number, play?: boolean) {
-    const item = options.items[nextIndex]
-    if (isDisposed || !Number.isInteger(nextIndex) || !item) {
+  async function select(requestedIndex: number, play?: boolean) {
+    const item = options.items[requestedIndex]
+    if (isDisposed || !Number.isInteger(requestedIndex) || !item) {
       return
     }
     const resume =
@@ -66,7 +112,7 @@ export function usePlaylist(options: PlaylistOptions) {
     const token = version
     const controller = new AbortController()
     request = controller
-    index.value = nextIndex
+    index.value = requestedIndex
     shouldResume = resume
     failure.value = ''
     isLoading.value = true
@@ -121,6 +167,7 @@ export function usePlaylist(options: PlaylistOptions) {
       return
     }
     shouldResume = false
+    cancelAdvance()
     hasMetadata = false
     failure.value =
       options.getMedia()?.error?.message || 'Media playback failed.'
@@ -128,25 +175,43 @@ export function usePlaylist(options: PlaylistOptions) {
 
   function playing(token: number) {
     if (session.value?.version === token) {
+      hasEnded = false
+      cancelAdvance()
       failure.value = ''
     }
   }
 
-  async function next(play?: boolean) {
-    if (canNext.value) {
-      await select((index.value + 1) % options.items.length, play)
+  async function selectNext(play?: boolean) {
+    if (nextIndex.value !== undefined) {
+      await select(nextIndex.value, play)
     }
   }
 
-  function ended(token: number) {
-    if (session.value?.version !== token || !hasMetadata) {
+  async function ended(token: number): Promise<void> {
+    if (session.value?.version !== token || !hasMetadata || hasEnded) {
       return
     }
-    if (!canNext.value) {
+    if (!autoAdvance.value || !canNext.value) {
       return
     }
-    hasMetadata = false
-    return next(true)
+    hasEnded = true
+    const delay = options.advanceDelay ?? 0
+    if (!Number.isFinite(delay) || delay <= 0) {
+      await selectNext(true)
+      return
+    }
+    countdown.value = Math.ceil(delay)
+    timer = setInterval(async () => {
+      if (countdown.value === null || session.value?.version !== token) {
+        cancelAdvance()
+        return
+      }
+      countdown.value--
+      if (countdown.value <= 0) {
+        cancelAdvance()
+        await selectNext(true)
+      }
+    }, 1000)
   }
 
   onScopeDispose(() => {
@@ -157,18 +222,26 @@ export function usePlaylist(options: PlaylistOptions) {
   return {
     index,
     repeat,
+    shuffle,
+    autoAdvance,
+    order,
+    position,
+    nextIndex,
+    countdown,
     isLoading,
     failure,
     session,
     canPrevious,
     canNext,
     select,
-    next,
+    next: selectNext,
     ended,
     loadedMetadata,
     mediaError,
     playing,
     cancel,
-    previous: () => (canPrevious.value ? select(index.value - 1) : undefined),
+    cancelAdvance,
+    previous: () =>
+      canPrevious.value ? select(order.value[position.value - 1]!) : undefined,
   }
 }

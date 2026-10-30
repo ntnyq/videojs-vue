@@ -110,7 +110,11 @@ function setSeek(lab: Playground, value: string | number) {
           :class="
             lab.example === 'audio'
               ? 'max-w-3xl p-4 sm:p-8'
-              : 'lg:max-w-[clamp(240px,calc((100cqh-21rem)*1.7778),100%)]'
+              : lab.example === 'playlist'
+                ? 'w-full'
+                : ['custom', 'captions'].includes(lab.example)
+                  ? 'lg:max-w-[clamp(320px,calc((100cqh-21rem)*1.7778),100%)]'
+                  : 'lg:max-w-[clamp(240px,calc((100cqh-21rem)*1.7778),100%)]'
           "
         >
           <PlayerDemo

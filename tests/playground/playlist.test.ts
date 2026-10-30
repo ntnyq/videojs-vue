@@ -24,6 +24,7 @@ function deferred<Value>() {
 function setup(
   options: {
     items?: readonly PlaylistItem[]
+    advanceDelay?: number
     resolveSource?: (
       item: PlaylistItem,
       signal: AbortSignal,
@@ -48,6 +49,7 @@ describe('playlist recipe', () => {
     for (const scope of scopes.splice(0)) {
       scope.stop()
     }
+    vi.useRealTimers()
     vi.restoreAllMocks()
   })
 
@@ -214,5 +216,150 @@ describe('playlist recipe', () => {
     const { playlist: invalid } = setup({ resolveSource: () => ' ' })
     await invalid.select(0)
     expect(invalid.failure.value).toContain('empty')
+  })
+
+  it('counts down once, advances on expiry and preserves playback intent', async () => {
+    expect.hasAssertions()
+    vi.useFakeTimers()
+    const { playlist, media } = setup({ advanceDelay: 5 })
+    await playlist.select(0)
+    const token = playlist.session.value!.version
+    await playlist.loadedMetadata(token)
+    await playlist.ended(token)
+    await playlist.ended(token)
+    expect(playlist.countdown.value).toBe(5)
+    await vi.advanceTimersByTimeAsync(4000)
+    expect(playlist.index.value).toBe(0)
+    expect(playlist.countdown.value).toBe(1)
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(playlist.index.value).toBe(1)
+    expect(playlist.countdown.value).toBeNull()
+    const play = vi.spyOn(media, 'play')
+    await playlist.loadedMetadata(playlist.session.value!.version)
+    expect(play).toHaveBeenCalledTimes(1)
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it.each<[string, (state: ReturnType<typeof setup>) => unknown, number]>([
+    ['cancel', ({ playlist }) => playlist.cancelAdvance(), 0],
+    ['select', ({ playlist }) => playlist.select(2), 2],
+    [
+      'disable',
+      ({ playlist }) => {
+        playlist.autoAdvance.value = false
+      },
+      0,
+    ],
+    [
+      'shuffle',
+      ({ playlist }) => {
+        playlist.shuffle.value = true
+      },
+      0,
+    ],
+    [
+      'repeat',
+      ({ playlist }) => {
+        playlist.repeat.value = true
+      },
+      0,
+    ],
+    [
+      'playing',
+      ({ playlist }) => playlist.playing(playlist.session.value!.version),
+      0,
+    ],
+    [
+      'error',
+      ({ playlist }) => playlist.mediaError(playlist.session.value!.version),
+      0,
+    ],
+    ['dispose', ({ scope }) => scope.stop(), 0],
+  ])('cancels the next-up timer on %s', async (_, action, expectedIndex) => {
+    expect.hasAssertions()
+    vi.useFakeTimers()
+    const state = setup({ advanceDelay: 5 })
+    const { playlist } = state
+    await playlist.select(0)
+    const token = playlist.session.value!.version
+    await playlist.loadedMetadata(token)
+    await playlist.ended(token)
+    await action(state)
+    expect(playlist.countdown.value).toBeNull()
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(playlist.index.value).toBe(expectedIndex)
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it('stays on the current item with auto advance disabled, but permits manual next', async () => {
+    expect.hasAssertions()
+    const { playlist } = setup({ advanceDelay: 5 })
+    await playlist.select(0)
+    const token = playlist.session.value!.version
+    await playlist.loadedMetadata(token)
+    playlist.autoAdvance.value = false
+    await playlist.ended(token)
+    expect(playlist.index.value).toBe(0)
+    expect(playlist.countdown.value).toBeNull()
+    await playlist.next()
+    expect(playlist.index.value).toBe(1)
+  })
+
+  it('visits each shuffled item once and navigates backward in the same order', async () => {
+    expect.hasAssertions()
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    const { playlist } = setup()
+    await playlist.select(1)
+    playlist.shuffle.value = true
+    expect(playlist.order.value).toStrictEqual([1, 2, 0])
+    expect(playlist.position.value).toBe(0)
+    expect(playlist.canPrevious.value).toBe(false)
+    expect(playlist.nextIndex.value).toBe(2)
+    await playlist.next()
+    expect(playlist.index.value).toBe(2)
+    await playlist.previous()
+    expect(playlist.index.value).toBe(1)
+    await playlist.next()
+    await playlist.next()
+    expect(playlist.index.value).toBe(0)
+    expect(playlist.canNext.value).toBe(false)
+    playlist.repeat.value = true
+    await playlist.next()
+    expect(playlist.index.value).toBe(1)
+    playlist.shuffle.value = false
+    expect(playlist.order.value).toStrictEqual([0, 1, 2])
+    expect(playlist.index.value).toBe(1)
+    expect(playlist.position.value).toBe(1)
+  })
+
+  it('cleans up a countdown when the entire queue is cancelled', async () => {
+    expect.hasAssertions()
+    vi.useFakeTimers()
+    const { playlist } = setup({ advanceDelay: 5 })
+    await playlist.select(0)
+    const token = playlist.session.value!.version
+    await playlist.loadedMetadata(token)
+    await playlist.ended(token)
+    playlist.cancel()
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(playlist.session.value).toBeNull()
+    expect(playlist.countdown.value).toBeNull()
+    expect(playlist.index.value).toBe(0)
+  })
+
+  it('can replay and schedule again after cancelling an ended item countdown', async () => {
+    expect.hasAssertions()
+    vi.useFakeTimers()
+    const { playlist } = setup({ advanceDelay: 5 })
+    await playlist.select(0)
+    const token = playlist.session.value!.version
+    await playlist.loadedMetadata(token)
+    await playlist.ended(token)
+    playlist.cancelAdvance()
+    playlist.playing(token)
+    await playlist.ended(token)
+    expect(playlist.countdown.value).toBe(5)
+    await vi.advanceTimersByTimeAsync(5000)
+    expect(playlist.index.value).toBe(1)
   })
 })
