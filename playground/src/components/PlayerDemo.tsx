@@ -91,7 +91,7 @@ export const PlayerDemo = defineComponent({
           />
         )
       }
-      if (lab.example === 'custom') {
+      if (lab.example === 'custom' || lab.example === 'captions') {
         return (
           <CustomPlayerDemo
             key={lab.generation}

@@ -39,7 +39,7 @@ const en = {
       title: 'Playlists',
       description:
         'Switch items in one player and continue after each item ends.',
-      hint: 'Choose an item or use Previous / Next. Repeat loops the entire list. Errors stop on the current item; retry or select another item.',
+      hint: 'Choose a thumbnail, shuffle the queue, or repeat the list. Auto advance offers a cancellable five-second countdown. Errors stop on the current item.',
     },
     audio: {
       title: 'Audio playback',
@@ -72,7 +72,7 @@ const en = {
     captions: {
       title: 'Captions & tracks',
       description: 'Attach a WebVTT track and toggle captions in the player.',
-      hint: 'The included English track covers the first 30 seconds. Seek to the start and use the CC button to see it.',
+      hint: 'English and Simplified Chinese WebVTT cues cover the first 12 seconds. Open Captions to switch languages or turn them off; use the speed menu to change playback rate.',
     },
     binding: {
       title: 'Two-way binding',
@@ -97,6 +97,16 @@ const en = {
     },
   },
   playlist: {
+    title: 'Playlist',
+    collection: 'Video collection',
+    shuffle: 'Shuffle',
+    autoAdvance: 'Auto advance',
+    nowPlaying: 'Now playing',
+    upNext: 'Up next',
+    playNow: 'Play now',
+    countdown: 'Playing in {seconds}s',
+    show: 'Show playlist',
+    hide: 'Hide playlist',
     previous: 'Previous',
     next: 'Next',
     repeat: 'Repeat playlist',
@@ -136,6 +146,8 @@ const en = {
     unmute: 'Unmute',
     unavailable: 'Unavailable',
     captions: 'Captions',
+    speed: 'Playback speed',
+    normalSpeed: 'Normal',
   },
   settings: {
     props: 'Props',

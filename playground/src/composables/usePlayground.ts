@@ -103,6 +103,16 @@ export function usePlayground() {
               label: trackLabel,
               default: true,
             },
+            ...(example.value === 'captions'
+              ? [
+                  {
+                    src: '/captions.zh-CN.vtt',
+                    kind: 'subtitles' as const,
+                    srclang: 'zh-CN',
+                    label: '简体中文',
+                  },
+                ]
+              : []),
           ]
         : [],
     }

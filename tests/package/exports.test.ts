@@ -12,6 +12,14 @@ import * as liveCore from 'videojs-vue/live/core'
 import { DefaultLiveVideoSkin } from 'videojs-vue/live/skins/default'
 import { captureVideoFrame, downloadMedia } from 'videojs-vue/media/utils'
 import type { VideoFrameOptions } from 'videojs-vue/media/utils'
+import {
+  CaptionsRadioGroup as AggregateCaptionsRadioGroup,
+  PlaybackRateButton as AggregatePlaybackRateButton,
+  PlaybackRateRadioGroup as AggregatePlaybackRateRadioGroup,
+} from 'videojs-vue/ui'
+import { CaptionsRadioGroup } from 'videojs-vue/ui/captions-radio-group'
+import { PlaybackRateButton } from 'videojs-vue/ui/playback-rate-button'
+import { PlaybackRateRadioGroup } from 'videojs-vue/ui/playback-rate-radio-group'
 import * as videoComposables from 'videojs-vue/video/composables'
 import * as videoCore from 'videojs-vue/video/core'
 import { DefaultVideoSkin } from 'videojs-vue/video/skins/default'
@@ -20,6 +28,16 @@ import { describe, expect, expectTypeOf, it } from 'vitest'
 const require = createRequire(import.meta.url)
 
 describe('published API names and paths', () => {
+  it('shares captions and playback rate controls across aggregate and granular entries', () => {
+    expect.hasAssertions()
+    expect(AggregateCaptionsRadioGroup).toBe(CaptionsRadioGroup)
+    expect(AggregatePlaybackRateButton).toBe(PlaybackRateButton)
+    expect(AggregatePlaybackRateRadioGroup).toBe(PlaybackRateRadioGroup)
+    expectTypeOf<
+      InstanceType<typeof PlaybackRateRadioGroup>['$props']['formatRate']
+    >().toEqualTypeOf<((rate: number) => string) | undefined>()
+  })
+
   it('exports SSR-safe media utilities from their standalone entry', async () => {
     expect.hasAssertions()
     expect(globalThis).not.toHaveProperty('document')

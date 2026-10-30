@@ -43,7 +43,7 @@ export default {
       title: 'プレイリスト',
       description:
         '同じプレーヤーで項目を切り替え、終了後に次の項目を再生します。',
-      hint: '項目を選択するか、前へ / 次へを使用します。リピートはリスト全体に適用されます。エラー時は停止し、再試行または別の項目を選択できます。',
+      hint: 'サムネイルから選択し、シャッフルやリピートを切り替えます。自動再生はキャンセル可能な5秒のカウントダウン後に進み、エラー時は停止します。',
     },
     audio: {
       title: '音声再生',
@@ -75,7 +75,7 @@ export default {
     captions: {
       title: '字幕とトラック',
       description: 'WebVTT トラックを追加し、プレーヤーで字幕を切り替えます。',
-      hint: '付属の英語字幕は最初の 30 秒に対応しています。先頭にシークして CC ボタンを押すと表示されます。',
+      hint: '英語と簡体字中国語の字幕は最初の12秒間に表示されます。字幕メニューで言語やオフを選び、速度メニューで再生速度を変更できます。',
     },
     binding: {
       title: '双方向バインディング',
@@ -100,6 +100,16 @@ export default {
     },
   },
   playlist: {
+    title: 'プレイリスト',
+    collection: '動画コレクション',
+    shuffle: 'シャッフル',
+    autoAdvance: '自動再生',
+    nowPlaying: '再生中',
+    upNext: '次の動画',
+    playNow: '今すぐ再生',
+    countdown: '{seconds} 秒後に再生',
+    show: 'プレイリストを開く',
+    hide: 'プレイリストを閉じる',
     previous: '前へ',
     next: '次へ',
     repeat: 'リストをリピート',
@@ -114,6 +124,8 @@ export default {
     busy: 'ダウンロードを準備中…',
   },
   player: {
+    speed: '再生速度',
+    normalSpeed: '標準',
     quality: '画質',
     autoQuality: '自動',
     audioTrack: '音声トラック',

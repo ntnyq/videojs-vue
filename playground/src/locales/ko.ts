@@ -41,7 +41,7 @@ export default {
       title: '재생 목록',
       description:
         '하나의 플레이어에서 항목을 전환하고 종료 후 다음 항목을 재생합니다.',
-      hint: '항목을 선택하거나 이전 / 다음을 사용하세요. 반복은 전체 목록에 적용됩니다. 오류가 발생하면 중지되며 재시도하거나 다른 항목을 선택할 수 있습니다.',
+      hint: '썸네일로 동영상을 선택하고 셔플이나 반복을 설정하세요. 자동 재생은 취소 가능한 5초 카운트다운 후 진행하며 오류가 나면 현재 항목에서 멈춥니다.',
     },
     audio: {
       title: '오디오 재생',
@@ -73,7 +73,7 @@ export default {
     captions: {
       title: '자막과 트랙',
       description: 'WebVTT 트랙을 추가하고 플레이어에서 자막을 전환합니다.',
-      hint: '기본 영어 자막은 처음 30초에 제공됩니다. 처음으로 이동한 후 CC 버튼을 눌러 확인하세요.',
+      hint: '영어와 중국어 간체 자막은 처음 12초 동안 표시됩니다. 자막 메뉴에서 언어를 선택하거나 끄고 속도 메뉴에서 재생 속도를 변경하세요.',
     },
     binding: {
       title: '양방향 바인딩',
@@ -98,6 +98,16 @@ export default {
     },
   },
   playlist: {
+    title: '재생목록',
+    collection: '동영상 모음',
+    shuffle: '셔플',
+    autoAdvance: '자동 재생',
+    nowPlaying: '재생 중',
+    upNext: '다음 동영상',
+    playNow: '지금 재생',
+    countdown: '{seconds}초 후 재생',
+    show: '재생목록 열기',
+    hide: '재생목록 닫기',
     previous: '이전',
     next: '다음',
     repeat: '목록 반복',
@@ -112,6 +122,8 @@ export default {
     busy: '다운로드 준비 중…',
   },
   player: {
+    speed: '재생 속도',
+    normalSpeed: '기본',
     quality: '화질',
     autoQuality: '자동',
     audioTrack: '오디오 트랙',

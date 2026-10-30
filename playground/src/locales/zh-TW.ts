@@ -40,7 +40,7 @@ export default {
     playlist: {
       title: '播放清單',
       description: '在同一播放器中切換資源，播放結束後接續下一項。',
-      hint: '點選清單或使用上一項 / 下一項。循環作用於整份清單；失敗時停在目前項目，可重試或手動切換。',
+      hint: '點擊縮圖切換影片，可隨機或循環播放。自動連播提供可取消的五秒倒數，失敗時停在目前項目。',
     },
     audio: {
       title: '音訊播放',
@@ -70,7 +70,7 @@ export default {
     captions: {
       title: '字幕與軌道',
       description: '新增 WebVTT 軌道，在播放器中切換字幕。',
-      hint: '內建英文字幕涵蓋前 30 秒。跳轉至開頭並點擊 CC 按鈕查看字幕。',
+      hint: '內建英文與簡體中文字幕涵蓋前 12 秒。開啟字幕選單切換語言或關閉字幕，使用倍速選單調整播放速度。',
     },
     binding: {
       title: '雙向綁定',
@@ -94,6 +94,16 @@ export default {
     },
   },
   playlist: {
+    title: '播放清單',
+    collection: '影片精選',
+    shuffle: '隨機播放',
+    autoAdvance: '自動連播',
+    nowPlaying: '正在播放',
+    upNext: '下一項',
+    playNow: '立即播放',
+    countdown: '{seconds} 秒後播放',
+    show: '展開播放清單',
+    hide: '收起播放清單',
     previous: '上一項',
     next: '下一項',
     repeat: '循環播放清單',
@@ -108,6 +118,8 @@ export default {
     busy: '正在準備下載…',
   },
   player: {
+    speed: '播放速度',
+    normalSpeed: '正常',
     quality: '畫質',
     autoQuality: '自動',
     audioTrack: '音軌',

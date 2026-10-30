@@ -40,7 +40,7 @@ export default {
     playlist: {
       title: '播放列表',
       description: '在同一个播放器中切换资源，播完后自动播放下一项。',
-      hint: '点击列表或使用上一项 / 下一项。循环作用于整个列表；失败时停在当前项，可重试或手动切换。',
+      hint: '点击缩略图切换视频，可随机或循环播放。自动连播提供可取消的五秒倒计时，失败时停在当前项。',
     },
     audio: {
       title: '音频播放',
@@ -71,7 +71,7 @@ export default {
     captions: {
       title: '字幕与轨道',
       description: '添加 WebVTT 轨道，在播放器中切换字幕。',
-      hint: '内置英文字幕覆盖前 30 秒。跳转到开头并点击 CC 按钮查看字幕。',
+      hint: '内置英文和简体中文字幕覆盖前 12 秒。打开字幕菜单切换语言或关闭字幕，使用倍速菜单调整播放速度。',
     },
     binding: {
       title: '双向绑定',
@@ -95,6 +95,16 @@ export default {
     },
   },
   playlist: {
+    title: '播放列表',
+    collection: '视频精选',
+    shuffle: '随机播放',
+    autoAdvance: '自动连播',
+    nowPlaying: '正在播放',
+    upNext: '下一项',
+    playNow: '立即播放',
+    countdown: '{seconds} 秒后播放',
+    show: '展开播放列表',
+    hide: '收起播放列表',
     previous: '上一项',
     next: '下一项',
     repeat: '循环播放列表',
@@ -132,6 +142,8 @@ export default {
     unmute: '取消静音',
     unavailable: '不可用',
     captions: '字幕',
+    speed: '播放速度',
+    normalSpeed: '正常',
   },
   settings: {
     props: '属性',

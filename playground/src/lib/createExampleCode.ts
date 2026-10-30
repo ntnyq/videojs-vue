@@ -57,6 +57,16 @@ function createExampleOptions(example: ExampleId, config: PlaygroundConfig) {
               label: trackLabel,
               default: true,
             },
+            ...(example === 'captions'
+              ? [
+                  {
+                    src: '/captions.zh-CN.vtt',
+                    kind: 'subtitles',
+                    srclang: 'zh-CN',
+                    label: '简体中文',
+                  },
+                ]
+              : []),
           ]
         : [],
   }
@@ -81,7 +91,7 @@ export function createExampleCode(
     '<',
     String.raw`\u003c`,
   )
-  const isCustom = example === 'custom'
+  const isCustom = example === 'custom' || example === 'captions'
   const api = EXAMPLE_APIS[resolveExampleMode(example)]
   const { entry, handleType, actionsHook, stateHook, componentName } = api
   const imports = isCustom
@@ -89,10 +99,10 @@ export function createExampleCode(
     : api.imports
   const methodTarget = actionTarget === 'ref' ? 'player.value?' : 'actions'
   return `<script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, useId } from 'vue'
 import { ${imports} } from '${entry}'
 import type { ${handleType} } from '${entry}'
-${example === 'hls' || isLive ? "import { HlsVideo } from 'videojs-vue/media/hls'\n" : ''}${isCustom ? "import { MediaContainer, PlayButton, MuteButton, Time, FullscreenButton } from 'videojs-vue/ui'\n" : ''}
+${example === 'hls' || isLive ? "import { HlsVideo } from 'videojs-vue/media/hls'\n" : ''}${isCustom ? "import { MediaContainer, PlayButton, MuteButton, Time, FullscreenButton, CaptionsRadioGroup, PlaybackRateButton, PlaybackRateRadioGroup, MediaMenu, MediaMenuContent } from 'videojs-vue/ui'\n" : ''}
 const player = shallowRef<${handleType} | null>(null)
 const isMounted = ref(true)
 const options = ${serialized} as const
@@ -106,7 +116,7 @@ ${isLive ? '' : 'const playbackRate = ref<number>(options.playbackRate)'}
 }
 const actions = ${actionsHook}(player)
 const currentTime = ${stateHook}(state => state.currentTime, player)
-${isCustom ? 'const paused = useVideoPlayerState(state => state.paused, player)' : ''}
+${isCustom ? 'const paused = useVideoPlayerState(state => state.paused, player)\nconst rate = useVideoPlayerState(state => state.playbackRate, player)\nconst captionsId = useId()\nconst speedId = useId()' : ''}
 const failure = ref('')
 
 async function play() {
@@ -155,6 +165,14 @@ ${
         <PlayButton>{{ paused ? 'Play' : 'Pause' }}</PlayButton>
         <Time type="current" />
         <MuteButton>Mute</MuteButton>
+        <button type="button" :commandfor="captionsId">Captions</button>
+        <MediaMenu :id="captionsId" side="top" align="end">
+          <MediaMenuContent aria-label="Captions"><CaptionsRadioGroup /></MediaMenuContent>
+        </MediaMenu>
+        <PlaybackRateButton :commandfor="speedId">{{ rate ?? 1 }}×</PlaybackRateButton>
+        <MediaMenu :id="speedId" side="top" align="end">
+          <MediaMenuContent aria-label="Playback speed"><PlaybackRateRadioGroup /></MediaMenuContent>
+        </MediaMenu>
         <FullscreenButton>Fullscreen</FullscreenButton>
       </div>
     </MediaContainer>
@@ -174,5 +192,18 @@ ${isLive ? '' : '    v-model:playback-rate="playbackRate"'}
   <button :disabled="!player?.store" @click="play">Play</button>
 ${example === 'actions' ? `  <button v-for="(_, name) in commands" :key="name" :disabled="!player?.store" @click="run(name)">{{ name }}</button>\n` : ''}  <button @click="isMounted = !isMounted">Mount / unmount</button>
   <p v-if="failure" role="alert">{{ failure }}</p>
-</template>`
+</template>${
+    isCustom
+      ? `
+
+<style scoped>
+media-menu { z-index: 20; width: 220px; max-height: 240px; overflow-y: auto; border: 1px solid #ffffff26; border-radius: 20px; padding: 8px; color: white; background: #202326ed; backdrop-filter: blur(20px); }
+media-menu:not([data-open]) { display: none; }
+media-menu :deep(media-menu-radio-item) { display: flex; min-height: 44px; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 12px; cursor: pointer; }
+media-menu :deep([aria-checked='true']) { background: #ffffff12; }
+media-menu :deep([aria-checked='true'])::after { content: '✓'; }
+media-menu :deep([data-highlighted]) { outline: 2px solid white; outline-offset: -2px; }
+</style>`
+      : ''
+  }`
 }

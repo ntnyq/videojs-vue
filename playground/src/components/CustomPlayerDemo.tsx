@@ -19,12 +19,12 @@ export const CustomPlayerDemo = defineComponent({
           poster={lab.config.poster}
           {...attrs}
         >
-          <MediaContainer class='relative block aspect-video w-full bg-black text-white'>
+          <MediaContainer class='[container-type:size] relative block aspect-video w-full bg-black text-white'>
             <Video
               {...lab.mediaProps}
               class='block size-full object-contain'
             />
-            <div class='pointer-events-none absolute top-4 left-4 max-w-[80%] rounded bg-black/60 px-3 py-2 text-xs'>
+            <div class='pointer-events-none absolute top-4 left-4 max-w-[80%] rounded bg-black/40 px-3 py-2 text-xs'>
               {translate('player.overlay')}
             </div>
             <CustomControls />

@@ -29,14 +29,15 @@ These are unstyled bindings to upstream custom elements. Their default slots, at
 
 All buttons accept optional `disabled: boolean` and `label: string` props.
 
-| Component          | Additional props  | Action                        |
-| ------------------ | ----------------- | ----------------------------- |
-| `PlayButton`       | None              | Toggle playback.              |
-| `MuteButton`       | None              | Toggle mute.                  |
-| `FullscreenButton` | None              | Toggle fullscreen.            |
-| `PiPButton`        | None              | Toggle picture-in-picture.    |
-| `CaptionsButton`   | None              | Toggle captions.              |
-| `SeekButton`       | `seconds: number` | Seek by the specified offset. |
+| Component            | Additional props     | Action                                      |
+| -------------------- | -------------------- | ------------------------------------------- |
+| `PlayButton`         | None                 | Toggle playback.                            |
+| `MuteButton`         | None                 | Toggle mute.                                |
+| `FullscreenButton`   | None                 | Toggle fullscreen.                          |
+| `PiPButton`          | None                 | Toggle picture-in-picture.                  |
+| `CaptionsButton`     | None                 | Toggle captions.                            |
+| `PlaybackRateButton` | `commandfor: string` | Cycle playback speed, or open a speed menu. |
+| `SeekButton`         | `seconds: number`    | Seek by the specified offset.               |
 
 Provide visible content through the default slot. Built-in accessible labels follow player state; an explicit `label` overrides that label. Translate explicit labels in your application when needed.
 
@@ -54,6 +55,75 @@ Render `QualityRadioGroup` or `AudioTrackRadioGroup` inside `MediaMenuContent`, 
 Placement and boundary types follow upstream `MenuElement`. These wrappers pass slots, attributes and custom events unchanged, including `@open-change` on menus and `@value-change` on option groups. Selection remains store-owned; call `selectVideoRendition(id)` or `selectAudioTrack(id)` for programmatic selection. Use `"auto"` to restore adaptive quality.
 
 See [quality and audio selection](../examples/media-selection.md) for menu composition, styles, state selectors, and source limitations.
+
+## Captions and playback speed
+
+`CaptionsRadioGroup` generates an Off item and one item per captions or subtitles track. It accepts optional `disabled`, `label`, and `formatTrack: CaptionsRadioGroupElement['formatTrack']` props. Provide tracks through the media component's `tracks` prop or native `<track>` children. The group and its menu trigger hide when no caption or subtitle tracks are available.
+
+`PlaybackRateRadioGroup` generates the speeds from the upstream store's `playbackRates`. It accepts optional `disabled` and `formatRate: PlaybackRateRadioGroupElement['formatRate']` props. Use the `aria-label` attribute to customize its accessible name. `PlaybackRateButton` cycles through those speeds when `commandfor` is omitted; with `commandfor`, it opens the linked menu without cycling. Its visible content comes from the default slot.
+
+The **Custom controls** and **Captions & tracks** examples in the [Playground](https://videojs-vue-playground.ntnyq.dev) use a frosted capsule control bar, separate captions and speed menus, visible current speed, and selected-option checkmarks. Default and Neutral skins retain their upstream settings menus. The Vue bindings do not add CSS or replace the store’s available speed list.
+
+Both groups belong inside `MediaMenuContent`, as a direct child of `MediaMenu`, and forward `@value-change` custom events unchanged. Selection stays in the upstream store and follows changes made by other controls. These are unstyled controls; apply the menu and generated item styles shown in [media selection](../examples/media-selection.md).
+
+```vue
+<script setup lang="ts">
+import { useId } from 'vue'
+import { Video, VideoPlayerRoot } from 'videojs-vue/video/core'
+import {
+  CaptionsRadioGroup,
+  MediaContainer,
+  MediaMenu,
+  MediaMenuContent,
+  PlaybackRateButton,
+  PlaybackRateRadioGroup,
+} from 'videojs-vue/ui'
+
+const captionsId = useId()
+const speedId = useId()
+</script>
+
+<template>
+  <VideoPlayerRoot>
+    <MediaContainer>
+      <Video src="/video.mp4">
+        <track
+          kind="subtitles"
+          src="/en.vtt"
+          srclang="en"
+          label="English"
+        />
+        <track
+          kind="subtitles"
+          src="/zh.vtt"
+          srclang="zh"
+          label="中文"
+        />
+      </Video>
+      <button
+        type="button"
+        :commandfor="captionsId"
+      >
+        Subtitles
+      </button>
+      <MediaMenu :id="captionsId">
+        <MediaMenuContent>
+          <CaptionsRadioGroup label="Subtitle language" />
+        </MediaMenuContent>
+      </MediaMenu>
+      <PlaybackRateButton :commandfor="speedId">Speed</PlaybackRateButton>
+      <MediaMenu :id="speedId">
+        <MediaMenuContent>
+          <PlaybackRateRadioGroup
+            aria-label="Playback speed"
+            :format-rate="rate => `${rate}×`"
+          />
+        </MediaMenuContent>
+      </MediaMenu>
+    </MediaContainer>
+  </VideoPlayerRoot>
+</template>
+```
 
 ## Time
 
@@ -106,29 +176,32 @@ See the [composition guide](../guide/composition.md) for a working layout, the [
 
 Each entry registers only its own control and upstream dependencies. Use these paths when selecting a subset; the `videojs-vue/ui` aggregate still registers all controls.
 
-| Component              | Import path                              |
-| ---------------------- | ---------------------------------------- |
-| `CaptionsButton`       | `videojs-vue/ui/captions-button`         |
-| `AudioTrackRadioGroup` | `videojs-vue/ui/audio-track-radio-group` |
-| `QualityRadioGroup`    | `videojs-vue/ui/quality-radio-group`     |
-| `MediaMenu`            | `videojs-vue/ui/menu`                    |
-| `MediaMenuContent`     | `videojs-vue/ui/menu-content`            |
-| `FullscreenButton`     | `videojs-vue/ui/fullscreen-button`       |
-| `Hotkey`               | `videojs-vue/ui/hotkey`                  |
-| `MediaContainer`       | `videojs-vue/ui/container`               |
-| `MediaControls`        | `videojs-vue/ui/controls`                |
-| `MediaControlsContent` | `videojs-vue/ui/controls-content`        |
-| `MediaControlsGroup`   | `videojs-vue/ui/controls-group`          |
-| `MuteButton`           | `videojs-vue/ui/mute-button`             |
-| `PiPButton`            | `videojs-vue/ui/pip-button`              |
-| `PlayButton`           | `videojs-vue/ui/play-button`             |
-| `Poster`               | `videojs-vue/ui/poster`                  |
-| `SeekButton`           | `videojs-vue/ui/seek-button`             |
-| `SliderBuffer`         | `videojs-vue/ui/slider-buffer`           |
-| `SliderFill`           | `videojs-vue/ui/slider-fill`             |
-| `SliderThumb`          | `videojs-vue/ui/slider-thumb`            |
-| `SliderTrack`          | `videojs-vue/ui/slider-track`            |
-| `StatusAnnouncer`      | `videojs-vue/ui/status-announcer`        |
-| `Time`                 | `videojs-vue/ui/time`                    |
-| `TimeSlider`           | `videojs-vue/ui/time-slider`             |
-| `VolumeSlider`         | `videojs-vue/ui/volume-slider`           |
+| Component                | Import path                                |
+| ------------------------ | ------------------------------------------ |
+| `CaptionsButton`         | `videojs-vue/ui/captions-button`           |
+| `CaptionsRadioGroup`     | `videojs-vue/ui/captions-radio-group`      |
+| `PlaybackRateButton`     | `videojs-vue/ui/playback-rate-button`      |
+| `PlaybackRateRadioGroup` | `videojs-vue/ui/playback-rate-radio-group` |
+| `AudioTrackRadioGroup`   | `videojs-vue/ui/audio-track-radio-group`   |
+| `QualityRadioGroup`      | `videojs-vue/ui/quality-radio-group`       |
+| `MediaMenu`              | `videojs-vue/ui/menu`                      |
+| `MediaMenuContent`       | `videojs-vue/ui/menu-content`              |
+| `FullscreenButton`       | `videojs-vue/ui/fullscreen-button`         |
+| `Hotkey`                 | `videojs-vue/ui/hotkey`                    |
+| `MediaContainer`         | `videojs-vue/ui/container`                 |
+| `MediaControls`          | `videojs-vue/ui/controls`                  |
+| `MediaControlsContent`   | `videojs-vue/ui/controls-content`          |
+| `MediaControlsGroup`     | `videojs-vue/ui/controls-group`            |
+| `MuteButton`             | `videojs-vue/ui/mute-button`               |
+| `PiPButton`              | `videojs-vue/ui/pip-button`                |
+| `PlayButton`             | `videojs-vue/ui/play-button`               |
+| `Poster`                 | `videojs-vue/ui/poster`                    |
+| `SeekButton`             | `videojs-vue/ui/seek-button`               |
+| `SliderBuffer`           | `videojs-vue/ui/slider-buffer`             |
+| `SliderFill`             | `videojs-vue/ui/slider-fill`               |
+| `SliderThumb`            | `videojs-vue/ui/slider-thumb`              |
+| `SliderTrack`            | `videojs-vue/ui/slider-track`              |
+| `StatusAnnouncer`        | `videojs-vue/ui/status-announcer`          |
+| `Time`                   | `videojs-vue/ui/time`                      |
+| `TimeSlider`             | `videojs-vue/ui/time-slider`               |
+| `VolumeSlider`           | `videojs-vue/ui/volume-slider`             |

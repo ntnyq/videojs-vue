@@ -39,6 +39,14 @@ export const registrationEntries: Record<string, string[]> = {
     'media-audio-track-radio-group',
     'media-menu-radio-item',
   ],
+  'ui/captions-radio-group': [
+    'media-captions-radio-group',
+    'media-menu-radio-item',
+  ],
+  'ui/playback-rate-radio-group': [
+    'media-playback-rate-radio-group',
+    'media-menu-radio-item',
+  ],
   ...Object.fromEntries(
     [
       'container',
@@ -53,6 +61,7 @@ export const registrationEntries: Record<string, string[]> = {
       'fullscreen-button',
       'pip-button',
       'captions-button',
+      'playback-rate-button',
       'seek-button',
       'time',
       'time-slider',

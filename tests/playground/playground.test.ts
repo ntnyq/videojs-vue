@@ -76,6 +76,19 @@ describe('copyable playground examples', () => {
     expect(template.errors).toStrictEqual([])
   })
 
+  it('includes independent caption and speed menus in the copyable captions demo', () => {
+    expect.hasAssertions()
+    const code = createExampleCode(
+      'captions',
+      createConfig('captions'),
+      'composable',
+    )
+    expect(code).toContain('<CaptionsRadioGroup />')
+    expect(code).toContain('<PlaybackRateRadioGroup />')
+    expect(code).toContain('const captionsId = useId()')
+    expect(code).toContain('/captions.zh-CN.vtt')
+  })
+
   it('generates the independent audio API without video options', () => {
     expect.hasAssertions()
     const code = createExampleCode('audio', createConfig('audio'), 'composable')
@@ -119,6 +132,20 @@ describe('copyable playground examples', () => {
 })
 
 describe('playground lifecycle', () => {
+  it('provides two selectable subtitle languages in the captions demo and respects disabling tracks', () => {
+    expect.hasAssertions()
+    const scope = effectScope()
+    const lab = scope.run(() => usePlayground())!
+    lab.selectExample('captions')
+    expect(lab.mediaProps.tracks.map(track => track.srclang)).toStrictEqual([
+      'en',
+      'zh-CN',
+    ])
+    lab.updateConfig('hasCaptions', false)
+    expect(lab.mediaProps.tracks).toStrictEqual([])
+    scope.stop()
+  })
+
   it('starts with video and switches audio back to the last video example', () => {
     expect.hasAssertions()
     const scope = effectScope()

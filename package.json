@@ -209,6 +209,18 @@
       "types": "./dist/ui/captions-button.d.ts",
       "default": "./dist/ui/captions-button.js"
     },
+    "./ui/captions-radio-group": {
+      "types": "./dist/ui/captions-radio-group.d.ts",
+      "default": "./dist/ui/captions-radio-group.js"
+    },
+    "./ui/playback-rate-button": {
+      "types": "./dist/ui/playback-rate-button.d.ts",
+      "default": "./dist/ui/playback-rate-button.js"
+    },
+    "./ui/playback-rate-radio-group": {
+      "types": "./dist/ui/playback-rate-radio-group.d.ts",
+      "default": "./dist/ui/playback-rate-radio-group.js"
+    },
     "./video/legacy": {
       "types": "./dist/video/legacy.d.ts",
       "default": "./dist/video/legacy.js"

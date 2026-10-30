@@ -4,8 +4,11 @@ import { LiveVideoPlayer } from 'videojs-vue/live'
 import { LiveVideoPlayer as DefaultLiveVideoPlayer } from 'videojs-vue/live/default'
 import { LiveVideoPlayer as NeutralLiveVideoPlayer } from 'videojs-vue/live/neutral'
 import { AudioTrackRadioGroup } from 'videojs-vue/ui/audio-track-radio-group'
+import { CaptionsRadioGroup } from 'videojs-vue/ui/captions-radio-group'
 import { MediaMenu } from 'videojs-vue/ui/menu'
 import { MediaMenuContent } from 'videojs-vue/ui/menu-content'
+import { PlaybackRateButton } from 'videojs-vue/ui/playback-rate-button'
+import { PlaybackRateRadioGroup } from 'videojs-vue/ui/playback-rate-radio-group'
 import { QualityRadioGroup } from 'videojs-vue/ui/quality-radio-group'
 import { VideoPlayer as CompatVideoPlayer } from 'videojs-vue/video/compat'
 import { VideoPlayer as DefaultVideoPlayer } from 'videojs-vue/video/default'
@@ -30,6 +33,9 @@ describe('published package', () => {
     [NeutralAudioPlayer, 'audio-neutral-skin'],
     [QualityRadioGroup, 'media-quality-radio-group'],
     [AudioTrackRadioGroup, 'media-audio-track-radio-group'],
+    [CaptionsRadioGroup, 'media-captions-radio-group'],
+    [PlaybackRateButton, 'media-playback-rate-button'],
+    [PlaybackRateRadioGroup, 'media-playback-rate-radio-group'],
     [MediaMenu, 'media-menu'],
     [MediaMenuContent, 'media-menu-content'],
   ])('renders %s from dist without browser globals', async (Player, tag) => {

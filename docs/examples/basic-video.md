@@ -63,3 +63,9 @@ Start playback and select the English caption track in the player controls. The 
 - Use [composition](../guide/composition.md) for a custom control layout.
 
 See [MediaTrack](../api/media.md#mediatrack) for track fields and [events](../api/events.md) for playback notifications.
+
+### Caption language and speed menus
+
+`CaptionsButton` toggles the last selected or first suitable track. To select a language or turn subtitles off, compose `CaptionsRadioGroup` with `MediaMenu` and `MediaMenuContent`. Pair `PlaybackRateButton` with `PlaybackRateRadioGroup` for a speed menu. Both groups follow the upstream player store and provide keyboard navigation and selected states; they are unstyled Vue bindings.
+
+See [captions and playback speed](../api/ui.md#captions-and-playback-speed) for the component contracts and composition example. The Playground’s **Captions & tracks** demo includes English and Simplified Chinese cues for the first 12 seconds and frosted menus styled after the v10 Default skin.
