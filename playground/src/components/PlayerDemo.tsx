@@ -7,6 +7,11 @@ import { defineAsyncComponent, defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { Playground } from '../composables/usePlayground'
 
+const UiComponentsDemo = defineAsyncComponent(async () => {
+  const module = await import('./UiComponentsDemo')
+  return module.UiComponentsDemo
+})
+
 const LiveDemo = defineAsyncComponent(async () => {
   const module = await import('./LiveDemo')
   return module.LiveDemo
@@ -54,6 +59,15 @@ export const PlayerDemo = defineComponent({
         'onUpdate:muted': (value: boolean) => lab.syncModel('muted', value),
         'onUpdate:playbackRate': (value: number) =>
           lab.syncModel('playbackRate', value),
+      }
+      if (lab.example === 'ui-components') {
+        return (
+          <UiComponentsDemo
+            key={lab.generation}
+            lab={lab}
+            {...listeners}
+          />
+        )
       }
       if (lab.example === 'playlist') {
         return (

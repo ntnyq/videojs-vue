@@ -3,6 +3,8 @@ import { Captions } from '@lucide/vue'
 import { CaptionsRadioGroup } from 'videojs-vue/ui/captions-radio-group'
 import { MediaMenu } from 'videojs-vue/ui/menu'
 import { MediaMenuContent } from 'videojs-vue/ui/menu-content'
+import { MediaMenuGroup } from 'videojs-vue/ui/menu-group'
+import { MediaMenuGroupLabel } from 'videojs-vue/ui/menu-group-label'
 import { PlaybackRateButton } from 'videojs-vue/ui/playback-rate-button'
 import { PlaybackRateRadioGroup } from 'videojs-vue/ui/playback-rate-radio-group'
 import { useVideoPlayerState } from 'videojs-vue/video/composables'
@@ -59,8 +61,12 @@ function revealSelected(event: Event) {
     @open-change="revealSelected"
   >
     <MediaMenuContent :aria-label="translate('player.captions')">
-      <div class="player-menu-heading">{{ translate('player.captions') }}</div>
-      <CaptionsRadioGroup :label="translate('player.captions')" />
+      <MediaMenuGroup>
+        <MediaMenuGroupLabel class="player-menu-heading">{{
+          translate('player.captions')
+        }}</MediaMenuGroupLabel>
+        <CaptionsRadioGroup :label="translate('player.captions')" />
+      </MediaMenuGroup>
     </MediaMenuContent>
   </MediaMenu>
   <PlaybackRateButton
@@ -77,8 +83,12 @@ function revealSelected(event: Event) {
     @open-change="revealSelected"
   >
     <MediaMenuContent :aria-label="translate('player.speed')">
-      <div class="player-menu-heading">{{ translate('player.speed') }}</div>
-      <PlaybackRateRadioGroup :format-rate="formatRate" />
+      <MediaMenuGroup>
+        <MediaMenuGroupLabel class="player-menu-heading">{{
+          translate('player.speed')
+        }}</MediaMenuGroupLabel>
+        <PlaybackRateRadioGroup :format-rate="formatRate" />
+      </MediaMenuGroup>
     </MediaMenuContent>
   </MediaMenu>
 </template>
@@ -140,6 +150,7 @@ function revealSelected(event: Event) {
   display: none;
 }
 .player-menu-heading {
+  display: block;
   margin: 0 0.5rem 0.25rem;
   padding: 0.625rem 0;
   border-bottom: 1px solid #ffffff1a;

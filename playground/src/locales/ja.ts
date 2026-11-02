@@ -1,3 +1,4 @@
+import { uiComponentMessages } from '../ui-components/messages'
 import type en from './en'
 
 export default {
@@ -32,7 +33,13 @@ export default {
     mobileSettings: 'パラメーターを調整',
     close: '閉じる',
   },
+  uiComponents: uiComponentMessages['ja'],
   examples: {
+    'ui-components': {
+      title: 'UI コンポーネント',
+      description: '新しい44個の UI 部品を対話的な例で確認します。',
+      hint: '名前や分類で検索し、実際のソースを確認できます。関連部品は動作する組み合わせで表示され、パラメーターと元のイベントも調べられます。',
+    },
     'media-export': {
       title: 'スクリーンショットとダウンロード',
       description:

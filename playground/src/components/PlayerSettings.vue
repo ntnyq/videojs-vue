@@ -185,11 +185,20 @@ const booleanProps = computed(() => {
                   label="skin"
                   :options="skins"
                   :disabled="
-                    lab.example === 'custom' || lab.example === 'playlist'
+                    [
+                      'custom',
+                      'captions',
+                      'playlist',
+                      'ui-components',
+                    ].includes(lab.example)
                   "
                 />
                 <p
-                  v-if="lab.example === 'custom'"
+                  v-if="
+                    ['custom', 'captions', 'ui-components'].includes(
+                      lab.example,
+                    )
+                  "
                   class="text-xs text-muted-foreground"
                 >
                   {{ translate('settings.customSkin') }}

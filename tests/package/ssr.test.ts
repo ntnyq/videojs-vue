@@ -3,6 +3,8 @@ import { AudioPlayer as NeutralAudioPlayer } from 'videojs-vue/audio/neutral'
 import { LiveVideoPlayer } from 'videojs-vue/live'
 import { LiveVideoPlayer as DefaultLiveVideoPlayer } from 'videojs-vue/live/default'
 import { LiveVideoPlayer as NeutralLiveVideoPlayer } from 'videojs-vue/live/neutral'
+// oxlint-disable-next-line import/no-namespace -- Exercise every exported UI binding in Node.
+import * as ui from 'videojs-vue/ui'
 import { AudioTrackRadioGroup } from 'videojs-vue/ui/audio-track-radio-group'
 import { CaptionsRadioGroup } from 'videojs-vue/ui/captions-radio-group'
 import { MediaMenu } from 'videojs-vue/ui/menu'
@@ -48,6 +50,21 @@ describe('published package', () => {
     expect(html).toContain('label="Quality &lt;menu&gt;"')
     expect(html).not.toContain('format-rendition')
   })
+
+  it.each(Object.values(ui))(
+    'renders the %s UI binding without browser globals',
+    async Control => {
+      expect.hasAssertions()
+      expect(globalThis).not.toHaveProperty('document')
+      const html = await renderToString(
+        createSSRApp(() =>
+          h(Control, { 'data-test': 'ssr' }, { default: () => 'Content' }),
+        ),
+      )
+      expect(html).toContain('data-test="ssr"')
+      expect(html).toContain('Content</media-')
+    },
+  )
 
   it.each<[Component, string]>([
     [LegacyVideoPlayer, 'media-container'],

@@ -1,6 +1,7 @@
-import { readFile } from 'node:fs/promises'
+import { readdir, readFile } from 'node:fs/promises'
 // @vitest-environment node
 import { createRequire } from 'node:module'
+import path from 'node:path'
 import type {
   LiveVideoPlayerStore as UpstreamLiveVideoPlayerStore,
   VideoPlayerStore as UpstreamVideoPlayerStore,
@@ -13,6 +14,8 @@ import * as liveCore from 'videojs-vue/live/core'
 import { DefaultLiveVideoSkin } from 'videojs-vue/live/skins/default'
 import { captureVideoFrame, downloadMedia } from 'videojs-vue/media/utils'
 import type { VideoFrameOptions } from 'videojs-vue/media/utils'
+// oxlint-disable-next-line import/no-namespace -- Compare the complete aggregate API with granular entries.
+import * as ui from 'videojs-vue/ui'
 import {
   CaptionsRadioGroup as AggregateCaptionsRadioGroup,
   PlaybackRateButton as AggregatePlaybackRateButton,
@@ -27,6 +30,7 @@ import { DefaultVideoSkin } from 'videojs-vue/video/skins/default'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import playgroundPackage from '../../playground/package.json' with { type: 'json' }
+import { registrationEntries } from './entries'
 
 const require = createRequire(import.meta.url)
 
@@ -66,6 +70,39 @@ describe('published API names and paths', () => {
       `@videojs/hlsjs-video@${upstreamPackage.peerDependencies['@videojs/hlsjs-video']}`,
     )
   })
+
+  it('covers every UI entry in the installed upstream version', async () => {
+    expect.hasAssertions()
+    const upstream = await readdir(
+      path.dirname(require.resolve('@videojs/html/ui/play-button')),
+    )
+    const expected = upstream
+      .filter(file => file.endsWith('.js'))
+      .map(file => `./ui/${file.slice(0, -3)}`)
+      .toSorted()
+    expect(
+      Object.keys(packageJson.exports)
+        .filter(entry => entry.startsWith('./ui/'))
+        .toSorted(),
+    ).toStrictEqual(expected)
+    expect(Object.keys(ui)).toHaveLength(expected.length)
+  })
+
+  it.each(
+    Object.keys(registrationEntries).filter(entry => entry.startsWith('ui/')),
+  )(
+    'shares the %s component between granular and aggregate entries',
+    async entry => {
+      expect.hasAssertions()
+      const granular: Record<string, unknown> = await import(
+        `videojs-vue/${entry}`
+      )
+      expect(Object.keys(granular)).toHaveLength(1)
+      for (const [name, component] of Object.entries(granular)) {
+        expect(ui).toHaveProperty(name, component)
+      }
+    },
+  )
 
   it('shares captions and playback rate controls across aggregate and granular entries', () => {
     expect.hasAssertions()

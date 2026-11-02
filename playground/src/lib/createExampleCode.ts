@@ -1,6 +1,7 @@
 import type { ExampleId, PlaygroundConfig } from '../data'
 import mediaExportExample from '../media-export/MediaExportExample.vue?raw'
 import playlistExample from '../playlist/PlaylistExample.vue?raw'
+import uiComponentsExample from '../ui-components/UiComponentsExample.vue?raw'
 
 const EXAMPLE_APIS = {
   video: {
@@ -78,6 +79,9 @@ export function createExampleCode(
   config: PlaygroundConfig,
   actionTarget: string,
 ) {
+  if (example === 'ui-components') {
+    return uiComponentsExample
+  }
   if (example === 'playlist') {
     return playlistExample
   }

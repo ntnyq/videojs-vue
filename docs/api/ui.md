@@ -1,5 +1,5 @@
 ---
-description: Exported layout components, buttons, sliders, hotkeys, and accessibility helpers.
+description: All 72 upstream UI entries with Vue bindings, typed properties, and granular imports.
 ---
 
 # UI controls
@@ -29,7 +29,7 @@ Server rendering includes string and number props and enabled Boolean attributes
 
 ## Buttons
 
-All buttons accept optional `disabled: boolean` and `label: string` props.
+All buttons accept optional `disabled: boolean` and `label: PlayButtonElement['label']` props (plain text or an upstream translation descriptor). `AirPlayButton` and `CastButton` use the upstream remote playback capability; availability depends on the browser and media adapter. The Cast button does not install or configure a Cast provider.
 
 | Component            | Additional props     | Action                                      |
 | -------------------- | -------------------- | ------------------------------------------- |
@@ -59,6 +59,8 @@ Placement and boundary types follow upstream `MenuElement`. These wrappers pass 
 See [quality and audio selection](../examples/media-selection.md) for menu composition, styles, state selectors, and source limitations.
 
 ## Captions and playback speed
+
+`CaptionsButton` additionally accepts `commandfor: string` and `menuFor: string`. `menuFor` enables the upstream adaptive captions trigger behavior when multiple tracks are available; use a native button with `commandfor` for a menu-only trigger.
 
 `CaptionsRadioGroup` generates an Off item and one item per captions or subtitles track. It accepts optional `disabled`, `label`, and `formatTrack: CaptionsRadioGroupElement['formatTrack']` props. Provide tracks through the media component's `tracks` prop or native `<track>` children. The group and its menu trigger hide when no caption or subtitle tracks are available.
 
@@ -150,7 +152,7 @@ All props are optional and retain upstream defaults when omitted.
 | `largeStep`   | `number`                                    |
 | `orientation` | Upstream `TimeSliderElement['orientation']` |
 
-`TimeSlider` additionally accepts `pauseOnDrag: boolean` and `changeThrottle: number`.
+`TimeSlider` additionally accepts `pauseOnDrag: boolean` and `changeThrottle: number`. Both sliders accept `thumbAlignment: 'center' | 'edge'`; `VolumeSlider` also accepts `wheelStep: number`. `MediaSlider` is the generic slider with these shared props plus `value`, `min`, and `max` numeric properties. It forwards `@value-change` without translating it into Vue `v-model`.
 
 Build slider visuals with `SliderTrack`, `SliderBuffer`, `SliderFill`, and `SliderThumb`. These parts have no declared Vue props. Supply their layout and appearance with CSS.
 
@@ -168,6 +170,81 @@ Listeners such as `@drag-start` and `@drag-end` receive the upstream custom even
 
 All props are optional. Accepted action and target values follow the installed upstream types.
 
+## Compound components
+
+Every official `@videojs/html@10.0.1` UI entry has a corresponding Vue binding. These components share the same default-slot, DOM-property, attribute, event, and default-restoration contract described above. Event payloads remain upstream `CustomEvent` objects; read `event.detail` and update controlled props explicitly.
+
+| Components                                                                                             | Optional declared props                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `MediaControlsBackdrop`, `MediaTitle`, `TimeGroup`, `TimeSeparator`                                    | None                                                                                                                                      |
+| `MediaPopover`, `VolumePopover`                                                                        | `open`, `defaultOpen`, `side`, `align`, `boundary`, `modal`, `closeOnEscape`, `closeOnOutsideClick`, `openOnHover`, `delay`, `closeDelay` |
+| `Tooltip`                                                                                              | `open`, `defaultOpen`, `side`, `align`, `boundary`, `delay`, `closeDelay`, `disableHoverablePopup`, `disabled`, `sticky`, `trigger`       |
+| `TooltipGroup`                                                                                         | `delay`, `closeDelay`, `timeout`                                                                                                          |
+| `TooltipLabel`, `TooltipShortcut`                                                                      | None                                                                                                                                      |
+| `SliderPreview`                                                                                        | `overflow: SliderPreviewElement['overflow']`                                                                                              |
+| `SliderValue`                                                                                          | `type: 'current' \| 'pointer'`                                                                                                            |
+| `Thumbnail`, `SliderThumbnail`                                                                         | `time`, `thumbnails: ThumbnailElement['thumbnails']`, `crossOrigin`, `loading`, `fetchPriority`                                           |
+| `TimeSliderChapters`, `TimeSliderChapterTitle`                                                         | None                                                                                                                                      |
+| `BufferingIndicator`                                                                                   | `delay`                                                                                                                                   |
+| `SeekIndicator`, `VolumeIndicator`                                                                     | `closeDelay`                                                                                                                              |
+| `StatusIndicator`                                                                                      | `actions`, `closeDelay`, `deriveCustomStatus: StatusIndicatorElement['deriveCustomStatus']`                                               |
+| `SeekIndicatorValue`, `StatusIndicatorValue`, `VolumeIndicatorFill`, `VolumeIndicatorValue`            | None                                                                                                                                      |
+| `MediaGesture`                                                                                         | `type`, `action`, `value`, `pointer`, `region`, `disabled` (types follow `GestureElement`)                                                |
+| `MediaMenuItem`                                                                                        | `disabled`, `commandfor`                                                                                                                  |
+| `MediaMenuCheckboxItem`                                                                                | `checked`, `disabled`                                                                                                                     |
+| `MediaMenuRadioGroup`                                                                                  | `value`                                                                                                                                   |
+| `MediaMenuRadioItem`                                                                                   | `value`, `disabled`                                                                                                                       |
+| `MediaMenuItemIndicator`                                                                               | `checked`, `forceMount`                                                                                                                   |
+| `MediaMenuGroup`, `MediaMenuGroupLabel`, `MediaMenuSeparator`                                          | None                                                                                                                                      |
+| `MediaDialog`, `AlertDialog`                                                                           | `open`, `defaultOpen`, `closeOnEscape`                                                                                                    |
+| `MediaDialogClose`                                                                                     | `disabled`                                                                                                                                |
+| `ErrorDialog`, `MediaDialogBackdrop`, `MediaDialogPopup`, `MediaDialogTitle`, `MediaDialogDescription` | None                                                                                                                                      |
+
+Placement types follow upstream `PopoverElement`. Boolean props are optional; omitting them preserves upstream defaults, including defaults that are `true`. Numeric delay values are milliseconds. Thumbnail image policies and gesture actions use their upstream indexed types.
+
+### Composition requirements
+
+- Put popovers, menus, tooltips, gestures, and feedback inside the player, preferably inside `MediaContainer` so they participate in fullscreen and activity tracking.
+- Place `Tooltip` after its trigger or set `trigger` to the trigger's ID. `TooltipGroup` shares hover timing. An empty tooltip generates its label and shortcut from an official button; its granular entry registers those generated parts. Author `TooltipLabel` and `TooltipShortcut` to style them explicitly.
+- Put `SliderPreview` inside a slider and `SliderValue type="pointer"` inside the preview. `SliderThumbnail` follows slider pointer time; `Thumbnail` displays a supplied `time`. Provide thumbnail metadata through a thumbnails text track or the `thumbnails` array. Style preview visibility with `data-pointing` and `data-dragging`.
+- `TimeSliderChapters` uses a child `<template>` for each generated chapter segment. `TimeSliderChapterTitle` belongs inside a time slider and displays the chapter at its current pointer or keyboard position. Supply a chapters text track. In Vue, populate the native template with trusted static markup via `<template v-html="chapterMarkup" />`; the template must contain exactly one HTML root element. Ordinary Vue children of a template are not its inert `content`.
+- Compose `SeekIndicatorValue` inside `SeekIndicator`, `StatusIndicatorValue` inside `StatusIndicator`, and `VolumeIndicatorFill` / `VolumeIndicatorValue` inside `VolumeIndicator`. These read upstream action feedback; they do not add gestures or hotkeys themselves. `BufferingIndicator` uses `data-visible` for delayed buffering feedback.
+- Use `MediaMenuGroup` with `MediaMenuGroupLabel` for automatically linked accessible group names. Radio items belong inside `MediaMenuRadioGroup`, nested within `MediaMenuContent`. Selection fires `@value-change`; checkbox items fire `@checked-change` and leave the menu open. `MediaMenuItemIndicator` takes explicit `checked` state.
+- Compose dialog parts inside `MediaDialog`, `AlertDialog`, or `ErrorDialog`. `MediaDialogPopup` owns the dialog surface; title and description register accessible names, and `MediaDialogClose` closes the dialog. `ErrorDialog` follows the player's error state; it needs authored dialog parts and styles. Empty title, description, and close parts receive upstream translated error copy.
+
+```vue
+<TimeSlider>
+  <SliderTrack><SliderBuffer /><SliderFill /></SliderTrack>
+  <SliderThumb />
+  <SliderPreview>
+    <SliderThumbnail />
+    <SliderValue type="pointer" />
+    <TimeSliderChapterTitle />
+  </SliderPreview>
+</TimeSlider>
+
+<ErrorDialog>
+  <MediaDialogBackdrop />
+  <MediaDialogPopup>
+    <MediaDialogTitle />
+    <MediaDialogDescription />
+    <MediaDialogClose />
+  </MediaDialogPopup>
+</ErrorDialog>
+```
+
+Import every part rendered in these snippets, then add CSS for their layout and state-based visibility. An empty binding does not provide a styled widget. See the [official UI anatomy](https://videojs.org/docs/framework/html/guides/ui-components) for each compound component.
+
+### Playground component catalog
+
+Choose **UI components** in the Playground navigation to explore all 44 additions. Select a component, filter by category, search its name or entry, or use Previous / Next to step through the list. Related parts share nine interactive recipes with controls, reset, exact source, and original custom events in the event log.
+
+The recipes include local chapter and diagnostic thumbnail fixtures, keyboard and gesture feedback, native media error/recovery, and real remote playback availability. Expand the source view for the recipe and its shared player, styles, types, and fixtures. Thumbnail images are labeled test illustrations rather than frames of the demo video; casting requires compatible devices and a provider.
+
+### Existing interface choices
+
+The playground's custom controls use official buffering feedback, slider preview/value, and accessible menu groups. Legacy uses official playback controls and time grouping; its native playback-speed select stays native to preserve the Chrome 90 path without popover dependencies. External playground settings and action panels retain their application form controls and explicitly targeted player commands.
+
 ## Styling and accessibility
 
 The wrappers preserve upstream keyboard behavior, accessible labels, and state attributes. Keep visible focus styles, give custom controls understandable text, and include `StatusAnnouncer` when assembling a complete interface.
@@ -180,30 +257,75 @@ Each entry registers only its own control and upstream dependencies. Use these p
 
 | Component                | Import path                                |
 | ------------------------ | ------------------------------------------ |
+| `AirPlayButton`          | `videojs-vue/ui/airplay-button`            |
+| `AlertDialog`            | `videojs-vue/ui/alert-dialog`              |
+| `AudioTrackRadioGroup`   | `videojs-vue/ui/audio-track-radio-group`   |
+| `BufferingIndicator`     | `videojs-vue/ui/buffering-indicator`       |
 | `CaptionsButton`         | `videojs-vue/ui/captions-button`           |
 | `CaptionsRadioGroup`     | `videojs-vue/ui/captions-radio-group`      |
-| `PlaybackRateButton`     | `videojs-vue/ui/playback-rate-button`      |
-| `PlaybackRateRadioGroup` | `videojs-vue/ui/playback-rate-radio-group` |
-| `AudioTrackRadioGroup`   | `videojs-vue/ui/audio-track-radio-group`   |
-| `QualityRadioGroup`      | `videojs-vue/ui/quality-radio-group`       |
-| `MediaMenu`              | `videojs-vue/ui/menu`                      |
-| `MediaMenuContent`       | `videojs-vue/ui/menu-content`              |
-| `FullscreenButton`       | `videojs-vue/ui/fullscreen-button`         |
-| `Hotkey`                 | `videojs-vue/ui/hotkey`                    |
+| `CastButton`             | `videojs-vue/ui/cast-button`               |
 | `MediaContainer`         | `videojs-vue/ui/container`                 |
 | `MediaControls`          | `videojs-vue/ui/controls`                  |
+| `MediaControlsBackdrop`  | `videojs-vue/ui/controls-backdrop`         |
 | `MediaControlsContent`   | `videojs-vue/ui/controls-content`          |
 | `MediaControlsGroup`     | `videojs-vue/ui/controls-group`            |
+| `MediaDialog`            | `videojs-vue/ui/dialog`                    |
+| `MediaDialogBackdrop`    | `videojs-vue/ui/dialog-backdrop`           |
+| `MediaDialogClose`       | `videojs-vue/ui/dialog-close`              |
+| `MediaDialogDescription` | `videojs-vue/ui/dialog-description`        |
+| `MediaDialogPopup`       | `videojs-vue/ui/dialog-popup`              |
+| `MediaDialogTitle`       | `videojs-vue/ui/dialog-title`              |
+| `ErrorDialog`            | `videojs-vue/ui/error-dialog`              |
+| `FullscreenButton`       | `videojs-vue/ui/fullscreen-button`         |
+| `MediaGesture`           | `videojs-vue/ui/gesture`                   |
+| `Hotkey`                 | `videojs-vue/ui/hotkey`                    |
+| `LiveButton`             | `videojs-vue/ui/live-button`               |
+| `MediaMenu`              | `videojs-vue/ui/menu`                      |
+| `MediaMenuCheckboxItem`  | `videojs-vue/ui/menu-checkbox-item`        |
+| `MediaMenuContent`       | `videojs-vue/ui/menu-content`              |
+| `MediaMenuGroup`         | `videojs-vue/ui/menu-group`                |
+| `MediaMenuGroupLabel`    | `videojs-vue/ui/menu-group-label`          |
+| `MediaMenuItem`          | `videojs-vue/ui/menu-item`                 |
+| `MediaMenuItemIndicator` | `videojs-vue/ui/menu-item-indicator`       |
+| `MediaMenuRadioGroup`    | `videojs-vue/ui/menu-radio-group`          |
+| `MediaMenuRadioItem`     | `videojs-vue/ui/menu-radio-item`           |
+| `MediaMenuSeparator`     | `videojs-vue/ui/menu-separator`            |
 | `MuteButton`             | `videojs-vue/ui/mute-button`               |
 | `PiPButton`              | `videojs-vue/ui/pip-button`                |
 | `PlayButton`             | `videojs-vue/ui/play-button`               |
+| `PlaybackRateButton`     | `videojs-vue/ui/playback-rate-button`      |
+| `PlaybackRateRadioGroup` | `videojs-vue/ui/playback-rate-radio-group` |
+| `MediaPopover`           | `videojs-vue/ui/popover`                   |
 | `Poster`                 | `videojs-vue/ui/poster`                    |
+| `QualityRadioGroup`      | `videojs-vue/ui/quality-radio-group`       |
 | `SeekButton`             | `videojs-vue/ui/seek-button`               |
+| `SeekIndicator`          | `videojs-vue/ui/seek-indicator`            |
+| `SeekIndicatorValue`     | `videojs-vue/ui/seek-indicator-value`      |
+| `MediaSlider`            | `videojs-vue/ui/slider`                    |
 | `SliderBuffer`           | `videojs-vue/ui/slider-buffer`             |
 | `SliderFill`             | `videojs-vue/ui/slider-fill`               |
+| `SliderPreview`          | `videojs-vue/ui/slider-preview`            |
 | `SliderThumb`            | `videojs-vue/ui/slider-thumb`              |
+| `SliderThumbnail`        | `videojs-vue/ui/slider-thumbnail`          |
 | `SliderTrack`            | `videojs-vue/ui/slider-track`              |
+| `SliderValue`            | `videojs-vue/ui/slider-value`              |
 | `StatusAnnouncer`        | `videojs-vue/ui/status-announcer`          |
+| `StatusIndicator`        | `videojs-vue/ui/status-indicator`          |
+| `StatusIndicatorValue`   | `videojs-vue/ui/status-indicator-value`    |
+| `Thumbnail`              | `videojs-vue/ui/thumbnail`                 |
 | `Time`                   | `videojs-vue/ui/time`                      |
+| `TimeGroup`              | `videojs-vue/ui/time-group`                |
+| `TimeSeparator`          | `videojs-vue/ui/time-separator`            |
 | `TimeSlider`             | `videojs-vue/ui/time-slider`               |
+| `TimeSliderChapterTitle` | `videojs-vue/ui/time-slider-chapter-title` |
+| `TimeSliderChapters`     | `videojs-vue/ui/time-slider-chapters`      |
+| `MediaTitle`             | `videojs-vue/ui/title`                     |
+| `Tooltip`                | `videojs-vue/ui/tooltip`                   |
+| `TooltipGroup`           | `videojs-vue/ui/tooltip-group`             |
+| `TooltipLabel`           | `videojs-vue/ui/tooltip-label`             |
+| `TooltipShortcut`        | `videojs-vue/ui/tooltip-shortcut`          |
+| `VolumeIndicator`        | `videojs-vue/ui/volume-indicator`          |
+| `VolumeIndicatorFill`    | `videojs-vue/ui/volume-indicator-fill`     |
+| `VolumeIndicatorValue`   | `videojs-vue/ui/volume-indicator-value`    |
+| `VolumePopover`          | `videojs-vue/ui/volume-popover`            |
 | `VolumeSlider`           | `videojs-vue/ui/volume-slider`             |

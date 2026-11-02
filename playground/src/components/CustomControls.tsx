@@ -6,6 +6,7 @@ import {
   Volume2,
   VolumeX,
 } from '@lucide/vue'
+import { BufferingIndicator } from 'videojs-vue/ui/buffering-indicator'
 import { MediaControls } from 'videojs-vue/ui/controls'
 import { MediaControlsContent } from 'videojs-vue/ui/controls-content'
 import { FullscreenButton } from 'videojs-vue/ui/fullscreen-button'
@@ -15,8 +16,10 @@ import { PiPButton } from 'videojs-vue/ui/pip-button'
 import { PlayButton } from 'videojs-vue/ui/play-button'
 import { SliderBuffer } from 'videojs-vue/ui/slider-buffer'
 import { SliderFill } from 'videojs-vue/ui/slider-fill'
+import { SliderPreview } from 'videojs-vue/ui/slider-preview'
 import { SliderThumb } from 'videojs-vue/ui/slider-thumb'
 import { SliderTrack } from 'videojs-vue/ui/slider-track'
+import { SliderValue } from 'videojs-vue/ui/slider-value'
 import { StatusAnnouncer } from 'videojs-vue/ui/status-announcer'
 import { Time } from 'videojs-vue/ui/time'
 import { TimeSlider } from 'videojs-vue/ui/time-slider'
@@ -53,6 +56,12 @@ export const CustomControls = defineComponent({
           value={-10}
         />
         <StatusAnnouncer class='sr-only' />
+        <BufferingIndicator class='pointer-events-none absolute inset-0 hidden items-center justify-center [&[data-visible]]:flex'>
+          <span
+            class='size-10 animate-spin rounded-full border-2 border-white/30 border-t-white'
+            aria-hidden='true'
+          />
+        </BufferingIndicator>
         <MediaControls visibility='always'>
           <MediaControlsContent class='absolute inset-x-2 bottom-2 flex items-center gap-0.5 rounded-full border border-white/15 bg-[#202326]/85 px-1 text-white shadow-lg backdrop-blur-xl sm:inset-x-4 sm:bottom-4 sm:px-2'>
             <PlayButton
@@ -100,6 +109,9 @@ export const CustomControls = defineComponent({
               <SliderBuffer class='absolute left-0 h-1 w-[var(--media-slider-buffer)] rounded bg-white/40' />
               <SliderFill class='absolute left-0 h-1 w-[var(--media-slider-fill)] rounded bg-white' />
               <SliderThumb class='absolute left-[var(--media-slider-fill)] size-3 -translate-x-1/2 rounded-full bg-white' />
+              <SliderPreview class='pointer-events-none absolute bottom-full mb-2 hidden rounded-lg bg-black/85 px-2 py-1 text-xs tabular-nums [&[data-pointing]]:block [&[data-dragging]]:block'>
+                <SliderValue type='pointer' />
+              </SliderPreview>
             </TimeSlider>
             <Time
               type='duration'

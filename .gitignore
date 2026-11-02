@@ -18,6 +18,7 @@ output/
 *.tsbuildinfo
 
 **/.vitepress/cache
+**/.vitepress/.temp
 
 # Generated API Reference
 docs/reference/api/

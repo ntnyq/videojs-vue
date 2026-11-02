@@ -1,3 +1,5 @@
+import { uiComponentMessages } from '../ui-components/messages'
+
 const en = {
   app: {
     playerType: 'Player type',
@@ -29,7 +31,13 @@ const en = {
     mobileSettings: 'Adjust parameters',
     close: 'Close',
   },
+  uiComponents: uiComponentMessages['en'],
   examples: {
+    'ui-components': {
+      title: 'UI components',
+      description: 'Explore all 44 new UI bindings with interactive recipes.',
+      hint: 'Search by component name, choose a category, and view the exact recipe source. Related parts share a complete working composition; parameter changes and original custom events remain inspectable.',
+    },
     'media-export': {
       title: 'Screenshots & downloads',
       description: 'Save a native video frame or download the MP4 file.',

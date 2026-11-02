@@ -68,6 +68,7 @@ for (const example of [
   'LiveDemo.tsx',
   'PlaylistDemo.tsx',
   'CustomPlayerDemo.tsx',
+  'UiComponentsDemo.tsx',
   'media/hls.js',
 ]) {
   const key = asyncEntries.find(entry => entry.endsWith(example))

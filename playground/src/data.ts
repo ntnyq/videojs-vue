@@ -11,6 +11,7 @@ export const LIVE_SOURCE =
 export const POSTER =
   'https://image.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/thumbnail.jpg'
 export const EXAMPLES = [
+  { id: 'ui-components', group: 'api', icon: 'sliders' },
   {
     id: 'audio',
     group: 'playback',

@@ -48,78 +48,21 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "./package.json": "./package.json",
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "./i18n": {
-      "types": "./dist/i18n/index.d.ts",
-      "default": "./dist/i18n/index.js"
-    },
-    "./media/hls": {
-      "types": "./dist/media/hls.d.ts",
-      "default": "./dist/media/hls.js"
-    },
-    "./media/utils": {
-      "types": "./dist/media/utils.d.ts",
-      "default": "./dist/media/utils.js"
-    },
-    "./ui": {
-      "types": "./dist/ui/index.d.ts",
-      "default": "./dist/ui/index.js"
     },
     "./audio": {
       "types": "./dist/audio/index.d.ts",
       "default": "./dist/audio/index.js"
     },
-    "./video/core": {
-      "types": "./dist/video/core.d.ts",
-      "default": "./dist/video/core.js"
-    },
-    "./video/composables": {
-      "types": "./dist/video/composables.d.ts",
-      "default": "./dist/video/composables.js"
-    },
-    "./audio/core": {
-      "types": "./dist/audio/core.d.ts",
-      "default": "./dist/audio/core.js"
-    },
     "./audio/composables": {
       "types": "./dist/audio/composables.d.ts",
       "default": "./dist/audio/composables.js"
     },
-    "./video/skins/compat": {
-      "types": "./dist/video/skins/compat.d.ts",
-      "default": "./dist/video/skins/compat.js"
-    },
-    "./video/skins/default": {
-      "types": "./dist/video/skins/default.d.ts",
-      "default": "./dist/video/skins/default.js"
-    },
-    "./video/skins/neutral": {
-      "types": "./dist/video/skins/neutral.d.ts",
-      "default": "./dist/video/skins/neutral.js"
-    },
-    "./audio/skins/default": {
-      "types": "./dist/audio/skins/default.d.ts",
-      "default": "./dist/audio/skins/default.js"
-    },
-    "./audio/skins/neutral": {
-      "types": "./dist/audio/skins/neutral.d.ts",
-      "default": "./dist/audio/skins/neutral.js"
-    },
-    "./video/compat": {
-      "types": "./dist/video/compat.d.ts",
-      "default": "./dist/video/compat.js"
-    },
-    "./video/default": {
-      "types": "./dist/video/default.d.ts",
-      "default": "./dist/video/default.js"
-    },
-    "./video/neutral": {
-      "types": "./dist/video/neutral.d.ts",
-      "default": "./dist/video/neutral.js"
+    "./audio/core": {
+      "types": "./dist/audio/core.d.ts",
+      "default": "./dist/audio/core.js"
     },
     "./audio/default": {
       "types": "./dist/audio/default.d.ts",
@@ -129,138 +72,29 @@
       "types": "./dist/audio/neutral.d.ts",
       "default": "./dist/audio/neutral.js"
     },
-    "./ui/controls-group": {
-      "types": "./dist/ui/controls-group.d.ts",
-      "default": "./dist/ui/controls-group.js"
+    "./audio/skins/default": {
+      "types": "./dist/audio/skins/default.d.ts",
+      "default": "./dist/audio/skins/default.js"
     },
-    "./ui/slider-fill": {
-      "types": "./dist/ui/slider-fill.d.ts",
-      "default": "./dist/ui/slider-fill.js"
+    "./audio/skins/neutral": {
+      "types": "./dist/audio/skins/neutral.d.ts",
+      "default": "./dist/audio/skins/neutral.js"
     },
-    "./ui/controls": {
-      "types": "./dist/ui/controls.d.ts",
-      "default": "./dist/ui/controls.js"
-    },
-    "./ui/controls-content": {
-      "types": "./dist/ui/controls-content.d.ts",
-      "default": "./dist/ui/controls-content.js"
-    },
-    "./ui/pip-button": {
-      "types": "./dist/ui/pip-button.d.ts",
-      "default": "./dist/ui/pip-button.js"
-    },
-    "./ui/container": {
-      "types": "./dist/ui/container.d.ts",
-      "default": "./dist/ui/container.js"
-    },
-    "./ui/fullscreen-button": {
-      "types": "./dist/ui/fullscreen-button.d.ts",
-      "default": "./dist/ui/fullscreen-button.js"
-    },
-    "./ui/poster": {
-      "types": "./dist/ui/poster.d.ts",
-      "default": "./dist/ui/poster.js"
-    },
-    "./ui/seek-button": {
-      "types": "./dist/ui/seek-button.d.ts",
-      "default": "./dist/ui/seek-button.js"
-    },
-    "./ui/play-button": {
-      "types": "./dist/ui/play-button.d.ts",
-      "default": "./dist/ui/play-button.js"
-    },
-    "./ui/slider-thumb": {
-      "types": "./dist/ui/slider-thumb.d.ts",
-      "default": "./dist/ui/slider-thumb.js"
-    },
-    "./ui/mute-button": {
-      "types": "./dist/ui/mute-button.d.ts",
-      "default": "./dist/ui/mute-button.js"
-    },
-    "./ui/slider-track": {
-      "types": "./dist/ui/slider-track.d.ts",
-      "default": "./dist/ui/slider-track.js"
-    },
-    "./ui/slider-buffer": {
-      "types": "./dist/ui/slider-buffer.d.ts",
-      "default": "./dist/ui/slider-buffer.js"
-    },
-    "./ui/volume-slider": {
-      "types": "./dist/ui/volume-slider.d.ts",
-      "default": "./dist/ui/volume-slider.js"
-    },
-    "./ui/status-announcer": {
-      "types": "./dist/ui/status-announcer.d.ts",
-      "default": "./dist/ui/status-announcer.js"
-    },
-    "./ui/hotkey": {
-      "types": "./dist/ui/hotkey.d.ts",
-      "default": "./dist/ui/hotkey.js"
-    },
-    "./ui/time-slider": {
-      "types": "./dist/ui/time-slider.d.ts",
-      "default": "./dist/ui/time-slider.js"
-    },
-    "./ui/time": {
-      "types": "./dist/ui/time.d.ts",
-      "default": "./dist/ui/time.js"
-    },
-    "./ui/captions-button": {
-      "types": "./dist/ui/captions-button.d.ts",
-      "default": "./dist/ui/captions-button.js"
-    },
-    "./ui/captions-radio-group": {
-      "types": "./dist/ui/captions-radio-group.d.ts",
-      "default": "./dist/ui/captions-radio-group.js"
-    },
-    "./ui/playback-rate-button": {
-      "types": "./dist/ui/playback-rate-button.d.ts",
-      "default": "./dist/ui/playback-rate-button.js"
-    },
-    "./ui/playback-rate-radio-group": {
-      "types": "./dist/ui/playback-rate-radio-group.d.ts",
-      "default": "./dist/ui/playback-rate-radio-group.js"
-    },
-    "./video/legacy": {
-      "types": "./dist/video/legacy.d.ts",
-      "default": "./dist/video/legacy.js"
-    },
-    "./video/skins/legacy": {
-      "types": "./dist/video/skins/legacy.d.ts",
-      "default": "./dist/video/skins/legacy.js"
-    },
-    "./polyfills": {
-      "types": "./dist/polyfills.d.ts",
-      "default": "./dist/polyfills.js"
-    },
-    "./video/skins/legacy.css": "./dist/video/skins/legacy.css",
-    "./ui/menu": {
-      "types": "./dist/ui/menu.d.ts",
-      "default": "./dist/ui/menu.js"
-    },
-    "./ui/menu-content": {
-      "types": "./dist/ui/menu-content.d.ts",
-      "default": "./dist/ui/menu-content.js"
-    },
-    "./ui/quality-radio-group": {
-      "types": "./dist/ui/quality-radio-group.d.ts",
-      "default": "./dist/ui/quality-radio-group.js"
-    },
-    "./ui/audio-track-radio-group": {
-      "types": "./dist/ui/audio-track-radio-group.d.ts",
-      "default": "./dist/ui/audio-track-radio-group.js"
+    "./i18n": {
+      "types": "./dist/i18n/index.d.ts",
+      "default": "./dist/i18n/index.js"
     },
     "./live": {
       "types": "./dist/live/index.d.ts",
       "default": "./dist/live/index.js"
     },
-    "./live/core": {
-      "types": "./dist/live/core.d.ts",
-      "default": "./dist/live/core.js"
-    },
     "./live/composables": {
       "types": "./dist/live/composables.d.ts",
       "default": "./dist/live/composables.js"
+    },
+    "./live/core": {
+      "types": "./dist/live/core.d.ts",
+      "default": "./dist/live/core.js"
     },
     "./live/default": {
       "types": "./dist/live/default.d.ts",
@@ -278,9 +112,351 @@
       "types": "./dist/live/skins/neutral.d.ts",
       "default": "./dist/live/skins/neutral.js"
     },
+    "./media/hls": {
+      "types": "./dist/media/hls.d.ts",
+      "default": "./dist/media/hls.js"
+    },
+    "./media/utils": {
+      "types": "./dist/media/utils.d.ts",
+      "default": "./dist/media/utils.js"
+    },
+    "./package.json": "./package.json",
+    "./polyfills": {
+      "types": "./dist/polyfills.d.ts",
+      "default": "./dist/polyfills.js"
+    },
+    "./ui": {
+      "types": "./dist/ui/index.d.ts",
+      "default": "./dist/ui/index.js"
+    },
+    "./ui/airplay-button": {
+      "types": "./dist/ui/airplay-button.d.ts",
+      "default": "./dist/ui/airplay-button.js"
+    },
+    "./ui/alert-dialog": {
+      "types": "./dist/ui/alert-dialog.d.ts",
+      "default": "./dist/ui/alert-dialog.js"
+    },
+    "./ui/audio-track-radio-group": {
+      "types": "./dist/ui/audio-track-radio-group.d.ts",
+      "default": "./dist/ui/audio-track-radio-group.js"
+    },
+    "./ui/buffering-indicator": {
+      "types": "./dist/ui/buffering-indicator.d.ts",
+      "default": "./dist/ui/buffering-indicator.js"
+    },
+    "./ui/captions-button": {
+      "types": "./dist/ui/captions-button.d.ts",
+      "default": "./dist/ui/captions-button.js"
+    },
+    "./ui/captions-radio-group": {
+      "types": "./dist/ui/captions-radio-group.d.ts",
+      "default": "./dist/ui/captions-radio-group.js"
+    },
+    "./ui/cast-button": {
+      "types": "./dist/ui/cast-button.d.ts",
+      "default": "./dist/ui/cast-button.js"
+    },
+    "./ui/container": {
+      "types": "./dist/ui/container.d.ts",
+      "default": "./dist/ui/container.js"
+    },
+    "./ui/controls": {
+      "types": "./dist/ui/controls.d.ts",
+      "default": "./dist/ui/controls.js"
+    },
+    "./ui/controls-backdrop": {
+      "types": "./dist/ui/controls-backdrop.d.ts",
+      "default": "./dist/ui/controls-backdrop.js"
+    },
+    "./ui/controls-content": {
+      "types": "./dist/ui/controls-content.d.ts",
+      "default": "./dist/ui/controls-content.js"
+    },
+    "./ui/controls-group": {
+      "types": "./dist/ui/controls-group.d.ts",
+      "default": "./dist/ui/controls-group.js"
+    },
+    "./ui/dialog": {
+      "types": "./dist/ui/dialog.d.ts",
+      "default": "./dist/ui/dialog.js"
+    },
+    "./ui/dialog-backdrop": {
+      "types": "./dist/ui/dialog-backdrop.d.ts",
+      "default": "./dist/ui/dialog-backdrop.js"
+    },
+    "./ui/dialog-close": {
+      "types": "./dist/ui/dialog-close.d.ts",
+      "default": "./dist/ui/dialog-close.js"
+    },
+    "./ui/dialog-description": {
+      "types": "./dist/ui/dialog-description.d.ts",
+      "default": "./dist/ui/dialog-description.js"
+    },
+    "./ui/dialog-popup": {
+      "types": "./dist/ui/dialog-popup.d.ts",
+      "default": "./dist/ui/dialog-popup.js"
+    },
+    "./ui/dialog-title": {
+      "types": "./dist/ui/dialog-title.d.ts",
+      "default": "./dist/ui/dialog-title.js"
+    },
+    "./ui/error-dialog": {
+      "types": "./dist/ui/error-dialog.d.ts",
+      "default": "./dist/ui/error-dialog.js"
+    },
+    "./ui/fullscreen-button": {
+      "types": "./dist/ui/fullscreen-button.d.ts",
+      "default": "./dist/ui/fullscreen-button.js"
+    },
+    "./ui/gesture": {
+      "types": "./dist/ui/gesture.d.ts",
+      "default": "./dist/ui/gesture.js"
+    },
+    "./ui/hotkey": {
+      "types": "./dist/ui/hotkey.d.ts",
+      "default": "./dist/ui/hotkey.js"
+    },
     "./ui/live-button": {
       "types": "./dist/ui/live-button.d.ts",
       "default": "./dist/ui/live-button.js"
+    },
+    "./ui/menu": {
+      "types": "./dist/ui/menu.d.ts",
+      "default": "./dist/ui/menu.js"
+    },
+    "./ui/menu-checkbox-item": {
+      "types": "./dist/ui/menu-checkbox-item.d.ts",
+      "default": "./dist/ui/menu-checkbox-item.js"
+    },
+    "./ui/menu-content": {
+      "types": "./dist/ui/menu-content.d.ts",
+      "default": "./dist/ui/menu-content.js"
+    },
+    "./ui/menu-group": {
+      "types": "./dist/ui/menu-group.d.ts",
+      "default": "./dist/ui/menu-group.js"
+    },
+    "./ui/menu-group-label": {
+      "types": "./dist/ui/menu-group-label.d.ts",
+      "default": "./dist/ui/menu-group-label.js"
+    },
+    "./ui/menu-item": {
+      "types": "./dist/ui/menu-item.d.ts",
+      "default": "./dist/ui/menu-item.js"
+    },
+    "./ui/menu-item-indicator": {
+      "types": "./dist/ui/menu-item-indicator.d.ts",
+      "default": "./dist/ui/menu-item-indicator.js"
+    },
+    "./ui/menu-radio-group": {
+      "types": "./dist/ui/menu-radio-group.d.ts",
+      "default": "./dist/ui/menu-radio-group.js"
+    },
+    "./ui/menu-radio-item": {
+      "types": "./dist/ui/menu-radio-item.d.ts",
+      "default": "./dist/ui/menu-radio-item.js"
+    },
+    "./ui/menu-separator": {
+      "types": "./dist/ui/menu-separator.d.ts",
+      "default": "./dist/ui/menu-separator.js"
+    },
+    "./ui/mute-button": {
+      "types": "./dist/ui/mute-button.d.ts",
+      "default": "./dist/ui/mute-button.js"
+    },
+    "./ui/pip-button": {
+      "types": "./dist/ui/pip-button.d.ts",
+      "default": "./dist/ui/pip-button.js"
+    },
+    "./ui/play-button": {
+      "types": "./dist/ui/play-button.d.ts",
+      "default": "./dist/ui/play-button.js"
+    },
+    "./ui/playback-rate-button": {
+      "types": "./dist/ui/playback-rate-button.d.ts",
+      "default": "./dist/ui/playback-rate-button.js"
+    },
+    "./ui/playback-rate-radio-group": {
+      "types": "./dist/ui/playback-rate-radio-group.d.ts",
+      "default": "./dist/ui/playback-rate-radio-group.js"
+    },
+    "./ui/popover": {
+      "types": "./dist/ui/popover.d.ts",
+      "default": "./dist/ui/popover.js"
+    },
+    "./ui/poster": {
+      "types": "./dist/ui/poster.d.ts",
+      "default": "./dist/ui/poster.js"
+    },
+    "./ui/quality-radio-group": {
+      "types": "./dist/ui/quality-radio-group.d.ts",
+      "default": "./dist/ui/quality-radio-group.js"
+    },
+    "./ui/seek-button": {
+      "types": "./dist/ui/seek-button.d.ts",
+      "default": "./dist/ui/seek-button.js"
+    },
+    "./ui/seek-indicator": {
+      "types": "./dist/ui/seek-indicator.d.ts",
+      "default": "./dist/ui/seek-indicator.js"
+    },
+    "./ui/seek-indicator-value": {
+      "types": "./dist/ui/seek-indicator-value.d.ts",
+      "default": "./dist/ui/seek-indicator-value.js"
+    },
+    "./ui/slider": {
+      "types": "./dist/ui/slider.d.ts",
+      "default": "./dist/ui/slider.js"
+    },
+    "./ui/slider-buffer": {
+      "types": "./dist/ui/slider-buffer.d.ts",
+      "default": "./dist/ui/slider-buffer.js"
+    },
+    "./ui/slider-fill": {
+      "types": "./dist/ui/slider-fill.d.ts",
+      "default": "./dist/ui/slider-fill.js"
+    },
+    "./ui/slider-preview": {
+      "types": "./dist/ui/slider-preview.d.ts",
+      "default": "./dist/ui/slider-preview.js"
+    },
+    "./ui/slider-thumb": {
+      "types": "./dist/ui/slider-thumb.d.ts",
+      "default": "./dist/ui/slider-thumb.js"
+    },
+    "./ui/slider-thumbnail": {
+      "types": "./dist/ui/slider-thumbnail.d.ts",
+      "default": "./dist/ui/slider-thumbnail.js"
+    },
+    "./ui/slider-track": {
+      "types": "./dist/ui/slider-track.d.ts",
+      "default": "./dist/ui/slider-track.js"
+    },
+    "./ui/slider-value": {
+      "types": "./dist/ui/slider-value.d.ts",
+      "default": "./dist/ui/slider-value.js"
+    },
+    "./ui/status-announcer": {
+      "types": "./dist/ui/status-announcer.d.ts",
+      "default": "./dist/ui/status-announcer.js"
+    },
+    "./ui/status-indicator": {
+      "types": "./dist/ui/status-indicator.d.ts",
+      "default": "./dist/ui/status-indicator.js"
+    },
+    "./ui/status-indicator-value": {
+      "types": "./dist/ui/status-indicator-value.d.ts",
+      "default": "./dist/ui/status-indicator-value.js"
+    },
+    "./ui/thumbnail": {
+      "types": "./dist/ui/thumbnail.d.ts",
+      "default": "./dist/ui/thumbnail.js"
+    },
+    "./ui/time": {
+      "types": "./dist/ui/time.d.ts",
+      "default": "./dist/ui/time.js"
+    },
+    "./ui/time-group": {
+      "types": "./dist/ui/time-group.d.ts",
+      "default": "./dist/ui/time-group.js"
+    },
+    "./ui/time-separator": {
+      "types": "./dist/ui/time-separator.d.ts",
+      "default": "./dist/ui/time-separator.js"
+    },
+    "./ui/time-slider": {
+      "types": "./dist/ui/time-slider.d.ts",
+      "default": "./dist/ui/time-slider.js"
+    },
+    "./ui/time-slider-chapter-title": {
+      "types": "./dist/ui/time-slider-chapter-title.d.ts",
+      "default": "./dist/ui/time-slider-chapter-title.js"
+    },
+    "./ui/time-slider-chapters": {
+      "types": "./dist/ui/time-slider-chapters.d.ts",
+      "default": "./dist/ui/time-slider-chapters.js"
+    },
+    "./ui/title": {
+      "types": "./dist/ui/title.d.ts",
+      "default": "./dist/ui/title.js"
+    },
+    "./ui/tooltip": {
+      "types": "./dist/ui/tooltip.d.ts",
+      "default": "./dist/ui/tooltip.js"
+    },
+    "./ui/tooltip-group": {
+      "types": "./dist/ui/tooltip-group.d.ts",
+      "default": "./dist/ui/tooltip-group.js"
+    },
+    "./ui/tooltip-label": {
+      "types": "./dist/ui/tooltip-label.d.ts",
+      "default": "./dist/ui/tooltip-label.js"
+    },
+    "./ui/tooltip-shortcut": {
+      "types": "./dist/ui/tooltip-shortcut.d.ts",
+      "default": "./dist/ui/tooltip-shortcut.js"
+    },
+    "./ui/volume-indicator": {
+      "types": "./dist/ui/volume-indicator.d.ts",
+      "default": "./dist/ui/volume-indicator.js"
+    },
+    "./ui/volume-indicator-fill": {
+      "types": "./dist/ui/volume-indicator-fill.d.ts",
+      "default": "./dist/ui/volume-indicator-fill.js"
+    },
+    "./ui/volume-indicator-value": {
+      "types": "./dist/ui/volume-indicator-value.d.ts",
+      "default": "./dist/ui/volume-indicator-value.js"
+    },
+    "./ui/volume-popover": {
+      "types": "./dist/ui/volume-popover.d.ts",
+      "default": "./dist/ui/volume-popover.js"
+    },
+    "./ui/volume-slider": {
+      "types": "./dist/ui/volume-slider.d.ts",
+      "default": "./dist/ui/volume-slider.js"
+    },
+    "./video/compat": {
+      "types": "./dist/video/compat.d.ts",
+      "default": "./dist/video/compat.js"
+    },
+    "./video/composables": {
+      "types": "./dist/video/composables.d.ts",
+      "default": "./dist/video/composables.js"
+    },
+    "./video/core": {
+      "types": "./dist/video/core.d.ts",
+      "default": "./dist/video/core.js"
+    },
+    "./video/default": {
+      "types": "./dist/video/default.d.ts",
+      "default": "./dist/video/default.js"
+    },
+    "./video/legacy": {
+      "types": "./dist/video/legacy.d.ts",
+      "default": "./dist/video/legacy.js"
+    },
+    "./video/neutral": {
+      "types": "./dist/video/neutral.d.ts",
+      "default": "./dist/video/neutral.js"
+    },
+    "./video/skins/compat": {
+      "types": "./dist/video/skins/compat.d.ts",
+      "default": "./dist/video/skins/compat.js"
+    },
+    "./video/skins/default": {
+      "types": "./dist/video/skins/default.d.ts",
+      "default": "./dist/video/skins/default.js"
+    },
+    "./video/skins/legacy": {
+      "types": "./dist/video/skins/legacy.d.ts",
+      "default": "./dist/video/skins/legacy.js"
+    },
+    "./video/skins/legacy.css": "./dist/video/skins/legacy.css",
+    "./video/skins/neutral": {
+      "types": "./dist/video/skins/neutral.d.ts",
+      "default": "./dist/video/skins/neutral.js"
     }
   },
   "publishConfig": {

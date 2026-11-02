@@ -1,0 +1,306 @@
+/* Shared presentation for the unstyled official elements in the UI recipes. */
+.ui-recipe {
+  display: block;
+}
+.ui-recipe [hidden] {
+  display: none !important;
+}
+.ui-recipe-panel {
+  padding: 1rem;
+  border-top: 1px solid #ffffff26;
+}
+.ui-recipe .ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ffffff4d;
+  border-radius: 0.4rem;
+  background: #27272a;
+  color: white;
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.ui-recipe .ui-button:hover {
+  background: #3f3f46;
+}
+.ui-recipe .ui-button:focus-visible,
+.ui-recipe [data-highlighted] {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+.ui-recipe .ui-button[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: default;
+}
+.ui-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+.ui-option input[type="range"] {
+  width: 100px;
+  accent-color: white;
+}
+.ui-controls-backdrop {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(transparent, #000c);
+  pointer-events: none;
+}
+.ui-controls-content {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: block;
+}
+.ui-controls-content:not([data-visible]),
+.ui-controls-backdrop:not([data-visible]) {
+  display: none;
+}
+.ui-popup,
+.ui-tooltip {
+  z-index: 30;
+  max-width: min(280px, calc(100vw - 3rem));
+  padding: 1rem;
+  border: 1px solid #ffffff4d;
+  border-radius: 0.5rem;
+  background: #18181b;
+  color: white;
+  font-size: 0.8125rem;
+  box-shadow: 0 6px 20px #0005;
+}
+.ui-popup:not([data-open]),
+.ui-tooltip:not([data-open]) {
+  display: none;
+}
+.ui-tooltip {
+  padding: 0.5rem 0.75rem;
+}
+.ui-menu {
+  width: 230px;
+}
+.ui-menu-heading {
+  display: block;
+  padding: 0.5rem;
+  color: #a1a1aa;
+}
+.ui-menu :is(media-menu-item, media-menu-checkbox-item, media-menu-radio-item) {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+.ui-menu [aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: default;
+}
+.ui-menu [data-highlighted] {
+  background: #3f3f46;
+  outline-offset: -2px;
+}
+.ui-slider {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 60px;
+  height: 40px;
+  align-items: center;
+  cursor: pointer;
+}
+.ui-slider > media-slider-track,
+.ui-slider > media-slider-fill {
+  position: absolute;
+  display: block;
+  left: 0;
+  height: 4px;
+  border-radius: 4px;
+}
+.ui-slider > media-slider-track {
+  width: 100%;
+  background: #52525b;
+}
+.ui-slider > media-slider-fill {
+  width: var(--media-slider-fill);
+  background: white;
+}
+.ui-slider > media-slider-thumb {
+  position: absolute;
+  display: block;
+  left: var(--media-slider-fill);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  transform: translateX(-50%);
+}
+.ui-slider[data-disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+.ui-slider-current {
+  position: absolute;
+  top: 100%;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.ui-preview {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  z-index: 10;
+  display: block;
+  width: max-content;
+  padding: 0.5rem;
+  border: 1px solid #ffffff4d;
+  border-radius: 0.4rem;
+  background: #18181b;
+  color: white;
+  text-align: center;
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+.ui-preview:not([data-pointing]):not([data-dragging]) {
+  display: none;
+}
+.ui-thumbnail {
+  max-width: 160px;
+  min-height: 90px;
+}
+.ui-slider-vertical {
+  width: 40px;
+  height: 140px;
+  justify-content: center;
+}
+.ui-slider-vertical > media-slider-track,
+.ui-slider-vertical > media-slider-fill {
+  left: auto;
+  bottom: 0;
+  width: 4px;
+  height: 100%;
+}
+.ui-slider-vertical > media-slider-fill {
+  height: var(--media-slider-fill);
+}
+.ui-slider-vertical > media-slider-thumb {
+  left: auto;
+  bottom: var(--media-slider-fill);
+  transform: translateY(50%);
+}
+.ui-chapters {
+  position: absolute;
+  inset-inline: 0;
+  display: block;
+  height: 6px;
+}
+.ui-chapter {
+  position: absolute;
+  left: var(--media-slider-chapter-start);
+  width: var(--media-slider-chapter-width);
+  height: 6px;
+  padding-inline: 2px;
+  background: #52525b;
+  border-inline: 2px solid #09090b;
+}
+.ui-chapter-buffer,
+.ui-chapter-fill {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  display: block;
+  width: var(--media-slider-chapter-buffer);
+  background: #a1a1aa;
+}
+.ui-chapter-fill {
+  width: var(--media-slider-chapter-fill);
+  background: white;
+}
+.ui-chapter[data-pointing] {
+  background: #71717a;
+}
+.ui-dialog {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+}
+.ui-dialog:not([data-open]) {
+  display: none;
+}
+.ui-dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: #000b;
+}
+.ui-dialog-popup {
+  position: relative;
+  display: block;
+  width: min(320px, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  overflow: auto;
+  padding: 1.25rem;
+  border: 1px solid #ffffff4d;
+  border-radius: 0.5rem;
+  background: #27272a;
+  color: white;
+}
+.ui-feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  min-width: 80px;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transform: translate(-50%, -50%);
+  background: #000c;
+  text-align: center;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+.ui-feedback:not([data-open]) {
+  display: none;
+}
+.ui-seek-feedback {
+  left: 25%;
+}
+.ui-volume-feedback {
+  left: 75%;
+}
+.ui-volume-meter {
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin-top: 0.5rem;
+  background: #52525b;
+}
+.ui-volume-meter media-volume-indicator-fill {
+  display: block;
+  width: var(--media-volume-fill);
+  height: 100%;
+  background: white;
+}
+.ui-buffering {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.ui-buffering:not([data-visible]) {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-buffering .animate-spin {
+    animation: none;
+  }
+}
