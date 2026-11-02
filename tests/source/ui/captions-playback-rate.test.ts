@@ -188,10 +188,15 @@ describe('captions and playback rate controls', () => {
       player.value!.store!.playbackRates.length,
     )
     expect(group.textContent).toContain('1.5x speed')
+    const nextRate = player.value!.store!.playbackRates.find(
+      rate => rate > media.playbackRate,
+    )
+    expect(nextRate).toBeDefined()
     button.click()
     await settle()
-    expect(media.playbackRate).toBe(1.2)
-    expect(button.dataset['rate']).toBe('1.2')
+    expect(media.playbackRate).toBe(nextRate)
+    expect(player.value!.store!.playbackRate).toBe(nextRate)
+    expect(button.dataset['rate']).toBe(String(nextRate))
     group.querySelector<HTMLElement>('[data-rate="1.5"]')!.click()
     await settle()
     expect(media.playbackRate).toBe(1.5)
