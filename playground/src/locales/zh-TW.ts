@@ -1,3 +1,4 @@
+import { uiComponentMessages } from '../ui-components/messages'
 import type en from './en'
 
 export default {
@@ -31,7 +32,13 @@ export default {
     mobileSettings: '調整參數',
     close: '關閉',
   },
+  uiComponents: uiComponentMessages['zh-TW'],
   examples: {
+    'ui-components': {
+      title: 'UI 元件',
+      description: '逐一查看 44 個新增 UI 元件，體驗完整互動範例。',
+      hint: '依元件名搜尋或選擇分類，查看實際範例原始碼。關聯部件共用完整組合範例，參數變更和原始自訂事件仍可查看。',
+    },
     'media-export': {
       title: '截圖與下載',
       description: '儲存原生影片目前畫面或下載 MP4 檔案。',

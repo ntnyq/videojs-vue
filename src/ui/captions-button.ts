@@ -5,5 +5,5 @@ import { buttonProps } from './props'
 export const CaptionsButton = /* @__PURE__ */ createElementComponent(
   'CaptionsButton',
   'media-captions-button',
-  buttonProps,
+  { ...buttonProps, commandfor: String, menuFor: String },
 )

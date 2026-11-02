@@ -1,3 +1,4 @@
+import { uiComponentMessages } from '../ui-components/messages'
 import type en from './en'
 
 export default {
@@ -31,7 +32,13 @@ export default {
     mobileSettings: '매개변수 조정',
     close: '닫기',
   },
+  uiComponents: uiComponentMessages['ko'],
   examples: {
+    'ui-components': {
+      title: 'UI 컴포넌트',
+      description: '44개의 새 UI 컴포넌트를 대화형 예제로 살펴봅니다.',
+      hint: '이름이나 분류로 검색하고 실제 소스를 확인하세요. 관련 부품은 완전한 구성 예제를 공유하며 매개변수와 원본 이벤트를 확인할 수 있습니다.',
+    },
     'media-export': {
       title: '스크린샷 및 다운로드',
       description: '네이티브 동영상의 현재 프레임이나 MP4 파일을 저장합니다.',

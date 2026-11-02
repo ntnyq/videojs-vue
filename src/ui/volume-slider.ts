@@ -5,5 +5,5 @@ import { sliderProps } from './props'
 export const VolumeSlider = /* @__PURE__ */ createElementComponent(
   'VolumeSlider',
   'media-volume-slider',
-  sliderProps,
+  { ...sliderProps, wheelStep: Number },
 )

@@ -26,6 +26,8 @@ import { SliderThumb } from '../../../ui/slider-thumb'
 import { SliderTrack } from '../../../ui/slider-track'
 import { StatusAnnouncer } from '../../../ui/status-announcer'
 import { Time } from '../../../ui/time'
+import { TimeGroup } from '../../../ui/time-group'
+import { TimeSeparator } from '../../../ui/time-separator'
 import { TimeSlider } from '../../../ui/time-slider'
 import { VolumeSlider } from '../../../ui/volume-slider'
 import { useVideoPlayerActions } from '../../useVideoPlayerActions'
@@ -116,9 +118,17 @@ export const LegacyControls = defineComponent({
                           ),
                       },
                     ),
-                    h(Time, { type: 'current' }),
-                    h('span', { 'aria-hidden': 'true' }, '/'),
-                    h(Time, { type: 'duration' }),
+                    h(
+                      TimeGroup,
+                      { style: { display: 'contents' } },
+                      {
+                        default: () => [
+                          h(Time, { type: 'current' }),
+                          h(TimeSeparator, null, { default: () => '/' }),
+                          h(Time, { type: 'duration' }),
+                        ],
+                      },
+                    ),
                     h('span', { class: 'vjs-legacy__spacer' }),
                     h(
                       MuteButton,

@@ -106,16 +106,21 @@ function setSeek(lab: Playground, value: string | number) {
           value="preview"
           force-mount
           v-show="lab.view === 'preview'"
-          class="mx-auto mt-3 overflow-hidden rounded-md bg-black text-white [&_video-player]:block [&_video-player]:w-full [&_audio-player]:block [&_audio-player]:w-full"
-          :class="
-            lab.example === 'audio'
-              ? 'max-w-3xl p-4 sm:p-8'
-              : lab.example === 'playlist'
-                ? 'w-full'
-                : ['custom', 'captions'].includes(lab.example)
-                  ? 'lg:max-w-[clamp(320px,calc((100cqh-21rem)*1.7778),100%)]'
-                  : 'lg:max-w-[clamp(240px,calc((100cqh-21rem)*1.7778),100%)]'
-          "
+          class="mx-auto mt-3 overflow-hidden rounded-md [&_video-player]:block [&_video-player]:w-full [&_audio-player]:block [&_audio-player]:w-full"
+          :class="[
+            lab.example === 'ui-components'
+              ? 'bg-background text-foreground'
+              : 'bg-black text-white',
+            lab.example === 'ui-components'
+              ? 'w-full'
+              : lab.example === 'audio'
+                ? 'max-w-3xl p-4 sm:p-8'
+                : lab.example === 'playlist'
+                  ? 'w-full'
+                  : ['custom', 'captions'].includes(lab.example)
+                    ? 'lg:max-w-[clamp(320px,calc((100cqh-21rem)*1.7778),100%)]'
+                    : 'lg:max-w-[clamp(240px,calc((100cqh-21rem)*1.7778),100%)]',
+          ]"
         >
           <PlayerDemo
             v-if="lab.isMounted"
@@ -147,7 +152,9 @@ function setSeek(lab: Playground, value: string | number) {
                 ? 'PlaylistExample.vue'
                 : lab.example === 'media-export'
                   ? 'MediaExportExample.vue'
-                  : 'Example.vue'
+                  : lab.example === 'ui-components'
+                    ? 'UiComponentsExample.vue'
+                    : 'Example.vue'
             "
           />
           <CodePanel
