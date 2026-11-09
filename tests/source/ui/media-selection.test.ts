@@ -1,6 +1,7 @@
 import type { MenuElement } from '@videojs/html'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, h, shallowRef } from 'vue'
+import { createSSRApp, defineComponent, h, shallowRef } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 import {
   VideoPlayerRoot,
   Video,
@@ -29,6 +30,59 @@ function formatTrackLanguage(track: { language: string }) {
 
 describe('media selection', () => {
   afterEach(cleanup)
+
+  it('preserves initial menu state when elements upgrade before hydration and restores defaults', async () => {
+    expect.hasAssertions()
+    const settings = shallowRef<InstanceType<typeof MediaMenu>['$props']>({
+      defaultOpen: true,
+      side: 'top',
+      closeOnEscape: false,
+      boundary: document.body,
+    })
+    const Fixture = defineComponent(
+      () => () =>
+        h(VideoPlayerRoot, null, {
+          default: () =>
+            h(MediaContainer, null, {
+              default: () => [
+                h(Video),
+                h(MediaMenu, settings.value, {
+                  default: () =>
+                    h(MediaMenuContent, null, {
+                      default: () => h('button', 'Item'),
+                    }),
+                }),
+              ],
+            }),
+        }),
+    )
+    const container = document.createElement('div')
+    container.innerHTML = await renderToString(createSSRApp(Fixture))
+    const menu = container.querySelector<MenuElement>('media-menu')!
+    expect(menu.hasAttribute('default-open')).toBe(true)
+    expect(menu.getAttribute('side')).toBe('top')
+    expect(menu.hasAttribute('boundary')).toBe(false)
+    document.body.append(container)
+    await settle()
+    expect(menu.hasUpdated).toBe(true)
+    expect(menu.open).toBe(true)
+    const app = createSSRApp(Fixture)
+    app.mount(container)
+    disposals.push(() => {
+      app.unmount()
+      container.remove()
+    })
+    await settle()
+    expect(menu.open).toBe(true)
+    expect(menu.closeOnEscape).toBe(false)
+    expect(menu.boundary).toBe(document.body)
+    settings.value = {}
+    await settle()
+    expect(menu.defaultOpen).toBe(false)
+    expect(menu.side).toBe('bottom')
+    expect(menu.closeOnEscape).toBe(true)
+    expect(menu.boundary).toBe('container')
+  })
 
   it('synchronizes optional menu and formatter props and restores upstream defaults', async () => {
     expect.hasAssertions()

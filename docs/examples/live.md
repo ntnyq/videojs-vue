@@ -7,7 +7,7 @@ description: Play HLS live video, configure its engine, and compose a return-to-
 Install the optional adapter alongside the base package:
 
 ```sh
-pnpm add videojs-vue vue @videojs/hlsjs-video@10.0.1
+pnpm add videojs-vue vue @videojs/hlsjs-video@10.3.0
 ```
 
 ## Packaged player

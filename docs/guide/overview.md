@@ -32,7 +32,7 @@ Read state with `useVideoPlayerState` and change playback with `useVideoPlayerAc
 
 ## Requirements and scope
 
-The package requires Vue 3.5+ and includes `@videojs/html@10.0.1`. HLS support requires the optional `@videojs/hlsjs-video@10.0.1` peer dependency.
+The package requires Vue 3.5+ and includes `@videojs/html@10.3.0`. HLS support requires the optional `@videojs/hlsjs-video@10.3.0` peer dependency.
 
 The current API covers on-demand native video and [audio](../api/audio.md), [HLS live video](../api/live.md), HLS on-demand video, default and neutral skins, custom controls, captions, internationalization, and server rendering. DVR timelines, live audio, YouTube/Mux adapters, persistence, and a plugin framework are outside the current API.
 

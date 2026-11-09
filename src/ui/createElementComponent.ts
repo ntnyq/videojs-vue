@@ -4,6 +4,11 @@ import type {
   Directive,
   DirectiveBinding,
 } from 'vue'
+import { preservePlayerTree } from '../player/preservePlayerTree'
+
+function toAttributeName(property: string) {
+  return property.replaceAll(/[A-Z]/gu, letter => `-${letter.toLowerCase()}`)
+}
 
 export function createElementComponent<
   Props extends ComponentObjectPropsOptions,
@@ -30,17 +35,36 @@ export function createElementComponent<
       }
       const properties: Directive<HTMLElement, Record<string, unknown>> = {
         created(element) {
-          // Capture constructor defaults before Vue applies attributes or props.
+          // Hydrated elements may already have applied their server attributes.
+          const source = Object.keys(props).some(key =>
+            element.hasAttribute(toAttributeName(key)),
+          )
+            ? element.ownerDocument.createElement(tag)
+            : element
           for (const key of Object.keys(props)) {
-            defaults.set(key, Reflect.get(element, key))
+            defaults.set(key, Reflect.get(source, key))
           }
         },
         beforeMount: syncProperties,
         updated: syncProperties,
+        getSSRProps({ value }) {
+          const attributes: Record<string, string | number> = {}
+          for (const [key, next] of Object.entries(value)) {
+            if (
+              next === true ||
+              typeof next === 'string' ||
+              typeof next === 'number'
+            ) {
+              attributes[toAttributeName(key)] = next === true ? '' : next
+            }
+          }
+          return attributes
+        },
       }
       return () =>
         withDirectives(h(tag, attrs, slots['default']?.()), [
           [properties, { ...values }],
+          [preservePlayerTree],
         ])
     },
   })

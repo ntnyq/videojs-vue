@@ -41,14 +41,14 @@ Update the legacy stylesheet import as well as JavaScript and type imports. Fixe
 
 ```vue
 <script setup lang="ts">
-import { useTemplateRef } from 'vue'
-import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
-import type { VideoPlayerHandle } from 'videojs-vue/video/core'
 import {
   useVideoPlayerActions,
   useVideoPlayerState,
 } from 'videojs-vue/video/composables'
+import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
+import type { VideoPlayerHandle } from 'videojs-vue/video/core'
 import { DefaultVideoSkin } from 'videojs-vue/video/skins/default'
+import { useTemplateRef } from 'vue'
 
 const player = useTemplateRef<VideoPlayerHandle>('player')
 const paused = useVideoPlayerState(state => state.paused, player)

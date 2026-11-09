@@ -12,13 +12,13 @@ Pass a typed template ref when the component calling the composables is outside 
 
 ```vue
 <script setup lang="ts">
-import { computed, shallowRef, useTemplateRef } from 'vue'
 import {
   VideoPlayer,
   useVideoPlayerActions,
   useVideoPlayerState,
 } from 'videojs-vue'
 import type { VideoPlayerHandle } from 'videojs-vue'
+import { computed, shallowRef, useTemplateRef } from 'vue'
 
 const player = useTemplateRef<VideoPlayerHandle>('player')
 const paused = useVideoPlayerState(state => state.paused, player)

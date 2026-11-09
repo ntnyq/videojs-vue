@@ -13,7 +13,7 @@ Use the optional `HlsVideo` adapter to play an HLS source. Try it in the [Playgr
 Start with the [base package](../guide/getting-started.md), then add its optional HLS peer dependency. The base entry does not load hls.js.
 
 ```sh
-pnpm add @videojs/hlsjs-video@10.0.1
+pnpm add @videojs/hlsjs-video@10.3.0
 ```
 
 ## Render an HLS player

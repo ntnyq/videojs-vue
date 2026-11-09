@@ -8,9 +8,9 @@ Serve an audio file at `/episode.mp3`, then use the independent audio entry:
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { AudioPlayer, useAudioPlayerState } from 'videojs-vue/audio'
 import type { AudioPlayerHandle } from 'videojs-vue/audio'
+import { shallowRef } from 'vue'
 
 const player = shallowRef<AudioPlayerHandle | null>(null)
 const volume = shallowRef(0.7)

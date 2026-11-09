@@ -16,7 +16,7 @@
     "@shikijs/engine-javascript": "^4.6.0",
     "@shikijs/langs": "^4.6.0",
     "@shikijs/themes": "^4.6.0",
-    "@videojs/hlsjs-video": "10.0.1",
+    "@videojs/hlsjs-video": "10.3.0",
     "@vueuse/core": "^15.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

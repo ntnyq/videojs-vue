@@ -15,6 +15,37 @@ function isDestroyable(element: Element): element is DestroyableElement {
 }
 
 const disposals = new WeakMap<Element, () => void>()
+const retentions = new WeakMap<
+  DestroyableElement,
+  { owners: number; hadKeepAlive: boolean }
+>()
+
+function retain(element: DestroyableElement) {
+  const retained = retentions.get(element)
+  if (retained) {
+    retained.owners++
+    return
+  }
+  retentions.set(element, {
+    owners: 1,
+    hadKeepAlive: element.hasAttribute('keep-alive'),
+  })
+  element.setAttribute('keep-alive', '')
+}
+
+function release(element: DestroyableElement) {
+  const retained = retentions.get(element)
+  if (!retained || --retained.owners > 0) {
+    return
+  }
+  retentions.delete(element)
+  if (!retained.hadKeepAlive) {
+    element.removeAttribute('keep-alive')
+  }
+  if (!element.isConnected && !element.destroyed) {
+    element.destroy()
+  }
+}
 
 /**
  * Vue owns disposal of a player's custom elements, including skin shadow controls.
@@ -22,7 +53,8 @@ const disposals = new WeakMap<Element, () => void>()
  */
 export const preservePlayerTree: ObjectDirective<HTMLElement> = {
   beforeMount(root) {
-    const retained = new Map<DestroyableElement, boolean>()
+    // Nested Vue wrappers retain their own subtree while individually cached.
+    const retained = new Set<DestroyableElement>()
     const observer = new MutationObserver(records => {
       if (
         records.some(record =>
@@ -36,15 +68,6 @@ export const preservePlayerTree: ObjectDirective<HTMLElement> = {
       }
     })
 
-    function release(element: DestroyableElement, hadKeepAlive: boolean) {
-      if (!hadKeepAlive) {
-        element.removeAttribute('keep-alive')
-      }
-      if (!element.isConnected && !element.destroyed) {
-        element.destroy()
-      }
-    }
-
     function sync() {
       observer.disconnect()
       observer.observe(root, { childList: true, subtree: true })
@@ -53,8 +76,8 @@ export const preservePlayerTree: ObjectDirective<HTMLElement> = {
         if (isDestroyable(element)) {
           current.add(element)
           if (!retained.has(element)) {
-            retained.set(element, element.hasAttribute('keep-alive'))
-            element.setAttribute('keep-alive', '')
+            retained.add(element)
+            retain(element)
           }
         }
         for (const child of element.children) {
@@ -71,10 +94,10 @@ export const preservePlayerTree: ObjectDirective<HTMLElement> = {
         }
       }
       visit(root)
-      for (const [element, hadKeepAlive] of retained) {
+      for (const element of retained) {
         if (!current.has(element)) {
           retained.delete(element)
-          release(element, hadKeepAlive)
+          release(element)
         }
       }
     }
@@ -82,8 +105,8 @@ export const preservePlayerTree: ObjectDirective<HTMLElement> = {
     sync()
     disposals.set(root, () => {
       observer.disconnect()
-      for (const [element, hadKeepAlive] of retained) {
-        release(element, hadKeepAlive)
+      for (const element of retained) {
+        release(element)
       }
       retained.clear()
     })

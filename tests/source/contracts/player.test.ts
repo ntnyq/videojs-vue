@@ -10,11 +10,25 @@ import {
 } from 'vue'
 import type { Component } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { VideoPlayerRoot, Video, VideoPlayer } from '../../../src'
+import {
+  VideoPlayerRoot,
+  Video,
+  VideoPlayer,
+  DefaultVideoSkin,
+} from '../../../src'
 import type { VideoPlayerHandle } from '../../../src'
-import { Audio, AudioPlayer, AudioPlayerRoot } from '../../../src/audio'
+import {
+  Audio,
+  AudioPlayer,
+  AudioPlayerRoot,
+  DefaultAudioSkin,
+} from '../../../src/audio'
 import type { AudioPlayerHandle } from '../../../src/audio'
-import { LiveVideoPlayer, LiveVideoPlayerRoot } from '../../../src/live'
+import {
+  LiveVideoPlayer,
+  LiveVideoPlayerRoot,
+  DefaultLiveVideoSkin,
+} from '../../../src/live'
 import type { LiveVideoPlayerHandle } from '../../../src/live'
 import { HlsVideo } from '../../../src/media/hls'
 import { MediaContainer, PlayButton } from '../../../src/ui'
@@ -42,6 +56,7 @@ describe('player contracts', () => {
     Player: Component
     Root: Component
     Media: Component
+    Skin: Component
     tag: string
   }>([
     {
@@ -49,6 +64,7 @@ describe('player contracts', () => {
       Player: VideoPlayer,
       Root: VideoPlayerRoot,
       Media: Video,
+      Skin: DefaultVideoSkin,
       tag: 'video-skin',
     },
     {
@@ -56,6 +72,7 @@ describe('player contracts', () => {
       Player: LiveVideoPlayer,
       Root: LiveVideoPlayerRoot,
       Media: Video,
+      Skin: DefaultLiveVideoSkin,
       tag: 'live-video-skin',
     },
     {
@@ -63,9 +80,163 @@ describe('player contracts', () => {
       Player: AudioPlayer,
       Root: AudioPlayerRoot,
       Media: Audio,
+      Skin: DefaultAudioSkin,
       tag: 'audio-skin',
     },
-  ])('$name', ({ Player, Root, Media, tag }) => {
+  ])('$name', ({ Player, Root, Media, Skin, tag }) => {
+    it('retains individually cached controls until their actual eviction', async () => {
+      expect.hasAssertions()
+      const Panel = defineComponent(() => () => h('div', [h(PlayButton)]))
+      const Other = defineComponent(() => () => h('p', 'Other panel'))
+      const Third = defineComponent(() => () => h('p', 'Third panel'))
+      const content = shallowRef<Component>(Panel)
+      const { container, unmount } = mount(
+        defineComponent(
+          () => () =>
+            h(Root, null, {
+              default: () =>
+                h(MediaContainer, null, {
+                  default: () => [
+                    h(Media),
+                    h(
+                      KeepAlive,
+                      { max: 2 },
+                      {
+                        default: () => h(content.value),
+                      },
+                    ),
+                  ],
+                }),
+            }),
+        ),
+      )
+      await settle()
+      const button = container.querySelector('media-play-button')!
+      const destroy = vi.spyOn(button, 'destroy')
+      content.value = Other
+      await settle()
+      await flushDestruction()
+      expect(destroy).not.toHaveBeenCalled()
+      content.value = Panel
+      await settle()
+      expect(container.querySelector('media-play-button')).toBe(button)
+      button.click()
+      await settle()
+      expect(
+        container.querySelector<HTMLMediaElement>('video, audio')!.paused,
+      ).toBe(false)
+      content.value = Other
+      await settle()
+      content.value = Third
+      await settle()
+      await flushDestruction()
+      expect(destroy).toHaveBeenCalledTimes(1)
+      unmount()
+      disposals.pop()
+      await flushDestruction()
+      expect(destroy).toHaveBeenCalledTimes(1)
+    })
+
+    it('retains individually cached skins and their shadow controls', async () => {
+      expect.hasAssertions()
+      const CachedSkin = defineComponent(
+        () => () =>
+          h(Skin, null, {
+            default: () => h(Media),
+          }),
+      )
+      const content = shallowRef<Component>(CachedSkin)
+      const { container, unmount } = mount(
+        defineComponent(
+          () => () =>
+            h(Root, null, {
+              default: () =>
+                h(KeepAlive, null, {
+                  default: () => h(content.value),
+                }),
+            }),
+        ),
+      )
+      await settle()
+      const skin = container.querySelector(tag)!
+      const button = skin.shadowRoot!.querySelector('media-play-button')!
+      const destroy = vi.spyOn(button, 'destroy')
+      content.value = defineComponent(() => () => h('p', 'Cached'))
+      await settle()
+      await flushDestruction()
+      expect(destroy).not.toHaveBeenCalled()
+      await reconnectPlayer(() => {
+        content.value = CachedSkin
+      })
+      expect(container.querySelector(tag)).toBe(skin)
+      button.click()
+      await settle()
+      expect(
+        container.querySelector<HTMLMediaElement>('video, audio')!.paused,
+      ).toBe(false)
+      unmount()
+      disposals.pop()
+      await flushDestruction()
+      expect(destroy).toHaveBeenCalledTimes(1)
+    })
+
+    it('pauses and unregisters independently cached media, then restores it without autoplay', async () => {
+      expect.hasAssertions()
+      const visible = shallowRef(true)
+      const volume = shallowRef(0.4)
+      const played = vi.fn()
+      const player = shallowRef<
+        VideoPlayerHandle | AudioPlayerHandle | LiveVideoPlayerHandle | null
+      >(null)
+      const Cached = defineComponent(
+        () => () => h(Media, { onPlay: played, volume: volume.value }),
+      )
+      mount(
+        defineComponent(
+          () => () =>
+            h(
+              Root,
+              { ref: player },
+              {
+                default: () =>
+                  h(MediaContainer, null, {
+                    default: () =>
+                      h(KeepAlive, null, {
+                        // oxlint-disable-next-line vitest/no-conditional-in-test -- Drives the adapter's independent cache.
+                        default: () => (visible.value ? h(Cached) : h('div')),
+                      }),
+                  }),
+              },
+            ),
+        ),
+      )
+      await settle()
+      const media = player.value!.media!
+      await player.value!.play()
+      const pause = vi.spyOn(media, 'pause')
+      const { store } = player.value!
+      visible.value = false
+      await settle()
+      expect(pause).toHaveBeenCalledWith()
+      expect(media.paused).toBe(true)
+      expect(player.value!.media).toBeNull()
+      expect(player.value!.store).toBe(store)
+      volume.value = 0.8
+      await settle()
+      expect(media.volume).toBe(0.4)
+      played.mockClear()
+      media.dispatchEvent(new Event('play'))
+      expect(played).not.toHaveBeenCalled()
+      await reconnectPlayer(() => {
+        visible.value = true
+      })
+      expect(player.value!.media).toBe(media)
+      expect(media.paused).toBe(true)
+      expect(media.volume).toBe(0.8)
+      await player.value!.play()
+      expect(played).toHaveBeenCalledTimes(1)
+    })
+
     it.each(['immediate', 'after removal'])(
       'applies settings to replacement media %s before the upstream target catches up',
       async mode => {

@@ -63,7 +63,7 @@ import { CompatVideoSkin } from 'videojs-vue/video/skins/compat'
 </template>
 ```
 
-Compat provides basic controls and plain surfaces with broader compatibility as its design goal. This wrapper uses the packaged `@videojs/html@10.0.1` skin without CSS rewrites or JS polyfills. That skin still contains `@layer`, `@container`, and `:has()`, so this entry does not establish support for Chrome 90 or another lower browser baseline. Test playback and controls in your target browsers. See the upstream [browser support guide](https://videojs.org/docs/framework/html/guides/browser-support) for build and polyfill considerations; skin CSS embedded in JS is not processed by an application's ordinary CSS pipeline.
+Compat provides basic controls and plain surfaces with broader compatibility as its design goal. This wrapper uses the packaged `@videojs/html@10.3.0` skin without CSS rewrites or JS polyfills. That skin still contains `@layer`, `@container`, and `:has()`, so this entry does not establish support for Chrome 90 or another lower browser baseline. Test playback and controls in your target browsers. See the upstream [browser support guide](https://videojs.org/docs/framework/html/guides/browser-support) for build and polyfill considerations; skin CSS embedded in JS is not processed by an application's ordinary CSS pipeline.
 
 ## Legacy skin
 

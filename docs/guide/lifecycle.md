@@ -26,6 +26,8 @@ KeepAlive deactivation pauses media and clears the available store, releasing se
 
 Player roots and controls, including those inside packaged skin shadow roots, are also retained while cached. They are disposed when the cache entry is evicted or its owner unmounts. Controls removed from an active player's tree are disposed independently.
 
+Controls and skins can also be cached independently inside an active root. Their resources survive deactivation and are released on actual unmount or eviction. Independently cached media is paused, stops forwarding events, and clears the root's `media` getter while inactive; the root's store remains available. Reactivation registers the same media again without resuming playback and applies the latest bound settings.
+
 Explicit refs and getter targets can change at runtime. Subscriptions follow the new store, and actions resolve their target on every call.
 
 ## Source and adapter changes

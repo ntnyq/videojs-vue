@@ -27,7 +27,7 @@ Use the entries below as the public package interface. All components register t
 
 Video-specific granular imports use `videojs-vue/video/core`, `videojs-vue/video/composables`, and `videojs-vue/video/skins/*`. Audio and live video use their own `audio/*` and `live/*` namespaces. See the [migration guide](../guide/migration.md) when updating older imports.
 
-The base entry does not import hls.js. Install `@videojs/hlsjs-video@10.0.1` before importing the HLS entry.
+The base entry does not import hls.js. Install `@videojs/hlsjs-video@10.3.0` before importing the HLS entry.
 
 `core-js` is an optional peer dependency used only by `videojs-vue/polyfills`. Install it with `pnpm add core-js@^3.50.0` before importing that entry. Other entries do not require it; see [legacy mode](../guide/legacy.md#load-the-polyfills-first) for when to load the polyfills.
 

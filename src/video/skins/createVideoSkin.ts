@@ -1,4 +1,5 @@
-import { defineComponent, h, mergeProps } from 'vue'
+import { defineComponent, h, mergeProps, withDirectives } from 'vue'
+import { preservePlayerTree } from '../../player/preservePlayerTree'
 import { withSlot } from '../../player/withSlot'
 
 export function createVideoSkin(name: string, tag: string) {
@@ -6,12 +7,16 @@ export function createVideoSkin(name: string, tag: string) {
     name,
     inheritAttrs: false,
     setup(_props, { attrs, slots }) {
-      return () =>
-        h(
+      return () => {
+        const node = h(
           tag,
           mergeProps(
             {
-              style: { display: 'block', width: '100%', aspectRatio: '16 / 9' },
+              style: {
+                display: 'block',
+                width: '100%',
+                aspectRatio: '16 / 9',
+              },
             },
             attrs,
           ),
@@ -21,6 +26,8 @@ export function createVideoSkin(name: string, tag: string) {
             withSlot(slots['thumbnail']?.(), 'thumbnail'),
           ],
         )
+        return withDirectives(node, [[preservePlayerTree]])
+      }
     },
   })
 }

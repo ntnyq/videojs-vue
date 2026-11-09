@@ -12,9 +12,9 @@ Place `MediaI18n` around the common ancestor of your players. Updating `lang` ch
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { VideoPlayer } from 'videojs-vue'
 import { MediaI18n } from 'videojs-vue/i18n'
+import { shallowRef } from 'vue'
 
 const locale = shallowRef('zh-CN')
 </script>
@@ -41,8 +41,8 @@ If your application already uses `vue-i18n`, pass its reactive locale directly:
 
 ```vue
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { MediaI18n } from 'videojs-vue/i18n'
+import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
 </script>
@@ -75,10 +75,10 @@ An explicit language also derives text direction. Pass `dir="ltr"`, `dir="rtl"`,
 
 ## Register translations once
 
-Built-in locale packs load on demand. To preload a pack or override some of its phrases, import its upstream registration entry before registering overrides. If importing upstream packs directly, declare `@videojs/html@10.0.1` in your application's dependencies:
+Built-in locale packs load on demand. To preload a pack or override some of its phrases, import its upstream registration entry before registering overrides. If importing upstream packs directly, declare `@videojs/html@10.3.0` in your application's dependencies:
 
 ```sh
-pnpm add @videojs/html@10.0.1
+pnpm add @videojs/html@10.3.0
 ```
 
 ```ts

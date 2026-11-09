@@ -1,4 +1,5 @@
-import { defineComponent, h, mergeProps } from 'vue'
+import { defineComponent, h, mergeProps, withDirectives } from 'vue'
+import { preservePlayerTree } from '../../player/preservePlayerTree'
 import { withSlot } from '../../player/withSlot'
 
 export function createAudioSkin(name: string, tag: string) {
@@ -6,8 +7,8 @@ export function createAudioSkin(name: string, tag: string) {
     name,
     inheritAttrs: false,
     setup(_props, { attrs, slots }) {
-      return () =>
-        h(
+      return () => {
+        const node = h(
           tag,
           mergeProps(
             {
@@ -17,6 +18,8 @@ export function createAudioSkin(name: string, tag: string) {
           ),
           [slots['default']?.(), withSlot(slots['poster']?.(), 'poster')],
         )
+        return withDirectives(node, [[preservePlayerTree]])
+      }
     },
   })
 }

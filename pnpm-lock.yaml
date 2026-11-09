@@ -265,8 +265,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
       '@videojs/hlsjs-video':
-        specifier: 10.0.1
-        version: 10.0.1
+        specifier: 10.3.0
+        version: 10.3.0
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.45(typescript@6.0.3))
@@ -1585,9 +1585,6 @@ packages:
   '@videojs/element@10.3.0':
     resolution: {integrity: sha512-xDX521q/S37QEDXtGfTPtmqQQWAN1IDZ72h34AdEh0M2oThK1uvfthsOzVWnwxNoceRlpQ1cyyfRvZwwCf03mg==}
 
-  '@videojs/hlsjs-video@10.0.1':
-    resolution: {integrity: sha512-7Om99Vxsh7JYAVf04QO4SKgkIE2jrZ8c3KS5BtdQRqZaFYM5uWU9vubw3vwerI5nsrosg1KXcuzS5TGEUW4ToQ==}
-
   '@videojs/hlsjs-video@10.3.0':
     resolution: {integrity: sha512-H8gEsvXg01IDK8GQCJa+KVq3uu6ESfybQmHgFOyB3rmDSV4THB4dZ+Y7VL+P0Lfp4vMDzcVCeDw/FQ5QEXgnqA==}
 
@@ -1653,14 +1650,8 @@ packages:
       '@videojs/youtube-video':
         optional: true
 
-  '@videojs/media@10.0.1':
-    resolution: {integrity: sha512-hMC2aS/8PovwJBi8y2qShC/amYfH6SBce7SZAM54qzRq8hl4FwWGFeUMMmXp8x4agRxLuCSqGqZg/EoGH2I5mQ==}
-
   '@videojs/media@10.3.0':
     resolution: {integrity: sha512-xZ/33XPTLcQwIDW3b0GSASGYDzXwrqWZjlYdfn3dh/344/7G80wjwDkbgech8+LnL9yEAHGRQ9u+Wue4c/pQZw==}
-
-  '@videojs/native-hls-video@10.0.1':
-    resolution: {integrity: sha512-MElgeDaxOJUj+OjHV3++TuW8TTgipTuzlRkfFDMMbnutlPLkSlX3VKhXo5ZNPhhXkt47oBVx4RGnAQJLWzilPw==}
 
   '@videojs/native-hls-video@10.3.0':
     resolution: {integrity: sha512-5UYFBXcnpSwxBfZ2WkTCH+ehftRHCTa301y3Ks+tCiKTT1LjrTlsrqwHqrLTuKVGhaHHDXTBP8FybmgHa1xxag==}
@@ -1678,9 +1669,6 @@ packages:
         optional: true
       react:
         optional: true
-
-  '@videojs/utils@10.0.1':
-    resolution: {integrity: sha512-S7WO9lPfyCz5YQYWtpE42JZTtJKUaiWaAZGAa+VLoBiFMfpoogCloSP4pjChTYcQ6sGcLlQJNxVKhM1RvI/Dig==}
 
   '@videojs/utils@10.3.0':
     resolution: {integrity: sha512-BvkO1yfy/dhesnNAbFJ9yDcmFOvbQ7ZbBszJqwt73eJJVQFTdFtxpPiVQmxlolA9ifNJvHaLrh9TkUUyig3sZQ==}
@@ -2108,9 +2096,6 @@ packages:
 
   hast-util-whitespace@3.0.0:
     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
-
-  hls.js@1.6.7:
-    resolution: {integrity: sha512-QW2fnwDGKGc9DwQUGLbmMOz8G48UZK7PVNJPcOUql1b8jubKx4/eMHNP5mGqr6tYlJNDG1g10Lx2U/qPzL6zwQ==}
 
   hls.js@1.7.3:
     resolution: {integrity: sha512-MsPlx6yVW4Qv4C7mEVou4/gk/5cN2dVxOTnrNjPSmyH2f0Ln+/UkG10Ax1PE6OvrmTVPKgQYozTtBaPOuCzq7A==}
@@ -3817,13 +3802,6 @@ snapshots:
       '@lit/context': 1.1.6
       '@videojs/utils': 10.3.0
 
-  '@videojs/hlsjs-video@10.0.1':
-    dependencies:
-      '@videojs/media': 10.0.1
-      '@videojs/native-hls-video': 10.0.1
-      '@videojs/utils': 10.0.1
-      hls.js: 1.6.7
-
   '@videojs/hlsjs-video@10.3.0':
     dependencies:
       '@videojs/media': 10.3.0
@@ -3846,18 +3824,9 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  '@videojs/media@10.0.1':
-    dependencies:
-      '@videojs/utils': 10.0.1
-
   '@videojs/media@10.3.0':
     dependencies:
       '@videojs/utils': 10.3.0
-
-  '@videojs/native-hls-video@10.0.1':
-    dependencies:
-      '@videojs/media': 10.0.1
-      '@videojs/utils': 10.0.1
 
   '@videojs/native-hls-video@10.3.0':
     dependencies:
@@ -3880,8 +3849,6 @@ snapshots:
     optionalDependencies:
       '@videojs/element': 10.3.0
       react: 19.3.1
-
-  '@videojs/utils@10.0.1': {}
 
   '@videojs/utils@10.3.0': {}
 
@@ -4319,8 +4286,6 @@ snapshots:
   hast-util-whitespace@3.0.0:
     dependencies:
       '@types/hast': 3.0.5
-
-  hls.js@1.6.7: {}
 
   hls.js@1.7.3: {}
 

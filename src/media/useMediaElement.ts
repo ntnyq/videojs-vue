@@ -43,6 +43,7 @@ export function useMediaElement({
   })
   onDeactivated(() => {
     isActive.value = false
+    element.value?.pause()
   })
 
   context.expose({
@@ -86,7 +87,11 @@ export function useMediaElement({
   watch(
     [element, isActive],
     ([media, active], [previous], onCleanup) => {
-      if (previous && previous !== media && player?.handle.media === previous) {
+      if (
+        previous &&
+        (previous !== media || !active) &&
+        player?.handle.media === previous
+      ) {
         player.setMedia(null)
       }
       if (!media || !active) {
@@ -116,13 +121,14 @@ export function useMediaElement({
   watch(
     [
       element,
+      isActive,
       () => player?.handle.store,
       () => props.volume,
       () => props.muted,
       () => props.playbackRate,
     ],
-    ([media]) => {
-      if (media) {
+    ([media, active]) => {
+      if (media && active) {
         syncSettings(media)
       }
     },

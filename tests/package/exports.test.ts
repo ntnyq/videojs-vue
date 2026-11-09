@@ -5,6 +5,7 @@ import type {
   LiveVideoPlayerStore as UpstreamLiveVideoPlayerStore,
   VideoPlayerStore as UpstreamVideoPlayerStore,
 } from '@videojs/html'
+import upstreamPackage from '@videojs/html/package.json' with { type: 'json' }
 import * as video from 'videojs-vue'
 import * as live from 'videojs-vue/live'
 import * as liveComposables from 'videojs-vue/live/composables'
@@ -24,10 +25,48 @@ import * as videoComposables from 'videojs-vue/video/composables'
 import * as videoCore from 'videojs-vue/video/core'
 import { DefaultVideoSkin } from 'videojs-vue/video/skins/default'
 import { describe, expect, expectTypeOf, it } from 'vitest'
+import packageJson from '../../package.json' with { type: 'json' }
+import playgroundPackage from '../../playground/package.json' with { type: 'json' }
 
 const require = createRequire(import.meta.url)
 
 describe('published API names and paths', () => {
+  it('aligns optional HLS peers and workspace consumers with the upstream requirement', () => {
+    expect.hasAssertions()
+    const required = upstreamPackage.peerDependencies['@videojs/hlsjs-video']
+    expect(packageJson.peerDependencies['@videojs/hlsjs-video']).toBe(
+      `^${required}`,
+    )
+    expect(packageJson.devDependencies['@videojs/hlsjs-video']).toBe(
+      `^${required}`,
+    )
+    expect(playgroundPackage.dependencies['@videojs/hlsjs-video']).toBe(
+      required,
+    )
+    expect(
+      packageJson.peerDependenciesMeta['@videojs/hlsjs-video'].optional,
+    ).toBe(true)
+  })
+
+  it.each([
+    'README.md',
+    'docs/api/media.md',
+    'docs/api/overview.md',
+    'docs/examples/hls.md',
+    'docs/examples/live.md',
+    'docs/guide/overview.md',
+    'docs/guide/troubleshooting.md',
+  ])('documents a compatible HLS installation in %s', async file => {
+    expect.hasAssertions()
+    const text = await readFile(
+      new URL(`../../${file}`, import.meta.url),
+      'utf8',
+    )
+    expect(text).toContain(
+      `@videojs/hlsjs-video@${upstreamPackage.peerDependencies['@videojs/hlsjs-video']}`,
+    )
+  })
+
   it('shares captions and playback rate controls across aggregate and granular entries', () => {
     expect.hasAssertions()
     expect(AggregateCaptionsRadioGroup).toBe(CaptionsRadioGroup)

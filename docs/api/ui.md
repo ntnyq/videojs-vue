@@ -12,6 +12,8 @@ import { MediaContainer, PlayButton, TimeSlider } from 'videojs-vue/ui'
 
 These are unstyled bindings to upstream custom elements. Their default slots, attributes, and event listeners are passed to the underlying elements. Declared props are synchronized as DOM properties; removing a prop restores the element's captured constructor default.
 
+Server rendering includes string and number props and enabled Boolean attributes so initial options such as `defaultOpen` apply before hydration. Function and object props are assigned as DOM properties during hydration.
+
 ## Layout and display
 
 | Component              | Declared props | Purpose                                          |
@@ -68,8 +70,6 @@ Both groups belong inside `MediaMenuContent`, as a direct child of `MediaMenu`, 
 
 ```vue
 <script setup lang="ts">
-import { useId } from 'vue'
-import { Video, VideoPlayerRoot } from 'videojs-vue/video/core'
 import {
   CaptionsRadioGroup,
   MediaContainer,
@@ -78,6 +78,8 @@ import {
   PlaybackRateButton,
   PlaybackRateRadioGroup,
 } from 'videojs-vue/ui'
+import { Video, VideoPlayerRoot } from 'videojs-vue/video/core'
+import { useId } from 'vue'
 
 const captionsId = useId()
 const speedId = useId()

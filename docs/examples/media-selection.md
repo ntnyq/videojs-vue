@@ -16,8 +16,6 @@ Each group belongs inside `MediaMenuContent`, which must be a direct child of `M
 
 ```vue
 <script setup lang="ts">
-import { useId } from 'vue'
-import { VideoPlayerRoot } from 'videojs-vue/video/core'
 import { HlsVideo } from 'videojs-vue/media/hls'
 import { AudioTrackRadioGroup } from 'videojs-vue/ui/audio-track-radio-group'
 import { MediaContainer } from 'videojs-vue/ui/container'
@@ -25,6 +23,8 @@ import { MediaMenu } from 'videojs-vue/ui/menu'
 import { MediaMenuContent } from 'videojs-vue/ui/menu-content'
 import { PlayButton } from 'videojs-vue/ui/play-button'
 import { QualityRadioGroup } from 'videojs-vue/ui/quality-radio-group'
+import { VideoPlayerRoot } from 'videojs-vue/video/core'
+import { useId } from 'vue'
 
 const qualityId = useId()
 const audioId = useId()
@@ -98,7 +98,6 @@ Read IDs from the current source through `useVideoPlayerState`. Re-read them aft
 
 ```vue
 <script setup lang="ts">
-import { computed, shallowRef } from 'vue'
 import {
   VideoPlayer,
   useVideoPlayerActions,
@@ -106,6 +105,7 @@ import {
 } from 'videojs-vue'
 import type { VideoPlayerHandle } from 'videojs-vue'
 import { HlsVideo } from 'videojs-vue/media/hls'
+import { computed, shallowRef } from 'vue'
 
 const player = shallowRef<VideoPlayerHandle | null>(null)
 const actions = useVideoPlayerActions(player)

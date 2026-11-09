@@ -12,7 +12,7 @@ This guide assumes an existing Vue 3.5+ application with a build tool that suppo
 pnpm add videojs-vue vue
 ```
 
-`@videojs/html@10.0.1` is included as a dependency. Install the [optional HLS adapter](../examples/hls.md) only when you need it.
+`@videojs/html@10.3.0` is included as a dependency. Install the [optional HLS adapter](../examples/hls.md) only when you need it.
 
 ## Render a player
 
@@ -52,8 +52,8 @@ Bind the settings your application needs to control:
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { VideoPlayer } from 'videojs-vue/video/default'
+import { shallowRef } from 'vue'
 
 const volume = shallowRef(0.7)
 const muted = shallowRef(false)

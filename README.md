@@ -82,7 +82,7 @@ import { HlsVideo } from 'videojs-vue/media/hls'
 </template>
 ```
 
-Install `@videojs/hlsjs-video@10.0.1` separately. The live preset provides default and neutral skins, live-state composables, and a return-to-live button. See the [live API](https://videojs-vue.ntnyq.dev/api/live) and [HLS Live example](https://videojs-vue.ntnyq.dev/examples/live). A dedicated DVR timeline is outside this initial live release.
+Install `@videojs/hlsjs-video@10.3.0` separately. The live preset provides default and neutral skins, live-state composables, and a return-to-live button. See the [live API](https://videojs-vue.ntnyq.dev/api/live) and [HLS Live example](https://videojs-vue.ntnyq.dev/examples/live). A dedicated DVR timeline is outside this initial live release.
 
 ## Credits
 

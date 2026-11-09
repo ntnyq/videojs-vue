@@ -26,10 +26,10 @@ The fixed player entries share the aggregate players' media props, events, expos
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import { VideoPlayer } from 'videojs-vue/video/default'
-import type { VideoPlayerHandle } from 'videojs-vue/video/core'
 import { useVideoPlayerState } from 'videojs-vue/video/composables'
+import type { VideoPlayerHandle } from 'videojs-vue/video/core'
+import { VideoPlayer } from 'videojs-vue/video/default'
+import { shallowRef } from 'vue'
 
 const player = shallowRef<VideoPlayerHandle | null>(null)
 const paused = useVideoPlayerState(state => state.paused, player)

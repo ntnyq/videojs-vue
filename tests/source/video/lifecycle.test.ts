@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, KeepAlive, shallowRef } from 'vue'
 import type { Component } from 'vue'
-import { VideoPlayer } from '../../../src'
+import { VideoPlayer, VideoPlayerRoot } from '../../../src'
 import type { VideoPlayerHandle } from '../../../src'
 import { HlsVideo } from '../../../src/media/hls'
+import { MediaContainer } from '../../../src/ui'
 import {
   mount,
   settle,
@@ -14,6 +15,51 @@ import {
 
 describe('player lifecycle', () => {
   afterEach(cleanup)
+
+  it('retains independently cached HLS media until the cache owner unmounts', async () => {
+    expect.hasAssertions()
+    const visible = shallowRef(true)
+    const player = shallowRef<VideoPlayerHandle | null>(null)
+    const Cached = defineComponent(() => () => h(HlsVideo))
+    const { container, unmount } = mount(
+      defineComponent(
+        () => () =>
+          h(
+            VideoPlayerRoot,
+            { ref: player },
+            {
+              default: () =>
+                h(MediaContainer, null, {
+                  default: () =>
+                    h(KeepAlive, null, {
+                      // oxlint-disable-next-line vitest/no-conditional-in-test -- Drives an independently cached HLS adapter.
+                      default: () => (visible.value ? h(Cached) : h('div')),
+                    }),
+                }),
+            },
+          ),
+      ),
+    )
+    await settle()
+    const media = container.querySelector('hlsjs-video')!
+    const destroy = vi.spyOn(media.adapter, 'destroy')
+    const pause = vi.spyOn(media, 'pause')
+    visible.value = false
+    await settle()
+    expect(player.value!.media).toBeNull()
+    expect(pause).toHaveBeenCalledWith()
+    expect(destroy).not.toHaveBeenCalled()
+    await reconnectPlayer(() => {
+      visible.value = true
+    })
+    expect(player.value!.media).toBe(media)
+    visible.value = false
+    await settle()
+    unmount()
+    disposals.pop()
+    await settle()
+    expect(destroy).toHaveBeenCalledTimes(1)
+  })
 
   it('pauses and releases state while cached, then reconnects without autoplay', async () => {
     expect.hasAssertions()

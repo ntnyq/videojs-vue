@@ -21,6 +21,34 @@ import type { Component } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 
 describe('published package', () => {
+  it('serializes initial control configuration without serializing callbacks', async () => {
+    expect.hasAssertions()
+    const html = await renderToString(
+      createSSRApp(() =>
+        h(
+          MediaMenu,
+          {
+            defaultOpen: true,
+            side: 'top',
+          },
+          {
+            default: () =>
+              h(QualityRadioGroup, {
+                disabled: true,
+                label: 'Quality <menu>',
+                formatRendition: rendition => rendition.id,
+              }),
+          },
+        ),
+      ),
+    )
+    expect(html).toMatch(/\sdefault-open(?:="")?(?=[\s>])/u)
+    expect(html).toContain('side="top"')
+    expect(html).toMatch(/\sdisabled(?:="")?(?=[\s>])/u)
+    expect(html).toContain('label="Quality &lt;menu&gt;"')
+    expect(html).not.toContain('format-rendition')
+  })
+
   it.each<[Component, string]>([
     [LegacyVideoPlayer, 'media-container'],
     [CompatVideoPlayer, 'video-compat-skin'],

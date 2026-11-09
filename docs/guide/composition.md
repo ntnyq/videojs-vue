@@ -8,13 +8,13 @@ description: Build a player with a media adapter, custom controls, and fullscree
 
 ```vue
 <script setup lang="ts">
-import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
 import { MediaContainer } from 'videojs-vue/ui/container'
 import { MediaControls } from 'videojs-vue/ui/controls'
 import { MediaControlsContent } from 'videojs-vue/ui/controls-content'
-import { PlayButton } from 'videojs-vue/ui/play-button'
-import { MuteButton } from 'videojs-vue/ui/mute-button'
 import { FullscreenButton } from 'videojs-vue/ui/fullscreen-button'
+import { MuteButton } from 'videojs-vue/ui/mute-button'
+import { PlayButton } from 'videojs-vue/ui/play-button'
+import { VideoPlayerRoot, Video } from 'videojs-vue/video/core'
 </script>
 
 <template>

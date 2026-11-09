@@ -21,7 +21,7 @@ Renders a native `<video>` element. Accepts the [shared media props](./video-pla
 Install the optional dependency before importing this entry:
 
 ```sh
-pnpm add @videojs/hlsjs-video@10.0.1
+pnpm add @videojs/hlsjs-video@10.3.0
 ```
 
 ```ts
