@@ -52,7 +52,7 @@ async function simulateBuffering() {
   try {
     const media = player.value?.media
     if (!(media instanceof HTMLMediaElement)) {
-      throw new Error('Native video is not ready.')
+      throw new TypeError('Native video is not ready.')
     }
     await media.play()
   } catch (error) {
