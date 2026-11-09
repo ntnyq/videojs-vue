@@ -469,7 +469,8 @@
     "docs:dev": "pnpm -C docs run dev",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint",
+    "lint": "oxlint --deny-warnings",
+    "lint:fix": "oxlint --fix --deny-warnings",
     "play:build": "pnpm -C playground run build",
     "play:dev": "pnpm -C playground run dev",
     "play:legacy:build": "pnpm -C playground run legacy:build",
@@ -521,8 +522,10 @@
     }
   },
   "nano-staged": {
-    "*.{js,ts,mjs,tsx}": "oxlint --fix",
-    "*": "oxfmt --no-error-on-unmatched-pattern"
+    "*": [
+      "pnpm lint:fix --no-error-on-unmatched-pattern",
+      "pnpm format --no-error-on-unmatched-pattern"
+    ]
   },
   "packageManager": "pnpm@12.18.0"
 }

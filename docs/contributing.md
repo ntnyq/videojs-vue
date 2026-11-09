@@ -75,6 +75,8 @@ Run the complete check before review:
 pnpm release:check
 ```
 
-It checks formatting, lint, types, source tests, published-entry behavior and bundle budgets, and builds the library, playground, and documentation. See [bundle measurements](./guide/bundle-size.md#reproduce-measurements) for the individual commands. `pnpm docs:build` checks document rendering and internal page links; run `pnpm build` first when the library output is missing or outdated.
+It checks formatting, lint, types, source tests, published-entry behavior and bundle budgets, and builds the library, modern and legacy playgrounds, and documentation. Both CI and the tag release workflow run this same command. CI also runs source and playground tests across its Node.js and operating system matrix. See [bundle measurements](./guide/bundle-size.md#reproduce-measurements) for the individual commands. `pnpm docs:build` checks document rendering and internal page links; run `pnpm build` first when the library output is missing or outdated.
+
+Lint warnings fail validation. Use `pnpm lint:fix` and `pnpm format` to apply the same fixes as autofix CI, then review the diff. The pre-commit hook runs these scripts sequentially on staged files. Each tool selects its supported file types and respects its configured ignores, including Vue and module file extensions in lint checks. The hook does not replace the full release check.
 
 Use browser checks for changes to media playback or controls. Include screenshots for visual changes and describe relevant validation in the pull request. Commit messages follow the existing `feat:`, `refactor:`, `docs:`, and `chore:` prefixes.

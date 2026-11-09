@@ -1,3 +1,4 @@
+/* oxlint-disable import/no-namespace -- Namespace imports verify runtime exports and public types across package entries. */
 import { readdir, readFile } from 'node:fs/promises'
 // @vitest-environment node
 import { createRequire } from 'node:module'
@@ -14,7 +15,6 @@ import * as liveCore from 'videojs-vue/live/core'
 import { DefaultLiveVideoSkin } from 'videojs-vue/live/skins/default'
 import { captureVideoFrame, downloadMedia } from 'videojs-vue/media/utils'
 import type { VideoFrameOptions } from 'videojs-vue/media/utils'
-// oxlint-disable-next-line import/no-namespace -- Compare the complete aggregate API with granular entries.
 import * as ui from 'videojs-vue/ui'
 import {
   CaptionsRadioGroup as AggregateCaptionsRadioGroup,
