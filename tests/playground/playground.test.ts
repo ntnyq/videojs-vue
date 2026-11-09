@@ -132,6 +132,42 @@ describe('copyable playground examples', () => {
 })
 
 describe('playground lifecycle', () => {
+  it('clears the previous source error when resetting parameters restores the default URL', () => {
+    expect.hasAssertions()
+    const scope = effectScope()
+    const lab = scope.run(() => usePlayground())!
+    lab.updateConfig('src', '/missing-video.mp4')
+    lab.listeners['onError']?.()
+    expect(lab.failure).toBe('media-error')
+    const { generation } = lab
+    lab.resetConfig()
+    expect(lab.config.src).toBe(createConfig().src)
+    expect(lab.failure).toBe('')
+    expect(lab.generation).toBe(generation)
+    scope.stop()
+  })
+
+  it('restores only parameters without remounting or changing the active view', () => {
+    expect.hasAssertions()
+    const scope = effectScope()
+    const lab = scope.run(() => usePlayground())!
+    lab.selectExample('captions')
+    lab.updateConfig('volume', 0.2)
+    lab.updateConfig('hasCaptions', false)
+    lab.toggleMount()
+    lab.view = 'code'
+    lab.inspectorTab = 'actions'
+    const { generation } = lab
+    lab.resetConfig()
+    expect(lab.config).toStrictEqual(createConfig('captions'))
+    expect(lab.generation).toBe(generation)
+    expect(lab.isMounted).toBe(false)
+    expect(lab.view).toBe('code')
+    expect(lab.inspectorTab).toBe('actions')
+    expect(lab.log.entries.at(-1)?.name).toBe('reset:parameters')
+    scope.stop()
+  })
+
   it('provides two selectable subtitle languages in the captions demo and respects disabling tracks', () => {
     expect.hasAssertions()
     const scope = effectScope()

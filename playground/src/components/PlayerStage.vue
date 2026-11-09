@@ -15,6 +15,7 @@ import mediaExportController from '../media-export/useMediaExport.ts?raw'
 // oxlint-disable-next-line import/default -- Vite's raw loader exports the source text.
 import playlistController from '../playlist/usePlaylist.ts?raw'
 import CodePanel from './CodePanel.vue'
+import HintTooltip from './HintTooltip.vue'
 import { PlayerDemo } from './PlayerDemo'
 import PlayerModeTabs from './PlayerModeTabs.vue'
 import PlayerStatePanel from './PlayerStatePanel.vue'
@@ -35,7 +36,7 @@ function setSeek(lab: Playground, value: string | number) {
 </script>
 <template>
   <section
-    class="p-4 sm:p-5"
+    class="p-3 sm:px-5 sm:py-3"
     :aria-label="translate('app.preview')"
   >
     <PlayerModeTabs
@@ -45,7 +46,7 @@ function setSeek(lab: Playground, value: string | number) {
       <div class="flex items-start justify-between gap-3">
         <div>
           <div class="flex flex-wrap items-center gap-3">
-            <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
+            <h1 class="text-lg font-semibold tracking-tight sm:text-xl">
               {{ translate(`examples.${lab.example}.title`) }}
             </h1>
             <Badge
@@ -65,25 +66,27 @@ function setSeek(lab: Playground, value: string | number) {
               }}</Badge
             >
           </div>
-          <p class="mt-2 text-sm text-muted-foreground">
+          <p class="mt-1 text-xs leading-relaxed text-muted-foreground">
             {{ translate(`examples.${lab.example}.description`) }}
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          :aria-label="translate('app.reset')"
-          @click="lab.reset"
-          ><RotateCcw /><span class="hidden sm:inline">{{
-            translate('app.reset')
-          }}</span></Button
+        <HintTooltip :content="translate('app.resetExample')"
+          ><Button
+            variant="outline"
+            size="sm"
+            :aria-label="translate('app.resetExample')"
+            @click="lab.reset"
+            ><RotateCcw /><span class="hidden sm:inline">{{
+              translate('app.resetExample')
+            }}</span></Button
+          ></HintTooltip
         >
       </div>
       <Tabs
         v-model="lab.view"
         class="block"
       >
-        <div class="mt-3 flex items-center justify-between gap-2 border-b pb-2">
+        <div class="mt-2 flex items-center justify-between gap-2 border-b pb-2">
           <TabsList
             ><TabsTrigger value="preview">{{
               translate('app.preview')
@@ -93,14 +96,15 @@ function setSeek(lab: Playground, value: string | number) {
               translate('app.state')
             }}</TabsTrigger></TabsList
           >
-          <Button
-            variant="outline"
-            size="icon-sm"
-            class="xl:hidden"
-            :aria-label="translate('app.mobileSettings')"
-            @click="emit('openSettings')"
-            ><SlidersHorizontal
-          /></Button>
+          <HintTooltip :content="translate('app.mobileSettings')"
+            ><Button
+              variant="outline"
+              size="icon-sm"
+              class="size-9 xl:hidden"
+              :aria-label="translate('app.mobileSettings')"
+              @click="emit('openSettings')"
+              ><SlidersHorizontal /></Button
+          ></HintTooltip>
         </div>
         <TabsContent
           value="preview"
@@ -117,9 +121,7 @@ function setSeek(lab: Playground, value: string | number) {
                 ? 'max-w-3xl p-4 sm:p-8'
                 : lab.example === 'playlist'
                   ? 'w-full'
-                  : ['custom', 'captions'].includes(lab.example)
-                    ? 'lg:max-w-[clamp(320px,calc((100cqh-21rem)*1.7778),100%)]'
-                    : 'lg:max-w-[clamp(240px,calc((100cqh-21rem)*1.7778),100%)]',
+                  : 'lg:max-w-[clamp(320px,calc((100cqh-16rem)*1.7778),100%)]',
           ]"
         >
           <PlayerDemo

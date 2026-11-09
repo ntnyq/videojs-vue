@@ -24,7 +24,7 @@ function select(value: string | number) {
     @update:model-value="select"
   >
     <TabsList
-      class="mb-4"
+      class="mb-2"
       :aria-label="translate('app.playerType')"
     >
       <TabsTrigger value="video">

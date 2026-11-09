@@ -3,6 +3,8 @@ import type en from './en'
 
 export default {
   app: {
+    resetExample: '예제 초기화',
+    resetDemo: '데모 초기화',
     playerType: '플레이어 유형',
     videoPlayer: '동영상 플레이어',
     audioPlayer: '오디오 플레이어',
@@ -158,6 +160,11 @@ export default {
     captions: '자막',
   },
   settings: {
+    reset: '매개변수 초기화',
+    unapplied: '미적용',
+    applied: '적용됨',
+    fullUrl: '전체 주소 보기',
+    copyUrl: '주소 복사',
     props: '속성',
     actions: '동작',
     advanced: '추가 미디어 옵션',
@@ -188,6 +195,11 @@ export default {
     trackLabel: '자막 이름',
   },
   logs: {
+    expand: '로그 펼치기',
+    collapse: '로그 접기',
+    latest: '최신으로 이동',
+    newEntries: '새 로그 {count}개 · 최신으로 이동',
+    noMatches: '일치하는 로그가 없습니다. 필터를 변경하거나 지우세요.',
     title: '이벤트 로그',
     recording: '기록 중',
     paused: '일시 정지됨',
@@ -204,8 +216,7 @@ export default {
     type: '유형',
     event: '이벤트',
     payload: '데이터',
-    empty:
-      '일치하는 기록이 없습니다. 미디어를 재생하거나 매개변수를 변경하세요.',
+    empty: '아직 로그가 없습니다. 미디어를 재생하거나 매개변수를 변경하세요.',
     count: '전체 {total}개 중 {shown}개 표시',
     limit: '최대 500개',
     eventType: '미디어 이벤트',

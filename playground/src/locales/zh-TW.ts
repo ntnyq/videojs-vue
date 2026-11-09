@@ -3,6 +3,8 @@ import type en from './en'
 
 export default {
   app: {
+    resetExample: '重設範例',
+    resetDemo: '重設示範',
     playerType: '播放器類型',
     videoPlayer: '影片播放器',
     audioPlayer: '音訊播放器',
@@ -153,6 +155,11 @@ export default {
     captions: '字幕',
   },
   settings: {
+    reset: '重設參數',
+    unapplied: '尚未套用',
+    applied: '已套用',
+    fullUrl: '完整網址',
+    copyUrl: '複製網址',
     props: '屬性',
     actions: '操作',
     advanced: '更多媒體選項',
@@ -183,6 +190,11 @@ export default {
     trackLabel: '字幕名稱',
   },
   logs: {
+    expand: '展開事件記錄',
+    collapse: '收合事件記錄',
+    latest: '回到最新',
+    newEntries: '新增 {count} 筆 · 回到最新',
+    noMatches: '沒有符合的記錄，請調整或清除篩選條件。',
     title: '事件記錄',
     recording: '記錄中',
     paused: '已暫停',
@@ -199,7 +211,7 @@ export default {
     type: '類型',
     event: '事件',
     payload: '資料',
-    empty: '暫無符合的記錄。播放媒體或調整參數以查看活動。',
+    empty: '尚無記錄，播放媒體或修改參數後即可記錄。',
     count: '已顯示 {shown} / {total} 筆',
     limit: '最多保留 500 筆',
     eventType: '媒體事件',

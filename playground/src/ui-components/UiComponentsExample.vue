@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ChevronLeft, ChevronRight } from '@lucide/vue'
 import type { VideoMediaProps } from 'videojs-vue'
 import {
   computed,
@@ -13,6 +14,20 @@ import { useI18n } from 'vue-i18n'
 import CodePanel from '../components/CodePanel.vue'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
+import { Label } from '../components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../components/ui/tooltip'
 import { UI_COMPONENTS, UI_RECIPES, findUiComponents } from './catalog'
 import type { UiComponentName, UiRecipeId } from './catalog'
 // oxlint-disable-next-line import/default -- Vite's raw loader exports the source text.
@@ -32,6 +47,7 @@ const attrs = useAttrs()
 const { t: translate } = useI18n()
 const searchId = useId()
 const componentId = useId()
+const groupId = useId()
 const query = shallowRef('')
 const group = shallowRef<UiRecipeId | 'all'>('all')
 const selected = shallowRef<UiComponentName>('MediaControlsBackdrop')
@@ -80,11 +96,7 @@ watch(visible, items => {
     selectComponent(first.name)
   }
 })
-function selectValue(event: Event) {
-  if (!(event.target instanceof HTMLSelectElement)) {
-    return
-  }
-  const { value } = event.target
+function selectValue(value: unknown) {
   const component = UI_COMPONENTS.find(item => item.name === value)
   if (component) {
     selectComponent(component.name)
@@ -115,7 +127,7 @@ function recordInteraction(event: Event) {
 
 <template>
   <div
-    class="space-y-4 bg-background p-1 text-foreground"
+    class="space-y-2 bg-background p-1 text-foreground"
     @open-change.capture="recordInteraction"
     @value-change.capture="recordInteraction"
     @checked-change.capture="recordInteraction"
@@ -123,107 +135,136 @@ function recordInteraction(event: Event) {
     @drag-end.capture="recordInteraction"
   >
     <div class="flex flex-wrap items-end gap-2">
-      <label
-        class="min-w-48 flex-1 space-y-2 text-xs font-medium"
-        :for="componentId"
-      >
-        <span class="block">{{ translate('uiComponents.components') }}</span>
-        <select
-          :id="componentId"
-          :value="selected"
-          class="h-9 w-full rounded-md border bg-background px-2 text-sm"
-          @change="selectValue"
+      <div class="min-w-0 basis-48 flex-1 space-y-2">
+        <Label
+          :for="componentId"
+          class="text-xs"
+          >{{ translate('uiComponents.components') }}</Label
         >
-          <option
-            v-for="item in visible"
-            :key="item.name"
-            :value="item.name"
-          >
-            {{ item.name }}
-          </option>
-        </select>
-      </label>
-      <label class="space-y-2 text-xs font-medium">
-        <span class="block">{{ translate('uiComponents.group') }}</span>
-        <select
-          v-model="group"
-          class="h-9 max-w-full rounded-md border bg-background px-2 text-sm"
+        <Select
+          :model-value="visible.length ? selected : undefined"
+          :disabled="!visible.length"
+          @update:model-value="selectValue"
         >
-          <option value="all">{{ translate('uiComponents.all') }}</option>
-          <option
-            v-for="recipe in UI_RECIPES"
-            :key="recipe.id"
-            :value="recipe.id"
+          <SelectTrigger
+            :id="componentId"
+            class="w-full min-w-0"
           >
-            {{ translate(`uiComponents.groups.${recipe.id}.title`) }}
-          </option>
-        </select>
-      </label>
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="selectedIndex <= 0"
-        @click="stepComponent(-1)"
-        >{{ translate('uiComponents.previous') }}</Button
-      >
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="selectedIndex < 0 || selectedIndex >= visible.length - 1"
-        @click="stepComponent(1)"
-        >{{ translate('uiComponents.next') }}</Button
-      >
-    </div>
-    <details class="rounded-md border px-3 py-2 text-xs">
-      <summary class="cursor-pointer">
-        {{ translate('uiComponents.search') }} ({{ visible.length }} /
-        {{ UI_COMPONENTS.length }})
-      </summary>
-      <div class="mt-3 space-y-3">
-        <label
-          class="sr-only"
+            <SelectValue :placeholder="translate('app.noExamples')" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem
+              v-for="item in visible"
+              :key="item.name"
+              :value="item.name"
+            >
+              {{ item.name }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div class="min-w-0 basis-40 flex-1 space-y-2">
+        <Label
           :for="searchId"
-          >{{ translate('uiComponents.search') }}</label
+          class="text-xs"
+          >{{ translate('uiComponents.search') }}</Label
         >
         <Input
           :id="searchId"
           v-model="query"
           :placeholder="translate('uiComponents.searchPlaceholder')"
+          class="h-9 text-xs"
         />
-        <div class="flex max-h-36 flex-wrap gap-1.5 overflow-y-auto">
-          <Button
-            v-for="item in visible"
-            :key="item.name"
-            :variant="selected === item.name ? 'secondary' : 'ghost'"
-            size="sm"
-            class="h-8 max-w-full text-xs"
-            :aria-pressed="selected === item.name"
-            @click="selectComponent(item.name)"
-            >{{ item.name }}</Button
-          >
-          <p
-            v-if="!visible.length"
-            role="status"
-            class="p-2 text-sm text-muted-foreground"
-          >
-            {{ translate('app.noExamples') }}
-          </p>
-        </div>
       </div>
-    </details>
-    <div class="flex flex-wrap items-start justify-between gap-3">
-      <div class="min-w-0 flex-1">
-        <p
-          class="mt-1 max-w-[75ch] text-xs leading-relaxed text-muted-foreground"
+      <div class="min-w-0 space-y-2">
+        <Label
+          :for="groupId"
+          class="text-xs"
+          >{{ translate('uiComponents.group') }}</Label
         >
-          {{ translate(`uiComponents.groups.${activeRecipe.id}.hint`) }}
-        </p>
+        <Select v-model="group">
+          <SelectTrigger
+            :id="groupId"
+            class="w-full"
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{{
+              translate('uiComponents.all')
+            }}</SelectItem>
+            <SelectItem
+              v-for="recipe in UI_RECIPES"
+              :key="recipe.id"
+              :value="recipe.id"
+            >
+              {{ translate(`uiComponents.groups.${recipe.id}.title`) }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </div>
+      <TooltipProvider>
+        <div class="flex gap-2">
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                :aria-label="translate('uiComponents.previous')"
+                :disabled="selectedIndex <= 0"
+                @click="stepComponent(-1)"
+                ><ChevronLeft aria-hidden="true"
+              /></Button>
+            </TooltipTrigger>
+            <TooltipContent>{{
+              translate('uiComponents.previous')
+            }}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                :aria-label="translate('uiComponents.next')"
+                :disabled="
+                  selectedIndex < 0 || selectedIndex >= visible.length - 1
+                "
+                @click="stepComponent(1)"
+                ><ChevronRight aria-hidden="true"
+              /></Button>
+            </TooltipTrigger>
+            <TooltipContent>{{
+              translate('uiComponents.next')
+            }}</TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
+    </div>
+    <div class="flex flex-wrap items-start justify-between gap-3">
+      <p
+        role="status"
+        class="min-w-0 flex-1 self-center text-xs text-muted-foreground"
+      >
+        {{
+          visible.length
+            ? translate('uiComponents.position', {
+                group:
+                  group === 'all'
+                    ? translate('uiComponents.all')
+                    : translate(`uiComponents.groups.${group}.title`),
+                current: selectedIndex + 1,
+                total: visible.length,
+              })
+            : translate('app.noExamples')
+        }}
+      </p>
       <Button
         variant="outline"
         size="sm"
         @click="resetRecipe"
-        >{{ translate('app.reset') }}</Button
+        >{{ translate('app.resetDemo') }}</Button
       >
     </div>
     <div
@@ -238,6 +279,9 @@ function recordInteraction(event: Event) {
         :title="title"
       />
     </div>
+    <p class="max-w-[75ch] text-xs leading-relaxed text-muted-foreground">
+      {{ translate(`uiComponents.groups.${activeRecipe.id}.hint`) }}
+    </p>
     <p class="text-xs leading-relaxed text-muted-foreground">
       {{ translate('uiComponents.composed') }}
       {{ activeRecipe.components.join(', ') }}

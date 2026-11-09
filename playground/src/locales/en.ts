@@ -2,6 +2,8 @@ import { uiComponentMessages } from '../ui-components/messages'
 
 const en = {
   app: {
+    resetExample: 'Reset example',
+    resetDemo: 'Reset demo',
     playerType: 'Player type',
     videoPlayer: 'Video player',
     audioPlayer: 'Audio player',
@@ -158,6 +160,11 @@ const en = {
     normalSpeed: 'Normal',
   },
   settings: {
+    reset: 'Reset parameters',
+    unapplied: 'Not applied',
+    applied: 'Applied',
+    fullUrl: 'Full URL',
+    copyUrl: 'Copy URL',
     props: 'Props',
     actions: 'Actions',
     advanced: 'More media options',
@@ -188,6 +195,11 @@ const en = {
     trackLabel: 'Track label',
   },
   logs: {
+    expand: 'Expand event log',
+    collapse: 'Collapse event log',
+    latest: 'Back to latest',
+    newEntries: '{count} new entries · Back to latest',
+    noMatches: 'No matching entries. Change or clear the filters.',
     title: 'Event log',
     recording: 'Recording',
     paused: 'Paused',
@@ -205,7 +217,7 @@ const en = {
     event: 'Event',
     payload: 'Payload',
     empty:
-      'No matching entries. Play the media or change a parameter to record activity.',
+      'No entries yet. Play the media or change a parameter to record activity.',
     count: 'Showing {shown} of {total}',
     limit: '500 entry limit',
     eventType: 'Media events',

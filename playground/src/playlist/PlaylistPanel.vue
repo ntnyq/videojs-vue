@@ -9,6 +9,8 @@ import {
   X,
 } from '@lucide/vue'
 import { onMounted, useTemplateRef, watch } from 'vue'
+import HintTooltip from '../components/HintTooltip.vue'
+import { TooltipProvider } from '../components/ui/tooltip'
 import type { PlaylistLabels } from './labels'
 import type { PlaylistItem } from './usePlaylist'
 
@@ -77,137 +79,142 @@ function formatDuration(seconds?: number) {
 </script>
 
 <template>
-  <aside
-    class="playlist-panel"
-    :aria-label="labels.title"
-  >
-    <header class="playlist-heading">
-      <div>
-        <h3>{{ labels.title }}</h3>
-        <p>{{ labels.collection }}</p>
-      </div>
-      <button
-        type="button"
-        :aria-label="labels.hide"
-        @click="emit('close')"
-      >
-        <X
-          :size="18"
-          aria-hidden="true"
-        />
-      </button>
-    </header>
-    <div class="playlist-modes">
-      <button
-        type="button"
-        :aria-label="labels.shuffle"
-        :title="labels.shuffle"
-        :aria-pressed="shuffle"
-        @click="shuffle = !shuffle"
-      >
-        <Shuffle
-          :size="18"
-          aria-hidden="true"
-        />
-      </button>
-      <button
-        type="button"
-        :aria-pressed="repeat"
-        @click="repeat = !repeat"
-      >
-        <Repeat
-          :size="18"
-          aria-hidden="true"
-        /><span>{{ labels.repeat }}</span>
-      </button>
-      <label class="playlist-auto"
-        ><span>{{ labels.autoAdvance }}</span
-        ><input
-          v-model="autoAdvance"
-          type="checkbox"
-          role="switch" /><span
-          class="playlist-switch"
-          aria-hidden="true"
-      /></label>
-    </div>
-    <ol
-      ref="list"
-      class="playlist-list"
+  <TooltipProvider>
+    <aside
+      class="playlist-panel"
+      :aria-label="labels.title"
     >
-      <li
-        v-for="(item, position) in items"
-        :key="item.id"
-      >
+      <header class="playlist-heading">
+        <div>
+          <h3>{{ labels.title }}</h3>
+          <p>{{ labels.collection }}</p>
+        </div>
+        <HintTooltip :content="labels.hide">
+          <button
+            type="button"
+            :aria-label="labels.hide"
+            @click="emit('close')"
+          >
+            <X
+              :size="18"
+              aria-hidden="true"
+            />
+          </button>
+        </HintTooltip>
+      </header>
+      <div class="playlist-modes">
+        <HintTooltip :content="labels.shuffle">
+          <button
+            type="button"
+            :aria-label="labels.shuffle"
+            :aria-pressed="shuffle"
+            @click="shuffle = !shuffle"
+          >
+            <Shuffle
+              :size="18"
+              aria-hidden="true"
+            />
+          </button>
+        </HintTooltip>
         <button
-          class="playlist-item"
           type="button"
-          :aria-current="currentId === item.id ? 'true' : undefined"
-          @click="emit('select', item.id)"
+          :aria-pressed="repeat"
+          @click="repeat = !repeat"
         >
-          <span class="playlist-number"
-            ><AudioLines
-              v-if="currentId === item.id"
-              :size="16"
-              aria-hidden="true"
-            /><span v-else>{{ position + 1 }}</span></span
-          >
-          <span class="playlist-thumbnail">
-            <img
-              v-if="item.poster"
-              :src="item.poster"
-              alt=""
-              loading="lazy"
-            />
-            <ListVideo
-              v-else
-              :size="28"
-              aria-hidden="true"
-            />
-            <span
-              v-if="formatDuration(item.duration)"
-              class="playlist-duration"
-              >{{ formatDuration(item.duration) }}</span
-            >
-            <span
-              v-if="currentId === item.id"
-              class="playlist-thumbnail-progress"
-              :style="{ width: `${progress}%` }"
-            />
-          </span>
-          <span class="playlist-description"
-            ><strong>{{ item.title }}</strong
-            ><span v-if="currentId === item.id">{{ labels.nowPlaying }}</span
-            ><span v-else-if="nextId === item.id">{{
-              labels.upNext
-            }}</span></span
-          >
+          <Repeat
+            :size="18"
+            aria-hidden="true"
+          /><span>{{ labels.repeat }}</span>
         </button>
-      </li>
-    </ol>
-    <footer class="playlist-navigation">
-      <button
-        type="button"
-        :disabled="!canPrevious"
-        @click="emit('previous')"
+        <label class="playlist-auto"
+          ><span>{{ labels.autoAdvance }}</span
+          ><input
+            v-model="autoAdvance"
+            type="checkbox"
+            role="switch" /><span
+            class="playlist-switch"
+            aria-hidden="true"
+        /></label>
+      </div>
+      <ol
+        ref="list"
+        class="playlist-list"
       >
-        <SkipBack
-          :size="18"
-          aria-hidden="true"
-        />{{ labels.previous }}
-      </button>
-      <button
-        type="button"
-        :disabled="!canNext"
-        @click="emit('next')"
-      >
-        {{ labels.next
-        }}<SkipForward
-          :size="18"
-          aria-hidden="true"
-        />
-      </button>
-    </footer>
-  </aside>
+        <li
+          v-for="(item, position) in items"
+          :key="item.id"
+        >
+          <button
+            class="playlist-item"
+            type="button"
+            :aria-current="currentId === item.id ? 'true' : undefined"
+            @click="emit('select', item.id)"
+          >
+            <span class="playlist-number"
+              ><AudioLines
+                v-if="currentId === item.id"
+                :size="16"
+                aria-hidden="true"
+              /><span v-else>{{ position + 1 }}</span></span
+            >
+            <span class="playlist-thumbnail">
+              <img
+                v-if="item.poster"
+                :src="item.poster"
+                alt=""
+                loading="lazy"
+              />
+              <ListVideo
+                v-else
+                :size="28"
+                aria-hidden="true"
+              />
+              <span
+                v-if="formatDuration(item.duration)"
+                class="playlist-duration"
+                >{{ formatDuration(item.duration) }}</span
+              >
+              <span
+                v-if="currentId === item.id"
+                class="playlist-thumbnail-progress"
+                :style="{ width: `${progress}%` }"
+              />
+            </span>
+            <span class="playlist-description"
+              ><strong>{{ item.title }}</strong
+              ><span v-if="currentId === item.id">{{ labels.nowPlaying }}</span
+              ><span v-else-if="nextId === item.id">{{
+                labels.upNext
+              }}</span></span
+            >
+          </button>
+        </li>
+      </ol>
+      <footer class="playlist-navigation">
+        <button
+          type="button"
+          :disabled="!canPrevious"
+          @click="emit('previous')"
+        >
+          <SkipBack
+            :size="18"
+            aria-hidden="true"
+          />{{ labels.previous }}
+        </button>
+        <button
+          type="button"
+          :disabled="!canNext"
+          @click="emit('next')"
+        >
+          {{ labels.next
+          }}<SkipForward
+            :size="18"
+            aria-hidden="true"
+          />
+        </button>
+      </footer>
+    </aside>
+  </TooltipProvider>
 </template>
 
 <style scoped>

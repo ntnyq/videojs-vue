@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { RotateCcw } from '@lucide/vue'
-import { computed, reactive, shallowRef, watch } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { Playground } from '../composables/usePlayground'
-import { isMediaUrl } from '../data'
 import ActionPanel from './ActionPanel.vue'
 import NumberField from './NumberField.vue'
 import SelectField from './SelectField.vue'
@@ -17,38 +16,18 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { ScrollArea } from './ui/scroll-area'
+import { SheetTitle } from './ui/sheet'
 import { Slider } from './ui/slider'
 import { Switch } from './ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import UrlField from './UrlField.vue'
 
-const props = defineProps<{ lab: Playground }>()
+const props = defineProps<{ lab: Playground; drawer?: boolean }>()
 const { t: translate } = useI18n()
-const drafts = reactive({ src: '', poster: '', trackSrc: '' })
-const invalid = shallowRef('')
-watch(
-  () => [
-    props.lab.config.src,
-    props.lab.config.poster,
-    props.lab.config.trackSrc,
-  ],
-  () => {
-    Object.assign(drafts, {
-      src: props.lab.config.src,
-      poster: props.lab.config.poster,
-      trackSrc: props.lab.config.trackSrc,
-    })
-    invalid.value = ''
-  },
-  { immediate: true },
-)
-function applyUrl(key: keyof typeof drafts) {
-  const value = drafts[key].trim()
-  if ((key === 'src' && !value) || (value && !isMediaUrl(value))) {
-    invalid.value = key
-    return
-  }
-  invalid.value = ''
-  props.lab.updateConfig(key, value)
+const resetGeneration = shallowRef(0)
+function resetParameters() {
+  props.lab.resetConfig()
+  resetGeneration.value++
 }
 const skins = [
   { value: 'default', label: 'default' },
@@ -112,18 +91,35 @@ const booleanProps = computed(() => {
     class="flex h-full min-h-0 flex-col bg-background"
     :aria-label="translate('app.settings')"
   >
-    <div class="flex h-14 shrink-0 items-center justify-between px-5">
-      <h2 class="text-sm font-semibold">{{ translate('app.settings') }}</h2>
+    <div
+      :class="[
+        'flex min-h-16 shrink-0 items-center justify-between gap-2 px-5',
+        { 'pr-12': drawer },
+      ]"
+    >
+      <SheetTitle
+        v-if="drawer"
+        class="text-sm font-semibold"
+        >{{ translate('app.settings') }}</SheetTitle
+      >
+      <h2
+        v-else
+        class="text-sm font-semibold"
+      >
+        {{ translate('app.settings') }}
+      </h2>
       <Button
         variant="ghost"
-        size="icon-sm"
-        :aria-label="translate('app.reset')"
-        @click="lab.reset"
-        ><RotateCcw class="size-4"
-      /></Button>
+        size="sm"
+        @click="resetParameters"
+        ><RotateCcw class="size-4" />{{ translate('settings.reset') }}</Button
+      >
     </div>
     <ScrollArea class="min-h-0 flex-1 px-5 pb-5">
-      <Tabs v-model="lab.inspectorTab">
+      <Tabs
+        :key="`${lab.generation}:${resetGeneration}`"
+        v-model="lab.inspectorTab"
+      >
         <TabsList class="mb-2 grid w-full grid-cols-2"
           ><TabsTrigger value="props">{{
             translate('settings.props')
@@ -148,37 +144,14 @@ const booleanProps = computed(() => {
                 >
                   {{ translate('examples.playlist.hint') }}
                 </p>
-                <form
+                <UrlField
                   v-else
-                  @submit.prevent="applyUrl('src')"
-                >
-                  <Label
-                    for="source-url"
-                    class="text-xs"
-                    >src</Label
-                  >
-                  <div class="mt-2 flex gap-1">
-                    <Input
-                      id="source-url"
-                      v-model="drafts.src"
-                      class="min-w-0 text-xs"
-                      :aria-invalid="invalid === 'src'"
-                    /><Button
-                      type="submit"
-                      variant="outline"
-                      size="sm"
-                      class="h-9"
-                      >{{ translate('settings.apply') }}</Button
-                    >
-                  </div>
-                  <p
-                    v-if="invalid === 'src'"
-                    role="alert"
-                    class="mt-2 text-xs text-destructive"
-                  >
-                    {{ translate('settings.invalidUrl') }}
-                  </p>
-                </form>
+                  id="source-url"
+                  label="src"
+                  :model-value="lab.config.src"
+                  required
+                  @apply="lab.updateConfig('src', $event)"
+                />
                 <SelectField
                   id="skin"
                   v-model="skin"
@@ -226,34 +199,12 @@ const booleanProps = computed(() => {
                     "
                   />
                 </div>
-                <form @submit.prevent="applyUrl('poster')">
-                  <Label
-                    for="poster-url"
-                    class="text-xs"
-                    >poster</Label
-                  >
-                  <div class="mt-2 flex gap-1">
-                    <Input
-                      id="poster-url"
-                      v-model="drafts.poster"
-                      class="min-w-0 text-xs"
-                      :aria-invalid="invalid === 'poster'"
-                    /><Button
-                      type="submit"
-                      variant="outline"
-                      size="sm"
-                      class="h-9"
-                      >{{ translate('settings.apply') }}</Button
-                    >
-                  </div>
-                  <p
-                    v-if="invalid === 'poster'"
-                    role="alert"
-                    class="mt-2 text-xs text-destructive"
-                  >
-                    {{ translate('settings.invalidUrl') }}
-                  </p>
-                </form>
+                <UrlField
+                  id="poster-url"
+                  label="poster"
+                  :model-value="lab.config.poster"
+                  @apply="lab.updateConfig('poster', $event)"
+                />
                 <SelectField
                   id="crossorigin"
                   v-model="crossOrigin"
@@ -345,34 +296,12 @@ const booleanProps = computed(() => {
                     "
                   />
                 </div>
-                <form @submit.prevent="applyUrl('trackSrc')">
-                  <Label
-                    for="track-src"
-                    class="text-xs"
-                    >{{ translate('settings.trackSrc') }}</Label
-                  >
-                  <div class="mt-2 flex gap-1">
-                    <Input
-                      id="track-src"
-                      v-model="drafts.trackSrc"
-                      class="min-w-0 text-xs"
-                      :aria-invalid="invalid === 'trackSrc'"
-                    /><Button
-                      type="submit"
-                      variant="outline"
-                      size="sm"
-                      class="h-9"
-                      >{{ translate('settings.apply') }}</Button
-                    >
-                  </div>
-                  <p
-                    v-if="invalid === 'trackSrc'"
-                    role="alert"
-                    class="mt-2 text-xs text-destructive"
-                  >
-                    {{ translate('settings.invalidUrl') }}
-                  </p>
-                </form>
+                <UrlField
+                  id="track-src"
+                  :label="translate('settings.trackSrc')"
+                  :model-value="lab.config.trackSrc"
+                  @apply="lab.updateConfig('trackSrc', $event)"
+                />
                 <div class="space-y-2">
                   <Label
                     for="track-language"

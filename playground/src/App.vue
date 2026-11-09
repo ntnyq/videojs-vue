@@ -21,6 +21,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from './components/ui/sheet'
+import { TooltipProvider } from './components/ui/tooltip'
 import { usePlayground } from './composables/usePlayground'
 import type { ExampleId } from './data'
 
@@ -33,6 +34,7 @@ const isDesktop = useMediaQuery('(min-width: 1024px)')
 
 const isNavigationOpen = shallowRef(false)
 const isSettingsOpen = shallowRef(false)
+const isMobileLogCollapsed = shallowRef(true)
 
 function selectExample(example: ExampleId) {
   lab.selectExample(example)
@@ -56,107 +58,122 @@ watch(isDesktop, desktop => {
     :lang="locale"
     class="block"
   >
-    <div
-      class="min-h-dvh bg-background text-foreground lg:h-dvh lg:overflow-hidden"
-    >
-      <AppHeader @open-navigation="isNavigationOpen = true" />
-      <div class="flex lg:h-[calc(100dvh-3.5rem)]">
-        <aside class="hidden w-56 shrink-0 border-r lg:block">
-          <ExampleNav
-            :selected="lab.example"
-            @select="selectExample"
-          />
-        </aside>
-        <main class="min-w-0 flex-1">
-          <ResizablePanelGroup
-            direction="vertical"
-            class="max-lg:!h-auto"
-          >
-            <ResizablePanel
-              :default-size="70"
-              :min-size="35"
-              class="max-lg:!flex-none max-lg:!overflow-visible"
-            >
-              <ResizablePanelGroup
-                direction="horizontal"
-                class="max-lg:!h-auto"
-              >
-                <ResizablePanel
-                  :default-size="isWide ? 72 : 100"
-                  :min-size="45"
-                  class="max-lg:!overflow-visible"
-                >
-                  <ScrollArea
-                    class="h-full [container-type:size] max-lg:h-auto max-lg:[container-type:normal]"
-                  >
-                    <PlayerStage
-                      :lab="lab"
-                      @open-settings="isSettingsOpen = true"
-                    />
-                  </ScrollArea>
-                </ResizablePanel>
-                <ResizableHandle
-                  v-if="isWide"
-                  with-handle
-                />
-                <ResizablePanel
-                  v-if="isWide"
-                  :default-size="28"
-                  :min-size="23"
-                  :max-size="40"
-                >
-                  <PlayerSettings :lab="lab" />
-                </ResizablePanel>
-              </ResizablePanelGroup>
-            </ResizablePanel>
-            <ResizableHandle
-              :disabled="!isDesktop"
-              :with-handle="isDesktop"
+    <TooltipProvider :delay-duration="300">
+      <div
+        class="min-h-dvh bg-background text-foreground lg:h-dvh lg:overflow-hidden"
+      >
+        <AppHeader @open-navigation="isNavigationOpen = true" />
+        <div class="flex lg:h-[calc(100dvh-3.5rem)]">
+          <aside class="hidden w-56 shrink-0 border-r lg:block">
+            <ExampleNav
+              :selected="lab.example"
+              @select="selectExample"
             />
-            <ResizablePanel
-              :default-size="30"
-              :min-size="20"
-              class="max-lg:!flex-none"
+          </aside>
+          <main class="min-w-0 flex-1">
+            <ResizablePanelGroup
+              direction="vertical"
+              class="max-lg:!h-auto"
             >
-              <EventConsole :lab="lab" />
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </main>
-      </div>
-      <Sheet v-model:open="isNavigationOpen">
-        <SheetContent
-          side="left"
-          class="w-72 gap-0 p-0"
-          :close-label="translate('app.close')"
-        >
-          <SheetHeader class="px-6 pt-6 pb-2">
-            <SheetTitle>{{ translate('app.examples') }}</SheetTitle>
-            <SheetDescription>{{ translate('app.inspect') }}</SheetDescription>
-          </SheetHeader>
-          <ExampleNav
-            :selected="lab.example"
-            @select="selectExample"
-          />
-        </SheetContent>
-      </Sheet>
-      <Sheet v-model:open="isSettingsOpen">
-        <SheetContent
-          class="w-[min(100vw,400px)] gap-0 p-0"
-          :close-label="translate('app.close')"
-        >
-          <SheetHeader class="px-5 pt-6 pb-2">
-            <SheetTitle>
-              {{ translate('app.settings') }}
-            </SheetTitle>
-            <SheetDescription>
+              <ResizablePanel
+                :min-size="35"
+                class="max-lg:!flex-none max-lg:!overflow-visible"
+              >
+                <ResizablePanelGroup
+                  direction="horizontal"
+                  class="max-lg:!h-auto"
+                >
+                  <ResizablePanel
+                    :default-size="isWide ? 72 : 100"
+                    :min-size="45"
+                    class="max-lg:!overflow-visible"
+                  >
+                    <ScrollArea
+                      class="h-full [container-type:size] max-lg:h-auto max-lg:[container-type:normal]"
+                    >
+                      <PlayerStage
+                        :lab="lab"
+                        @open-settings="isSettingsOpen = true"
+                      />
+                    </ScrollArea>
+                  </ResizablePanel>
+                  <ResizableHandle
+                    v-if="isWide"
+                    with-handle
+                  />
+                  <ResizablePanel
+                    v-if="isWide"
+                    :default-size="28"
+                    :min-size="23"
+                    :max-size="40"
+                  >
+                    <PlayerSettings :lab="lab" />
+                  </ResizablePanel>
+                </ResizablePanelGroup>
+              </ResizablePanel>
+              <ResizableHandle
+                :disabled="!isDesktop"
+                :with-handle="isDesktop"
+              />
+              <ResizablePanel
+                v-slot="{ isCollapsed, collapse, expand }"
+                collapsible
+                size-unit="px"
+                :default-size="48"
+                :collapsed-size="48"
+                :min-size="240"
+                class="max-lg:!flex-none"
+              >
+                <EventConsole
+                  :lab="lab"
+                  :collapsed="isDesktop ? isCollapsed : isMobileLogCollapsed"
+                  @toggle="
+                    isDesktop
+                      ? isCollapsed
+                        ? expand()
+                        : collapse()
+                      : (isMobileLogCollapsed = !isMobileLogCollapsed)
+                  "
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </main>
+        </div>
+        <Sheet v-model:open="isNavigationOpen">
+          <SheetContent
+            side="left"
+            class="w-72 gap-0 p-0"
+            :close-label="translate('app.close')"
+          >
+            <SheetHeader class="px-6 pt-6 pb-2">
+              <SheetTitle>{{ translate('app.examples') }}</SheetTitle>
+              <SheetDescription>{{
+                translate('app.inspect')
+              }}</SheetDescription>
+            </SheetHeader>
+            <ExampleNav
+              :selected="lab.example"
+              @select="selectExample"
+            />
+          </SheetContent>
+        </Sheet>
+        <Sheet v-model:open="isSettingsOpen">
+          <SheetContent
+            class="w-[min(100vw,400px)] gap-0 p-0"
+            :close-label="translate('app.close')"
+          >
+            <SheetDescription class="sr-only">
               {{ translate('settings.live') }}
             </SheetDescription>
-          </SheetHeader>
-          <div class="min-h-0 flex-1">
-            <PlayerSettings :lab="lab" />
-          </div>
-        </SheetContent>
-      </Sheet>
-    </div>
+            <div class="min-h-0 flex-1">
+              <PlayerSettings
+                :lab="lab"
+                drawer
+              />
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </TooltipProvider>
   </MediaI18n>
 </template>

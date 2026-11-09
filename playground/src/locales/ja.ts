@@ -3,6 +3,8 @@ import type en from './en'
 
 export default {
   app: {
+    resetExample: 'サンプルをリセット',
+    resetDemo: 'デモをリセット',
     playerType: 'プレーヤーの種類',
     videoPlayer: '動画プレーヤー',
     audioPlayer: '音声プレーヤー',
@@ -160,6 +162,11 @@ export default {
     captions: '字幕',
   },
   settings: {
+    reset: 'パラメーターをリセット',
+    unapplied: '未適用',
+    applied: '適用済み',
+    fullUrl: 'URL 全体を表示',
+    copyUrl: 'URL をコピー',
     props: 'プロパティ',
     actions: '操作',
     advanced: 'その他のメディア設定',
@@ -191,6 +198,12 @@ export default {
     trackLabel: '字幕の名前',
   },
   logs: {
+    expand: 'ログを展開',
+    collapse: 'ログを折りたたむ',
+    latest: '最新へ戻る',
+    newEntries: '新着 {count} 件 · 最新へ戻る',
+    noMatches:
+      '一致する記録はありません。検索条件を変更またはクリアしてください。',
     title: 'イベントログ',
     recording: '記録中',
     paused: '一時停止中',
@@ -208,7 +221,7 @@ export default {
     event: 'イベント',
     payload: 'データ',
     empty:
-      '一致する記録はありません。メディアを再生するか、パラメーターを変更してください。',
+      '記録はまだありません。メディアを再生するか、パラメーターを変更してください。',
     count: '{total} 件中 {shown} 件を表示',
     limit: '最大 500 件',
     eventType: 'メディアイベント',

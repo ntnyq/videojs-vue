@@ -36,7 +36,7 @@ const { t: translate } = useI18n()
       <div class="relative">
         <Video
           v-bind="mediaSettings"
-          class="block aspect-video max-h-72 w-full object-contain"
+          class="block aspect-video max-h-60 w-full lg:max-h-[clamp(128px,calc(100cqh-26rem),288px)] object-contain"
         />
         <slot name="overlay" />
       </div>

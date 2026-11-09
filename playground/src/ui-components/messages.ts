@@ -1,5 +1,6 @@
 export const uiComponentMessages = {
   en: {
+    position: '{group}: {current} / {total}',
     previous: 'Previous',
     next: 'Next',
     search: 'Find a component',
@@ -64,6 +65,7 @@ export const uiComponentMessages = {
     },
   },
   'zh-CN': {
+    position: '{group}：第 {current} / {total} 项',
     previous: '上一个',
     next: '下一个',
     search: '查找组件',
@@ -127,6 +129,7 @@ export const uiComponentMessages = {
     },
   },
   'zh-TW': {
+    position: '{group}：第 {current} / {total} 項',
     previous: '上一個',
     next: '下一個',
     search: '尋找元件',
@@ -190,6 +193,7 @@ export const uiComponentMessages = {
     },
   },
   ja: {
+    position: '{group}：{current} / {total} 件',
     previous: '前へ',
     next: '次へ',
     search: 'コンポーネントを検索',
@@ -254,6 +258,7 @@ export const uiComponentMessages = {
     },
   },
   ko: {
+    position: '{group}: {current} / {total}',
     previous: '이전',
     next: '다음',
     search: '컴포넌트 찾기',

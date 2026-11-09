@@ -137,6 +137,14 @@ export function usePlayground() {
     generation.value++
     log.record('lifecycle', 'reset', { example: example.value })
   }
+  function resetConfig() {
+    const defaults = createConfig(example.value)
+    if (config.src !== defaults.src) {
+      failure.value = ''
+    }
+    Object.assign(config, defaults)
+    log.record('model', 'reset:parameters', { example: example.value })
+  }
   function selectExample(next: ExampleId) {
     if (example.value === next) {
       return
@@ -266,6 +274,7 @@ export function usePlayground() {
     listeners,
     setPlayer,
     reset,
+    resetConfig,
     selectExample,
     selectPlayerType,
     toggleMount,

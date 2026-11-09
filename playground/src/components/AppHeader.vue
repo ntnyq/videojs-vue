@@ -13,6 +13,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePreferences } from '../composables/usePreferences'
 import { languages } from '../locales'
+import HintTooltip from './HintTooltip.vue'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import {
@@ -36,14 +37,16 @@ const languageLabel = computed(
     class="flex h-14 shrink-0 items-center justify-between gap-2 border-b bg-background px-3 sm:px-5"
   >
     <div class="flex min-w-0 items-center gap-2 sm:gap-3">
-      <Button
-        size="icon-sm"
-        variant="ghost"
-        class="lg:hidden"
-        :aria-label="translate('app.examples')"
-        @click="emit('openNavigation')"
-        ><Menu
-      /></Button>
+      <HintTooltip :content="translate('app.examples')">
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          class="size-10 lg:hidden"
+          :aria-label="translate('app.examples')"
+          @click="emit('openNavigation')"
+          ><Menu
+        /></Button>
+      </HintTooltip>
       <a
         href="./"
         class="flex items-center gap-2 text-lg font-semibold tracking-tight"
@@ -68,28 +71,34 @@ const languageLabel = computed(
           ><BookOpen />{{ translate('app.docs') }}</a
         ></Button
       >
-      <Button
-        as-child
-        variant="ghost"
-        size="icon-sm"
-        aria-label="GitHub"
-        ><a
-          href="https://github.com/ntnyq/videojs-vue"
-          target="_blank"
-          rel="noreferrer"
-          ><CodeXml /></a
-      ></Button>
+      <HintTooltip content="GitHub">
+        <Button
+          as-child
+          variant="ghost"
+          size="icon-sm"
+          class="size-10 sm:size-8"
+          aria-label="GitHub"
+          ><a
+            href="https://github.com/ntnyq/videojs-vue"
+            target="_blank"
+            rel="noreferrer"
+            ><CodeXml /></a
+        ></Button>
+      </HintTooltip>
       <DropdownMenu>
-        <DropdownMenuTrigger as-child
-          ><Button
-            variant="ghost"
-            size="sm"
-            :aria-label="translate('app.language')"
-            ><Globe /><span class="hidden sm:inline">{{
-              languageLabel
-            }}</span></Button
-          ></DropdownMenuTrigger
-        >
+        <DropdownMenuTrigger as-child>
+          <HintTooltip :content="translate('app.language')">
+            <Button
+              variant="ghost"
+              size="sm"
+              class="h-10 min-w-10 sm:h-8"
+              :aria-label="translate('app.language')"
+              ><Globe /><span class="hidden sm:inline">{{
+                languageLabel
+              }}</span></Button
+            >
+          </HintTooltip>
+        </DropdownMenuTrigger>
         <DropdownMenuContent align="end"
           ><DropdownMenuRadioGroup v-model="language"
             ><DropdownMenuRadioItem
@@ -103,14 +112,18 @@ const languageLabel = computed(
         >
       </DropdownMenu>
       <DropdownMenu>
-        <DropdownMenuTrigger as-child
-          ><Button
-            variant="ghost"
-            size="icon-sm"
-            :aria-label="translate('app.theme')"
-            ><Sun v-if="theme === 'light'" /><Moon
-              v-else-if="theme === 'dark'" /><Monitor v-else /></Button
-        ></DropdownMenuTrigger>
+        <DropdownMenuTrigger as-child>
+          <HintTooltip :content="translate('app.theme')">
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              class="size-10 sm:size-8"
+              :aria-label="translate('app.theme')"
+              ><Sun v-if="theme === 'light'" /><Moon
+                v-else-if="theme === 'dark'" /><Monitor v-else
+            /></Button>
+          </HintTooltip>
+        </DropdownMenuTrigger>
         <DropdownMenuContent align="end"
           ><DropdownMenuRadioGroup v-model="theme"
             ><DropdownMenuRadioItem value="light">{{

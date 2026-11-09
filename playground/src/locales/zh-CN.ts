@@ -3,6 +3,8 @@ import type en from './en'
 
 export default {
   app: {
+    resetExample: '重置示例',
+    resetDemo: '重置演示',
     playerType: '播放器类型',
     videoPlayer: '视频播放器',
     audioPlayer: '音频播放器',
@@ -153,6 +155,11 @@ export default {
     normalSpeed: '正常',
   },
   settings: {
+    reset: '重置参数',
+    unapplied: '未应用',
+    applied: '已应用',
+    fullUrl: '完整地址',
+    copyUrl: '复制地址',
     props: '属性',
     actions: '操作',
     advanced: '更多媒体选项',
@@ -183,6 +190,11 @@ export default {
     trackLabel: '字幕名称',
   },
   logs: {
+    expand: '展开事件日志',
+    collapse: '收起事件日志',
+    latest: '回到最新',
+    newEntries: '新增 {count} 条 · 回到最新',
+    noMatches: '没有匹配的日志，请调整或清除筛选条件。',
     title: '事件日志',
     recording: '记录中',
     paused: '已暂停',
@@ -199,7 +211,7 @@ export default {
     type: '类型',
     event: '事件',
     payload: '数据',
-    empty: '暂无匹配记录。播放媒体或调整参数来查看活动。',
+    empty: '暂无日志，播放媒体或修改参数后即可记录。',
     count: '已显示 {shown} / {total} 条',
     limit: '最多保留 500 条',
     eventType: '媒体事件',
